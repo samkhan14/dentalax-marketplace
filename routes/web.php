@@ -1,20 +1,37 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', [UserController::class, 'index']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__.'/auth.php';
+Route::controller(FrontendController::class)->group(function(){
+    Route::get('/', 'index')->name('home.page');
+    Route::get('/paketwahl', 'Packages')->name('packages');
+    Route::get('/zahnarzt-dashboard', 'dentistDashboard')->name('dentist.Dashboard');
+    Route::get('/stellenangebote', 'jobOffers')->name('job_offers');
+    Route::get('/ratgeber', 'Counselor')->name('counselor');
+    Route::get('/kontakt', 'Contact')->name('contact');
+    Route::get('/ueber-uns', 'aboutUs')->name('about_us');
+
+    Route::get('/zahnaerzte-nach-staedten','allCities')->name('all_cities');
+    Route::get('/fuer-zahnaerzte','forDentists')->name('for_dentists');
+    Route::get('/zahnarzt/zahnarztpraxis-dr-mueller','landingPageForDentist')->name('dentist.landingpage');
+    // Route::get('/zahnaerzte-nach-staedten','')->name('');
+    // Route::get('/zahnaerzte-nach-staedten','')->name('');
+    // Route::get('/zahnaerzte-nach-staedten','')->name('');
+
+});

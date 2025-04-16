@@ -1,0 +1,225 @@
+/* Custom Farben für Dentalax */
+
+:root {
+  /* Definition der Dentalax-Farben */
+  --dental-primary: #40bfd8;
+  --dental-primary-dark: #2a8294;
+  --dental-secondary: #2a8294;
+  --dental-dark: #333333;
+  
+  /* Bootstrap-Farben überschreiben */
+  --bs-primary: #40bfd8;
+  --bs-primary-rgb: 64, 191, 216;
+  --bs-secondary: #2a8294;
+  --bs-secondary-rgb: 42, 130, 148;
+  
+  /* Link-Farben */
+  --bs-link-color: #40bfd8;
+  --bs-link-hover-color: #2a8294;
+}
+
+/* Globale Farbüberschreibungen */
+.bg-primary {
+  background-color: #40bfd8 !important;
+}
+
+.text-primary {
+  color: #40bfd8 !important;
+}
+
+.border-primary {
+  border-color: #40bfd8 !important;
+}
+
+.btn-primary {
+  --bs-btn-bg: #40bfd8;
+  --bs-btn-border-color: #40bfd8;
+  --bs-btn-hover-bg: #2a8294;
+  --bs-btn-hover-border-color: #2a8294;
+  --bs-btn-active-bg: #2a8294;
+  --bs-btn-active-border-color: #2a8294;
+  --bs-btn-disabled-bg: #95d7e5;
+  --bs-btn-disabled-border-color: #95d7e5;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #40bfd8;
+  --bs-btn-border-color: #40bfd8;
+  --bs-btn-hover-bg: #40bfd8;
+  --bs-btn-hover-border-color: #40bfd8;
+  --bs-btn-active-bg: #40bfd8;
+  --bs-btn-active-border-color: #40bfd8;
+  --bs-btn-disabled-color: #40bfd8;
+  --bs-btn-disabled-border-color: #40bfd8;
+}
+
+/* Spezielle Korrekturen für den Slider und andere Elemente */
+.form-range::-webkit-slider-thumb {
+  background-color: #40bfd8; 
+}
+.form-range::-moz-range-thumb {
+  background-color: #40bfd8;
+}
+.form-range::-ms-thumb {
+  background-color: #40bfd8;
+}
+
+.badge.bg-primary {
+  background-color: #40bfd8 !important;
+}
+
+/* Korrektur für die CTA-Sektion */
+section[style*="background-color: var(--dental-primary)"] {
+  background-color: #40bfd8 !important;
+}
+
+/* Modernisiertes Design für Praxis-Formular-Wizard */
+/* Grundstil für die Fortschrittsanzeige */
+.progress-container {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.progress {
+  height: 0.5rem;
+  background-color: #e9ecef;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.progress-bar {
+  transition: width 0.4s ease;
+}
+
+/* Fortschrittsschritte styling */
+.progress-steps {
+  position: relative;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+
+.progress-step {
+  position: relative;
+  text-align: center;
+  padding: 0;
+  flex: 1;
+}
+
+.step-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: 2px solid transparent;
+}
+
+.step-label {
+  color: #6c757d;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+/* Aktiver Schritt */
+.progress-step.active .step-circle {
+  background-color: #40bfd8;
+  color: white !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(64, 191, 216, 0.3);
+}
+
+.progress-step.active .step-label {
+  color: #40bfd8;
+  font-weight: 600;
+}
+
+/* Abgeschlossener Schritt */
+.progress-step.completed .step-circle {
+  background-color: #2a8294;
+  color: white !important;
+}
+
+.progress-step.completed .step-label {
+  color: #2a8294;
+}
+
+/* Hover-Effekt für die Schritte */
+.progress-step:hover .step-circle {
+  transform: scale(1.05);
+}
+
+/* Moderne Effekte für die Leistungsboxen auf Zahnarzt-Landingpage */
+.transform-on-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transform-on-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.07) !important;
+}
+
+.transform-on-hover:hover .transition-icon {
+  color: white !important;
+}
+
+.transform-on-hover:hover .d-inline-flex {
+  background-color: var(--dental-primary) !important;
+}
+
+.opacity-10 {
+  opacity: 0.1;
+}
+
+.z-index-1 {
+  z-index: 1;
+}
+
+.transform-on-hover:hover .transform-scale {
+  transform: scale(1.2) translate(0, 0) !important;
+}
+
+.transition-icon {
+  transition: all 0.3s ease;
+}
+
+/* Moderne Effekte für die Leistungsboxen auf Zahnarzt-Landingpage */
+.transform-on-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transform-on-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.07) !important;
+}
+
+.transform-on-hover:hover .transition-icon {
+  color: white !important;
+}
+
+.transform-on-hover:hover .d-inline-flex {
+  background-color: var(--dental-primary) !important;
+}
+
+.opacity-10 {
+  opacity: 0.1;
+}
+
+.z-index-1 {
+  z-index: 1;
+}
+
+.transform-on-hover:hover .transform-scale {
+  transform: scale(1.2) translate(0, 0) !important;
+}
+
+.transition-icon {
+  transition: all 0.3s ease;
+}

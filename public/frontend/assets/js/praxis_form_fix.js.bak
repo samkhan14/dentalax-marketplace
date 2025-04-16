@@ -1,0 +1,118 @@
+// Praxis-Formular-Fixes - Modernisierte Version
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Praxis Form Fix geladen!');
+  
+  // Alle "Weiter"-Buttons verarbeiten
+  const nextButtons = document.querySelectorAll('.next-step');
+  nextButtons.forEach(button => {
+    console.log('Weiter-Button gefunden für:', button.getAttribute('data-target'));
+    
+    button.addEventListener('click', function(event) {
+      // Tab-ID aus data-target (z.B. "step2-tab")
+      const targetTabId = this.getAttribute('data-target');
+      console.log('Weiter-Button geklickt für Tab:', targetTabId);
+      
+      // Tab-Element finden
+      const tabButton = document.getElementById(targetTabId);
+      
+      // Tab aktivieren
+      if (tabButton) {
+        console.log('Aktiviere Tab:', targetTabId);
+        
+        // Bootstrap's Tab-Aktivierung auslösen
+        const tabTrigger = new bootstrap.Tab(tabButton);
+        tabTrigger.show();
+        
+        // Formular-Schritt aktualisieren
+        const formStepInput = document.getElementById('form_step');
+        if (formStepInput) {
+          // "step2-tab" zu "step2" konvertieren
+          const stepNumber = targetTabId.replace('-tab', '');
+          formStepInput.value = stepNumber;
+          console.log('Form step aktualisiert zu:', formStepInput.value);
+          
+          // Fortschrittsanzeige aktualisieren
+          updateProgress(stepNumber);
+        }
+        
+        // Die aktuelle Schrittnummer aus dem Tab-ID extrahieren
+        const currentStep = parseInt(targetTabId.match(/\d+/)[0]);
+        
+        // Alle vorherigen Schritte als abgeschlossen markieren
+        updateStepCircles(currentStep);
+      } else {
+        console.error('Tab-Button nicht gefunden:', targetTabId);
+      }
+    });
+  });
+  
+  // Alle "Zurück"-Buttons verarbeiten
+  const prevButtons = document.querySelectorAll('.prev-step');
+  prevButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      const targetTabId = this.getAttribute('data-target');
+      const tabButton = document.getElementById(targetTabId);
+      
+      if (tabButton) {
+        const tabTrigger = new bootstrap.Tab(tabButton);
+        tabTrigger.show();
+        
+        const formStepInput = document.getElementById('form_step');
+        if (formStepInput) {
+          const stepNumber = targetTabId.replace('-tab', '');
+          formStepInput.value = stepNumber;
+        }
+      }
+    });
+  });
+  
+  // Den Final-Submit-Button neu konfigurieren
+  const finalSubmitBtn = document.getElementById('finalSubmitBtn');
+  const praxisdatenForm = document.getElementById('praxisdatenForm');
+  
+  if (finalSubmitBtn && praxisdatenForm) {
+    console.log('Final Submit Button gefunden!');
+    
+    // Neuen Event-Listener hinzufügen
+    finalSubmitBtn.addEventListener('click', function(event) {
+      event.preventDefault(); // Standard-Submit verhindern
+      console.log('Final Submit Button geklickt!');
+      
+      // Letzten Schritt als aktiven Schritt setzen
+      document.getElementById('form_step').value = 'step6';
+      
+      // Hidden input für final submit
+      let finalSubmitInput = document.getElementById('final_submit');
+      if (!finalSubmitInput) {
+        finalSubmitInput = document.createElement('input');
+        finalSubmitInput.type = 'hidden';
+        finalSubmitInput.name = 'final_submit';
+        finalSubmitInput.id = 'final_submit';
+        praxisdatenForm.appendChild(finalSubmitInput);
+      }
+      finalSubmitInput.value = '1';
+      
+      // Tracking-Info hinzufügen
+      let submitTracker = document.getElementById('praxisform_submit_timestamp');
+      if (!submitTracker) {
+        submitTracker = document.createElement('input');
+        submitTracker.type = 'hidden';
+        submitTracker.name = 'praxisform_submit_timestamp';
+        submitTracker.id = 'praxisform_submit_timestamp';
+        praxisdatenForm.appendChild(submitTracker);
+      }
+      submitTracker.value = Date.now().toString();
+      
+      // Debug-Informationen
+      console.log('FINAL SUBMIT: Formular wird abgesendet!');
+      console.log('form_step:', document.getElementById('form_step').value);
+      console.log('final_submit:', '1');
+      console.log('Formular-URL:', praxisdatenForm.action);
+      
+      // Formular absenden
+      praxisdatenForm.submit();
+    });
+  } else {
+    console.error('Final Submit Button oder Formular nicht gefunden!');
+  }
+});

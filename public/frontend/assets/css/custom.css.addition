@@ -1,0 +1,56 @@
+
+/* Neue Styles für moderne Kachel-Auswahl */
+.booking-option-card {
+  transition: all 0.3s ease;
+  border: 2px solid #e9ecef;
+  cursor: pointer;
+  height: 100%;
+}
+
+.booking-option-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  border-color: rgba(64, 191, 216, 0.3);
+}
+
+.booking-option-card.selected {
+  border-color: #40bfd8;
+  background-color: rgba(64, 191, 216, 0.05);
+  box-shadow: 0 10px 20px rgba(64, 191, 216, 0.15);
+}
+
+.api-config-container {
+  background: rgba(64, 191, 216, 0.05);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(64, 191, 216, 0.2);
+  margin-top: 1rem;
+  display: none;
+}
+
+.api-config-container h5 {
+  color: #2a8294;
+  margin-bottom: 1rem;
+}
+
+.api-endpoint-box {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-family: monospace;
+  margin-bottom: 1rem;
+  border: 1px solid #dee2e6;
+}
+
+.copy-btn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  color: #40bfd8;
+}
+
+.fs-5 {
+  font-size: 1.25rem !important;
+}
