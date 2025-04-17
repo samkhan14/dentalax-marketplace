@@ -602,7 +602,7 @@
       </div>
 
       <!-- Gesamtbewertung-Karte -->
-      {{-- <div class="row justify-content-center mb-5">
+      <div class="row justify-content-center mb-5">
         <div class="col-md-10 col-lg-8">
           <div class="card border-0 shadow-sm mb-5">
             <div class="card-body p-4 p-md-5">
@@ -616,7 +616,7 @@
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star-half-alt"></i>
                   </div>
-                  <p class="mb-0">basierend auf {{ praxis.bewertungen|length }} Bewertungen</p>
+                  <p class="mb-0">basierend auf 5 Bewertungen</p>
                 </div>
                 <div class="col-md-8 mt-4 mt-md-0">
                   <div class="row align-items-center mb-2">
@@ -696,7 +696,6 @@
 
       <!-- Bewertungskarten mit modernem Design -->
       <div class="row g-4">
-        {% for bewertung in praxis.bewertungen %}
           <div class="col-md-6">
             <div class="card hover-lift h-100 border-0 shadow-sm">
               <div class="card-body p-4">
@@ -761,12 +760,12 @@
             </div>
           </div>
         </div>
-      </div> --}}
+      </div>
     </div>
   </section>
 
   <!-- Karte und Kontakt -->
-  {{-- <section class="py-5 bg-light" id="termin">
+  <section class="py-5 bg-light" id="termin">
     <div class="container">
       <h2 class="text-center mb-4">Termin vereinbaren</h2>
       <p class="text-center text-muted mb-5">Wählen Sie Ihre bevorzugte Methode zur Terminvereinbarung</p>
@@ -1498,10 +1497,10 @@
         </div>
       </div>
     </div>
-  </section> --}}
+  </section>
 
   {{-- add condition for faqs if length > 0 --}}
-  {{-- <section class="py-5">
+  <section class="py-5">
     <div class="container">
       <h2 class="text-center mb-5">Häufig gestellte Fragen</h2>
 
@@ -1526,5 +1525,5 @@
         </div>
       </div>
     </div>
-  </section> --}}
+  </section>
 @endsection

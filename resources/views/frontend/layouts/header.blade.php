@@ -66,19 +66,19 @@
                         <ul class="dropdown-menu dropdown-menu-end dropdown-animation"
                             aria-labelledby="loginDropdown">
                             <li>
-                                <a class="dropdown-item" href="/login">
+                                <a class="dropdown-item" href="{{ route('patient.login.page')}}">
                                     <i class="fas fa-user me-2 text-primary"></i> Patienten-Login
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/zahnarzt-login">
+                                <a class="dropdown-item" href="{{ route('dentist.login.page')}}">
                                     <i class="fas fa-tooth me-2 text-primary"></i> Zahnarzt-Login
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item ms-lg-2">
-                        <a class="btn btn-primary rounded-pill px-4 nav-btn-animation" href="/registrieren">
+                        <a class="btn btn-primary rounded-pill px-4 nav-btn-animation" href="{{ route('registration.page')}}">
                             <i class="fas fa-user-plus me-1"></i> Registrieren
                         </a>
                     </li>
