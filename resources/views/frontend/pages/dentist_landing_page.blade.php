@@ -702,31 +702,23 @@
                 <div class="d-flex mb-3">
                   <div class="flex-shrink-0">
                     <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                      <span class="h5 mb-0 text-primary">{{ bewertung.name[:1] }}</span>
+                      <span class="h5 mb-0 text-primary">M</span>
                     </div>
                   </div>
                   <div class="ms-3">
-                    <h5 class="mb-1 fw-bold">{{ bewertung.name }}</h5>
+                    <h5 class="mb-1 fw-bold">Maria Schneider</h5>
                     <div class="text-warning mb-1">
-                      {% for i in range(5) %}
-                        {% if i < bewertung.bewertung %}
                           <i class="fas fa-star"></i>
-                        {% else %}
                           <i class="far fa-star"></i>
-                        {% endif %}
-                      {% endfor %}
                     </div>
                     <div class="text-muted small">
-                      {% if bewertung.datum %}
-                        {{ bewertung.datum }}
-                      {% else %}
-                        Vor 2 Monaten
-                      {% endif %}
+                      Vor 2 Monaten
                     </div>
                   </div>
                 </div>
                 <div class="mb-2">
-                  <p class="mb-0">{{ bewertung.text }}</p>
+                  <p class="mb-0">Ich hatte immer Angst vor dem Zahnarzt, aber Dr. Müller und sein Team haben mir diese komplett genommen. Sehr einfühlsam und professionell!
+                  </p>
                 </div>
                 <div class="small text-end mt-3">
                   <span class="text-muted me-3">
@@ -739,12 +731,11 @@
               </div>
             </div>
           </div>
-        {% endfor %}
       </div>
 
       <div class="text-center mt-5">
         <a href="#" class="btn btn-outline-primary btn-lg rounded-pill">
-          <i class="fas fa-star me-2"></i> Alle {{ praxis.bewertungen|length }} Bewertungen lesen
+          <i class="fas fa-star me-2"></i> Alle 3 Bewertungen lesen
         </a>
       </div>
 
@@ -770,9 +761,6 @@
       <h2 class="text-center mb-4">Termin vereinbaren</h2>
       <p class="text-center text-muted mb-5">Wählen Sie Ihre bevorzugte Methode zur Terminvereinbarung</p>
 
-      {% if praxis.termin_option and praxis.termin_option.aktiv %}
-
-        {% if praxis.termin_option.modus == 'dashboard' %}
           <!-- OPTION 1: Dentalax Dashboard Terminbuchung -->
           <div class="row g-4">
             <div class="col-lg-7">
@@ -896,16 +884,17 @@
                     </div>
 
                     <div class="row g-2">
-                      {% for zeit in ['08:30', '09:15', '10:00', '11:00', '11:45', '14:30', '15:00', '15:45', '16:30', '17:15'] %}
+                        @foreach(['08:30', '09:15', '10:00', '11:00', '11:45', '14:30', '15:00', '15:45', '16:30', '17:15'] as $zeit)
                         <div class="col-6 col-md-3 col-lg-2">
-                          <a href="#buchen" data-bs-toggle="modal" data-bs-target="#buchungsModal" data-zeit="{{ zeit }}"
-                             class="text-decoration-none zeit-option">
-                            <div class="time-slot text-center py-2 position-relative border {% if zeit == '11:45' %}active{% endif %}">
-                              {{ zeit }}
-                            </div>
-                          </a>
+                            <a href="#buchen" data-bs-toggle="modal" data-bs-target="#buchungsModal" data-zeit="{{ $zeit }}"
+                               class="text-decoration-none zeit-option">
+                                <div class="time-slot text-center py-2 position-relative border {{ $zeit == '11:45' ? 'active' : '' }}">
+                                    {{ $zeit }}
+                                </div>
+                            </a>
                         </div>
-                      {% endfor %}
+                    @endforeach
+
                     </div>
 
 
@@ -1229,7 +1218,7 @@
               </div>
             </div>
 
-            <div class="col-lg-5">
+            {{-- <div class="col-lg-5">
               <div class="card shadow-sm border-0 h-100">
                 <div class="card-header bg-white py-3">
                   <div class="d-flex align-items-center">
@@ -1253,11 +1242,11 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
 
           <!-- Modal für die Buchungsbestätigung -->
-          <div class="modal fade" id="buchungsModal" tabindex="-1" aria-hidden="true">
+          {{-- <div class="modal fade" id="buchungsModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -1474,10 +1463,10 @@
             </div>
           </div>
         </div>
-      {% endif %}
+      {% endif %} --}}
 
       <!-- Praxis-Standort Karte -->
-      <div class="row mt-5">
+      {{-- <div class="row mt-5">
         <div class="col-12">
           <div class="card shadow-sm border-0">
             <div class="card-body p-0">
@@ -1495,12 +1484,12 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
     </div>
   </section>
 
   {{-- add condition for faqs if length > 0 --}}
-  <section class="py-5">
+  {{-- <section class="py-5">
     <div class="container">
       <h2 class="text-center mb-5">Häufig gestellte Fragen</h2>
 
@@ -1525,5 +1514,5 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 @endsection

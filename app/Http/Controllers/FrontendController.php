@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\City;
 
 class FrontendController extends Controller
 {
@@ -34,6 +35,7 @@ class FrontendController extends Controller
         $this->data['og:description'] = "Finden Sie jetzt den passenden Zahnarzt in Ihrer Nähe – einfach, schnell und zuverlässig mit Dentalax.";
         $this->data['og:image'] = url('/') . "/frontend/assets/images/og-default.jpg";
 
+        // $cities = City::orderBy('name')->get();
         return view('frontend.pages.all_cities');
     }
 

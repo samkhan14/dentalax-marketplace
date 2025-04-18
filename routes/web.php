@@ -40,7 +40,7 @@ Route::controller(FrontendController::class)->group(function () {
     // for backend routes
     // dynamic route like dentist-in-berlin -- should be dynamic
     Route::get('/zahnaerzte-nach-staedten', 'allCities')->name('all_cities');
-    Route::get('/zahnarzt-in-/{city}', 'show')->name('city.doctor.show');
+    Route::get('/zahnarzt-in/{city:slug}', 'dentistCityDetailPage')->name('city.doctor.details');
 
     Route::get('/zahnarzt-dashboard', 'dentistDashboard')->name('dentist.Dashboard');
     Route::get('/zahnarzt/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('dentist.landingpage');
