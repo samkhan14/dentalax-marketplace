@@ -17,30 +17,33 @@ use Illuminate\Support\Facades\Route;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-require __DIR__.'/auth.php';
-Route::controller(FrontendController::class)->group(function(){
+require __DIR__ . '/auth.php';
+Route::controller(FrontendController::class)->group(function () {
     Route::get('/', 'index')->name('home.page');
-    Route::get('/fuer-zahnaerzte','forDentists')->name('for_dentists');
+    Route::get('/fuer-zahnaerzte', 'forDentists')->name('for_dentists');
     Route::get('/paketwahl', 'Packages')->name('packages');
     Route::get('/stellenangebote', 'jobOffers')->name('job_offers');
-    Route::get('/stellenangebot/zfa-berlin','jobDetails')->name('job_details');
+    Route::get('/stellenangebot/zfa-berlin', 'jobDetails')->name('job_details');
     Route::get('/ratgeber', 'Counselor')->name('counselor');
     Route::get('/kontakt', 'Contact')->name('contact');
     Route::get('/ueber-uns', 'aboutUs')->name('about_us');
 
     // login and registration pages
-    Route::get('/patienten-login','patientLoginPage')->name('patient.login.page');
-    Route::get('/zahnarzt-login','dentistLoginPage')->name('dentist.login.page');
-    Route::get('/registrieren','mainRegistrationPage')->name('registration.page');
-    Route::get('/patient-registrieren','patientRegistrationPage')->name('patient.registration.page');
-    Route::get('/zahnarzt-registrieren','dentistRegistrationPage')->name('dentist.registration.page');
-    Route::get('/passwort-vergessen','passwordForget')->name('password.forget.for.both');
+    Route::get('/patienten-login', 'patientLoginPage')->name('patient.login.page');
+    Route::get('/zahnarzt-login', 'dentistLoginPage')->name('dentist.login.page');
+    Route::get('/registrieren', 'mainRegistrationPage')->name('registration.page');
+    Route::get('/patient-registrieren', 'patientRegistrationPage')->name('patient.registration.page');
+    Route::get('/zahnarzt-registrieren', 'dentistRegistrationPage')->name('dentist.registration.page');
+    Route::get('/passwort-vergessen', 'passwordForget')->name('password.forget.for.both');
 
 
-    // for backend work
+    // for backend routes
+    // dynamic route like dentist-in-berlin -- should be dynamic
+    Route::get('/zahnaerzte-nach-staedten', 'allCities')->name('all_cities');
+    Route::get('/zahnarzt-in-/{city}', 'show')->name('city.doctor.show');
+
     Route::get('/zahnarzt-dashboard', 'dentistDashboard')->name('dentist.Dashboard');
-    Route::get('/zahnaerzte-nach-staedten','allCities')->name('all_cities');
-    Route::get('/zahnarzt/zahnarztpraxis-dr-mueller','landingPageForDentist')->name('dentist.landingpage');
+    Route::get('/zahnarzt/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('dentist.landingpage');
     // Route::get('/zahnaerzte-nach-staedten','')->name('');
     // Route::get('/zahnaerzte-nach-staedten','')->name('');
 

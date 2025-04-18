@@ -15,7 +15,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle px-3 active" href="#" id="zahnaerzteDropdown"
+                        <a class="nav-link dropdown-toggle px-3" href="#" id="zahnaerzteDropdown"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-tooth me-1 d-none d-lg-inline-block"></i> Zahnärzte
                         </a>
