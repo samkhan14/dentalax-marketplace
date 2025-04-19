@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 17, 2025 at 11:14 PM
--- Server version: 8.0.30
--- PHP Version: 8.3.9
+-- Generation Time: Apr 19, 2025 at 03:03 PM
+-- Server version: 8.4.3
+-- PHP Version: 8.3.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dentalx`
+-- Database: `dentalax`
 --
 
 -- --------------------------------------------------------
@@ -50,10 +50,10 @@ CREATE TABLE `activity_logs` (
 CREATE TABLE `applicant_profiles` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `phone` int DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `resume_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `experience` text COLLATE utf8mb4_unicode_ci,
-  `city_id` bigint UNSIGNED NOT NULL,
+  `city_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -93,30 +93,11 @@ CREATE TABLE `cities` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_popular` tinyint(1) NOT NULL DEFAULT '0',
+  `order` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cities`
---
-
-INSERT INTO `cities` (`id`, `name`, `state`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Berlin', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(2, 'Hamburg', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(3, 'Munich', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(4, 'Cologne', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(5, 'Frankfurt', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(6, 'Stuttgart', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(7, 'Düsseldorf', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(8, 'Dortmund', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(9, 'Essen', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(10, 'Leipzig', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(11, 'Bremen', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(12, 'Dresden', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(13, 'Hanover', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(14, 'Nuremberg', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(15, 'Duisburg', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45');
 
 -- --------------------------------------------------------
 
@@ -145,39 +126,49 @@ CREATE TABLE `dental_services` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `dental_services`
+-- Table structure for table `dentist_appointments`
 --
 
-INSERT INTO `dental_services` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Zahnreinigung / Prophylaxe', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(2, 'Kontrolluntersuchung', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(3, 'Füllungstherapie', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(4, 'Parodontitisbehandlung', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(5, 'Wurzelbehandlung (Endodontie)', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(6, 'Zahnentfernung', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(7, 'Zahnerhalt', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(8, 'Bleaching / Zahnaufhellung', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(9, 'Veneers', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(10, 'Zahnkorrektur (Aligner/Schienen)', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(11, 'Feste Zahnspange', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(12, 'Lose Zahnspange', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(13, 'Zahnimplantate', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(14, 'Kronen & Brücken', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(15, 'Teil-/Vollprothesen', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(16, 'CAD/CAM Zahnersatz', NULL, NULL, '2025-04-15 18:48:45', '2025-04-15 18:48:45'),
-(17, 'Kinderzahnheilkunde', NULL, NULL, '2025-04-15 18:48:46', '2025-04-15 18:48:46'),
-(18, 'Behandlung von Angstpatienten', NULL, NULL, '2025-04-15 18:48:46', '2025-04-15 18:48:46'),
-(19, 'Seniorenzahnheilkunde', NULL, NULL, '2025-04-15 18:48:46', '2025-04-15 18:48:46'),
-(20, 'Digitale Zahnberatung', NULL, NULL, '2025-04-15 18:48:46', '2025-04-15 18:48:46'),
-(21, '3D-Röntgen / DVT', NULL, NULL, '2025-04-15 18:48:46', '2025-04-15 18:48:46'),
-(22, 'Zahnschmuck', NULL, NULL, '2025-04-15 18:48:46', '2025-04-15 18:48:46'),
-(23, 'Sportmundschutz', NULL, NULL, '2025-04-15 18:48:46', '2025-04-15 18:48:46');
+CREATE TABLE `dentist_appointments` (
+  `id` bigint UNSIGNED NOT NULL,
+  `dentist_profile_id` bigint UNSIGNED NOT NULL,
+  `service_id` bigint UNSIGNED DEFAULT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `patient_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `patient_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `patient_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `status` enum('pending','confirmed','completed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dentist_impressions`
+--
+
+CREATE TABLE `dentist_impressions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `dentist_profile_id` bigint UNSIGNED NOT NULL,
+  `ip_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `session_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `search_query` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'organic',
+  `viewed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -200,14 +191,16 @@ CREATE TABLE `dentist_landing_pages` (
   `about_us_subheading` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `about_us_description` longtext COLLATE utf8mb4_unicode_ci,
   `about_us_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_categories` json DEFAULT NULL,
   `show_contact_details` tinyint(1) NOT NULL DEFAULT '1',
   `show_reviews` tinyint(1) NOT NULL DEFAULT '1',
   `show_map` tinyint(1) NOT NULL DEFAULT '1',
   `show_opening_hours` tinyint(1) NOT NULL DEFAULT '1',
+  `show_team_section` tinyint(1) NOT NULL DEFAULT '1',
   `seo_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `seo_description` text COLLATE utf8mb4_unicode_ci,
   `seo_keywords` text COLLATE utf8mb4_unicode_ci,
-  `seo-slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `seo_slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -221,21 +214,26 @@ CREATE TABLE `dentist_landing_pages` (
 CREATE TABLE `dentist_profiles` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `dentist_schedule_id` bigint UNSIGNED NOT NULL,
   `city_id` bigint UNSIGNED NOT NULL,
   `plan_id` bigint UNSIGNED NOT NULL,
   `foundation_experience` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expertise_areas` json DEFAULT NULL,
   `practice_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `practice_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `permanent_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `postal_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `latitude` decimal(10,8) DEFAULT NULL,
+  `longitude` decimal(11,8) DEFAULT NULL,
   `website` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('active','claimed','unclaimed','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unclaimed',
   `landing_page_customized` tinyint(1) NOT NULL DEFAULT '0',
+  `is_featured` tinyint(1) NOT NULL DEFAULT '0',
+  `priority` int NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `dentist_schedule_id` bigint UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -246,13 +244,12 @@ CREATE TABLE `dentist_profiles` (
 
 CREATE TABLE `dentist_schedules` (
   `id` bigint UNSIGNED NOT NULL,
-  `dentist_profile_id` bigint UNSIGNED NOT NULL,
-  `from_day` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `to_day` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `opening_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `closing_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `clinic_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `clinic_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `day` enum('monday','tuesday','wednesday','thursday','friday','saturday','sunday') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `opening_time` time DEFAULT NULL,
+  `closing_time` time DEFAULT NULL,
+  `is_closed` tinyint(1) NOT NULL DEFAULT '0',
+  `clinic_area` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `clinic_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `clinic_map` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -261,13 +258,35 @@ CREATE TABLE `dentist_schedules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dentist_service`
+-- Table structure for table `dentist_services`
 --
 
-CREATE TABLE `dentist_service` (
+CREATE TABLE `dentist_services` (
   `id` bigint UNSIGNED NOT NULL,
   `dentist_profile_id` bigint UNSIGNED NOT NULL,
-  `service_id` bigint UNSIGNED NOT NULL
+  `service_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dentist_settings`
+--
+
+CREATE TABLE `dentist_settings` (
+  `id` bigint UNSIGNED NOT NULL,
+  `dentist_profile_id` bigint UNSIGNED NOT NULL,
+  `booking_method` enum('integrated','external','inquiry') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'integrated',
+  `default_duration` int NOT NULL DEFAULT '30',
+  `min_lead_time` int NOT NULL DEFAULT '1',
+  `bookable_services` json DEFAULT NULL,
+  `send_confirmation` tinyint(1) NOT NULL DEFAULT '1',
+  `send_reminders` tinyint(1) NOT NULL DEFAULT '1',
+  `reminder_hours` int NOT NULL DEFAULT '24',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -283,6 +302,7 @@ CREATE TABLE `dentist_teams` (
   `team_position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `team_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `team_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `specializations` json DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -347,6 +367,8 @@ CREATE TABLE `job_applications` (
   `id` bigint UNSIGNED NOT NULL,
   `job_post_id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
+  `applicant_profile_id` bigint UNSIGNED NOT NULL,
+  `resume` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cover_letter` longtext COLLATE utf8mb4_unicode_ci,
   `status` enum('pending','accepted','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `applied_at` timestamp NULL DEFAULT NULL,
@@ -382,9 +404,9 @@ CREATE TABLE `job_batches` (
 CREATE TABLE `job_posts` (
   `id` bigint UNSIGNED NOT NULL,
   `dentist_profile_id` bigint UNSIGNED NOT NULL,
-  `city_id` bigint UNSIGNED NOT NULL,
+  `city_id` bigint UNSIGNED DEFAULT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `job_type` enum('full_time','part_time','contract') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'full_time',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `posted_at` timestamp NULL DEFAULT NULL,
@@ -413,21 +435,27 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2025_04_15_100001_create_cache_table', 1),
 (3, '2025_04_15_100002_create_jobs_table', 1),
 (4, '2025_04_15_100003_create_permission_tables', 1),
-(5, '2025_04_15_100004_create_cities_table', 1),
-(6, '2025_04_15_100009_create_dentist_schedules_table', 2),
-(7, '2025_04_15_100013_create_plans_table', 3),
-(8, '2025_04_15_100006_create_patient_profiles_table', 4),
-(9, '2025_04_15_100008_create_dentist_teams_table', 5),
-(10, '2025_04_15_100010_create_dental_services_table', 6),
-(11, '2025_04_15_100011_create_dentist_service_table', 7),
-(12, '2025_04_15_100012_create_dentist_landing_pages_table', 8),
-(13, '2025_04_15_100014_create_payments_table', 9),
-(14, '2025_04_15_100015_create_invoices_table', 10),
-(15, '2025_04_15_100016_create_job_posts_table', 11),
-(16, '2025_04_15_100017_create_job_applications_table', 12),
-(17, '2025_04_15_100018_create_reviews_table', 13),
-(18, '2025_04_15_100019_create_claims_table', 14),
-(19, '2025_04_15_100020_create_activity_logs_table', 15);
+(5, '2025_04_19_134511_create_cities_table', 1),
+(6, '2025_04_19_134629_create_dental_services_table', 1),
+(7, '2025_04_19_135328_create_plans_table', 1),
+(8, '2025_04_19_135505_create_dentist_schedules_table', 1),
+(9, '2025_04_19_140421_create_dentist_profiles_table', 1),
+(10, '2025_04_19_143903_create_dentist_landing_pages_table', 1),
+(11, '2025_04_19_144124_create_dentist_teams_table', 1),
+(12, '2025_04_19_144216_create_patient_profiles_table', 1),
+(13, '2025_04_19_144318_create_applicant_profiles_table', 1),
+(14, '2025_04_19_144358_create_dentist_services_table', 1),
+(15, '2025_04_19_144436_create_payments_table', 1),
+(16, '2025_04_19_144539_create_invoices_table', 1),
+(17, '2025_04_19_144621_create_job_posts_table', 1),
+(18, '2025_04_19_144742_create_job_applications_table', 1),
+(19, '2025_04_19_144854_create_reviews_table', 1),
+(20, '2025_04_19_145049_create_claims_table', 1),
+(21, '2025_04_19_145148_create_activity_logs_table', 1),
+(22, '2025_04_19_145232_create_seo_metadata_table', 1),
+(23, '2025_04_19_145334_create_dentist_impressions_table', 1),
+(24, '2025_04_19_145421_create_dentist_appointments_table', 1),
+(25, '2025_04_19_145539_create_dentist_settings_table', 1);
 
 -- --------------------------------------------------------
 
@@ -453,13 +481,6 @@ CREATE TABLE `model_has_roles` (
   `model_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `model_has_roles`
---
-
-INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(10, 'App\\Models\\User', 3);
-
 -- --------------------------------------------------------
 
 --
@@ -481,7 +502,7 @@ CREATE TABLE `password_reset_tokens` (
 CREATE TABLE `patient_profiles` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `phone` int NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dob` date DEFAULT NULL,
   `gender` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -502,11 +523,11 @@ CREATE TABLE `payments` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
   `plan_id` bigint UNSIGNED NOT NULL,
-  `gateway` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gateway` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'stripe',
   `billing_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `transaction_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'succeeded',
+  `status` enum('pending','succeeded','failed','refunded') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'succeeded',
   `next_billing_date` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -535,7 +556,7 @@ CREATE TABLE `permissions` (
 CREATE TABLE `plans` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price_monthly` decimal(10,2) NOT NULL DEFAULT '0.00',
   `price_yearly` decimal(10,2) NOT NULL DEFAULT '0.00',
   `features` json DEFAULT NULL,
@@ -552,12 +573,14 @@ CREATE TABLE `plans` (
 
 CREATE TABLE `reviews` (
   `id` bigint UNSIGNED NOT NULL,
-  `reviewer_id` bigint UNSIGNED NOT NULL,
+  `reviewer_id` bigint UNSIGNED DEFAULT NULL,
   `reviewable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `reviewable_id` bigint UNSIGNED NOT NULL,
   `rating` tinyint NOT NULL DEFAULT '5',
   `comment` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('published','hidden') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `status` enum('published','draft') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `review_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tags` json DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -576,16 +599,6 @@ CREATE TABLE `roles` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `roles`
---
-
-INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(10, 'admin', 'web', '2025-04-15 18:44:29', '2025-04-15 18:44:29'),
-(11, 'dentist', 'web', '2025-04-15 18:44:29', '2025-04-15 18:44:29'),
-(12, 'patient', 'web', '2025-04-15 18:44:29', '2025-04-15 18:44:29'),
-(13, 'applicant', 'web', '2025-04-15 18:44:29', '2025-04-15 18:44:29');
-
 -- --------------------------------------------------------
 
 --
@@ -595,6 +608,29 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 CREATE TABLE `role_has_permissions` (
   `permission_id` bigint UNSIGNED NOT NULL,
   `role_id` bigint UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seo_metadata`
+--
+
+CREATE TABLE `seo_metadata` (
+  `id` bigint UNSIGNED NOT NULL,
+  `seoable_id` bigint UNSIGNED NOT NULL,
+  `seoable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keywords` text COLLATE utf8mb4_unicode_ci,
+  `canonical_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `og_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `og_description` text COLLATE utf8mb4_unicode_ci,
+  `og_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_robots` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'index, follow',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -631,13 +667,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `google_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, 'Admin', 'admin@dentalax.com', NULL, '$2y$12$EpWrkl/3LXcMvnU.v2TSM.HJ0Z92ptFTwLWuCep3NnadgL.5NIUGi', NULL, NULL, '2025-04-15 18:44:29', '2025-04-15 18:44:29');
-
---
 -- Indexes for dumped tables
 --
 
@@ -654,7 +683,8 @@ ALTER TABLE `activity_logs`
 --
 ALTER TABLE `applicant_profiles`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `applicant_profiles_user_id_foreign` (`user_id`);
+  ADD KEY `applicant_profiles_user_id_foreign` (`user_id`),
+  ADD KEY `applicant_profiles_city_id_foreign` (`city_id`);
 
 --
 -- Indexes for table `cache`
@@ -692,6 +722,22 @@ ALTER TABLE `dental_services`
   ADD UNIQUE KEY `dental_services_slug_unique` (`slug`);
 
 --
+-- Indexes for table `dentist_appointments`
+--
+ALTER TABLE `dentist_appointments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `dentist_appointments_dentist_profile_id_foreign` (`dentist_profile_id`),
+  ADD KEY `dentist_appointments_service_id_foreign` (`service_id`),
+  ADD KEY `dentist_appointments_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `dentist_impressions`
+--
+ALTER TABLE `dentist_impressions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `dentist_impressions_dentist_profile_id_viewed_at_index` (`dentist_profile_id`,`viewed_at`);
+
+--
 -- Indexes for table `dentist_landing_pages`
 --
 ALTER TABLE `dentist_landing_pages`
@@ -703,22 +749,31 @@ ALTER TABLE `dentist_landing_pages`
 --
 ALTER TABLE `dentist_profiles`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `dentist_profiles_user_id_foreign` (`user_id`);
+  ADD KEY `dentist_profiles_user_id_foreign` (`user_id`),
+  ADD KEY `dentist_profiles_city_id_foreign` (`city_id`),
+  ADD KEY `dentist_profiles_plan_id_foreign` (`plan_id`),
+  ADD KEY `dentist_profiles_dentist_schedule_id_foreign` (`dentist_schedule_id`);
 
 --
 -- Indexes for table `dentist_schedules`
 --
 ALTER TABLE `dentist_schedules`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `dentist_schedules_dentist_profile_id_foreign` (`dentist_profile_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `dentist_service`
+-- Indexes for table `dentist_services`
 --
-ALTER TABLE `dentist_service`
+ALTER TABLE `dentist_services`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `dentist_service_dentist_profile_id_foreign` (`dentist_profile_id`),
-  ADD KEY `dentist_service_service_id_foreign` (`service_id`);
+  ADD KEY `dentist_services_dentist_profile_id_foreign` (`dentist_profile_id`),
+  ADD KEY `dentist_services_service_id_foreign` (`service_id`);
+
+--
+-- Indexes for table `dentist_settings`
+--
+ALTER TABLE `dentist_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `dentist_settings_dentist_profile_id_foreign` (`dentist_profile_id`);
 
 --
 -- Indexes for table `dentist_teams`
@@ -755,7 +810,8 @@ ALTER TABLE `jobs`
 ALTER TABLE `job_applications`
   ADD PRIMARY KEY (`id`),
   ADD KEY `job_applications_job_post_id_foreign` (`job_post_id`),
-  ADD KEY `job_applications_user_id_foreign` (`user_id`);
+  ADD KEY `job_applications_user_id_foreign` (`user_id`),
+  ADD KEY `job_applications_applicant_profile_id_foreign` (`applicant_profile_id`);
 
 --
 -- Indexes for table `job_batches`
@@ -849,6 +905,14 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
+-- Indexes for table `seo_metadata`
+--
+ALTER TABLE `seo_metadata`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `seo_metadata_slug_unique` (`slug`),
+  ADD KEY `seo_metadata_seoable_id_seoable_type_index` (`seoable_id`,`seoable_type`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -883,7 +947,7 @@ ALTER TABLE `applicant_profiles`
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `claims`
@@ -895,7 +959,19 @@ ALTER TABLE `claims`
 -- AUTO_INCREMENT for table `dental_services`
 --
 ALTER TABLE `dental_services`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `dentist_appointments`
+--
+ALTER TABLE `dentist_appointments`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `dentist_impressions`
+--
+ALTER TABLE `dentist_impressions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `dentist_landing_pages`
@@ -916,9 +992,15 @@ ALTER TABLE `dentist_schedules`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `dentist_service`
+-- AUTO_INCREMENT for table `dentist_services`
 --
-ALTER TABLE `dentist_service`
+ALTER TABLE `dentist_services`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `dentist_settings`
+--
+ALTER TABLE `dentist_settings`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -961,7 +1043,7 @@ ALTER TABLE `job_posts`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `patient_profiles`
@@ -997,13 +1079,19 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `seo_metadata`
+--
+ALTER TABLE `seo_metadata`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -1019,6 +1107,7 @@ ALTER TABLE `activity_logs`
 -- Constraints for table `applicant_profiles`
 --
 ALTER TABLE `applicant_profiles`
+  ADD CONSTRAINT `applicant_profiles_city_id_foreign` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `applicant_profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
@@ -1030,6 +1119,20 @@ ALTER TABLE `claims`
   ADD CONSTRAINT `claims_verified_by_foreign` FOREIGN KEY (`verified_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `dentist_appointments`
+--
+ALTER TABLE `dentist_appointments`
+  ADD CONSTRAINT `dentist_appointments_dentist_profile_id_foreign` FOREIGN KEY (`dentist_profile_id`) REFERENCES `dentist_profiles` (`id`),
+  ADD CONSTRAINT `dentist_appointments_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `dental_services` (`id`),
+  ADD CONSTRAINT `dentist_appointments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `dentist_impressions`
+--
+ALTER TABLE `dentist_impressions`
+  ADD CONSTRAINT `dentist_impressions_dentist_profile_id_foreign` FOREIGN KEY (`dentist_profile_id`) REFERENCES `dentist_profiles` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `dentist_landing_pages`
 --
 ALTER TABLE `dentist_landing_pages`
@@ -1039,20 +1142,23 @@ ALTER TABLE `dentist_landing_pages`
 -- Constraints for table `dentist_profiles`
 --
 ALTER TABLE `dentist_profiles`
+  ADD CONSTRAINT `dentist_profiles_city_id_foreign` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `dentist_profiles_dentist_schedule_id_foreign` FOREIGN KEY (`dentist_schedule_id`) REFERENCES `dentist_schedules` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `dentist_profiles_plan_id_foreign` FOREIGN KEY (`plan_id`) REFERENCES `plans` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `dentist_profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `dentist_schedules`
+-- Constraints for table `dentist_services`
 --
-ALTER TABLE `dentist_schedules`
-  ADD CONSTRAINT `dentist_schedules_dentist_profile_id_foreign` FOREIGN KEY (`dentist_profile_id`) REFERENCES `dentist_profiles` (`id`) ON DELETE CASCADE;
+ALTER TABLE `dentist_services`
+  ADD CONSTRAINT `dentist_services_dentist_profile_id_foreign` FOREIGN KEY (`dentist_profile_id`) REFERENCES `dentist_profiles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `dentist_services_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `dental_services` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `dentist_service`
+-- Constraints for table `dentist_settings`
 --
-ALTER TABLE `dentist_service`
-  ADD CONSTRAINT `dentist_service_dentist_profile_id_foreign` FOREIGN KEY (`dentist_profile_id`) REFERENCES `dentist_profiles` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `dentist_service_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `dental_services` (`id`) ON DELETE CASCADE;
+ALTER TABLE `dentist_settings`
+  ADD CONSTRAINT `dentist_settings_dentist_profile_id_foreign` FOREIGN KEY (`dentist_profile_id`) REFERENCES `dentist_profiles` (`id`);
 
 --
 -- Constraints for table `dentist_teams`
@@ -1071,6 +1177,7 @@ ALTER TABLE `invoices`
 -- Constraints for table `job_applications`
 --
 ALTER TABLE `job_applications`
+  ADD CONSTRAINT `job_applications_applicant_profile_id_foreign` FOREIGN KEY (`applicant_profile_id`) REFERENCES `applicant_profiles` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `job_applications_job_post_id_foreign` FOREIGN KEY (`job_post_id`) REFERENCES `job_posts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `job_applications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
@@ -1078,7 +1185,7 @@ ALTER TABLE `job_applications`
 -- Constraints for table `job_posts`
 --
 ALTER TABLE `job_posts`
-  ADD CONSTRAINT `job_posts_city_id_foreign` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `job_posts_city_id_foreign` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `job_posts_dentist_profile_id_foreign` FOREIGN KEY (`dentist_profile_id`) REFERENCES `dentist_profiles` (`id`) ON DELETE CASCADE;
 
 --
@@ -1110,7 +1217,7 @@ ALTER TABLE `payments`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_reviewer_id_foreign` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `reviews_reviewer_id_foreign` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `role_has_permissions`

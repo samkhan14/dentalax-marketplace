@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,17 +12,16 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('plan_id')->references('id')->on('plans')->onDelete('cascade');
-            $table->string('gateway'); // stripe or paypal
-            $table->string('billing_type'); // monthly or yearly
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('plan_id')->constrained('plans')->onDelete('cascade');
+            $table->string('gateway')->default('stripe');
+            $table->string('billing_type');
             $table->string('transaction_id');
             $table->decimal('amount', 10, 2);
-            $table->string('status')->default('succeeded');
+            $table->enum('status', ['pending', 'succeeded', 'failed', 'refunded'])->default('succeeded');
             $table->timestamp('next_billing_date')->nullable();
             $table->timestamps();
         });
-
     }
 
     /**
