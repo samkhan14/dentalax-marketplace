@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('dentist_landing_pages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dentist_profile_id')->references('id')->on('dentist_profiles')->onDelete('cascade');
+            $table->foreignId('dentist_profile_id')->constrained()->onDelete('cascade');
             $table->string('color_scheme')->default('#3fbfd8');
             $table->string('template')->default('classic');
             $table->string('header_style')->default('minimalist');
@@ -26,14 +25,16 @@ return new class extends Migration
             $table->string('about_us_subheading')->nullable();
             $table->longText('about_us_description')->nullable();
             $table->string('about_us_image')->nullable();
+            $table->json('service_categories')->nullable();
             $table->boolean('show_contact_details')->default(true);
             $table->boolean('show_reviews')->default(true);
             $table->boolean('show_map')->default(true);
             $table->boolean('show_opening_hours')->default(true);
+            $table->boolean('show_team_section')->default(true);
             $table->string('seo_title')->nullable();
             $table->text('seo_description')->nullable();
             $table->text('seo_keywords')->nullable();
-            $table->string('seo-slug')->nullable();
+            $table->string('seo_slug')->nullable();
             $table->timestamps();
         });
     }

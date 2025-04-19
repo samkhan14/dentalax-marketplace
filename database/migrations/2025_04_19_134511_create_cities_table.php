@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,6 +15,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('state')->nullable();
             $table->string('slug')->unique()->nullable();
+            $table->boolean('is_popular')->default(false);
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }
