@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\City;
+use App\Models\Plan;
 
 class FrontendController extends Controller
 {
@@ -64,7 +65,9 @@ class FrontendController extends Controller
         $this->data['og:description'] = "Finden Sie jetzt den passenden Zahnarzt in Ihrer Nähe – einfach, schnell und zuverlässig mit Dentalax.";
         $this->data['og:image'] = url('/') . "/frontend/assets/images/og-default.jpg";
 
-        return view('frontend.pages.packages');
+        $plans = Plan::where('is_active', '1')->get();
+        // dd($plans);
+        return view('frontend.pages.packages', compact('plans'));
     }
 
     public function jobOffers()
@@ -193,7 +196,12 @@ class FrontendController extends Controller
         return view('frontend.pages.patient_registration_page');
     }
 
-    public function dentistRegistrationPage()
+    public function patientRegistration()
+    {
+
+    }
+
+    public function dentistRegistrationPage(Request $request)
     {
         $this->data['title'] = "Stellenangebote | Dentalax – Zahnarztsuche in ganz Deutschland";
         $this->data['description'] = "Finden Sie jetzt den passenden Zahnarzt in Ihrer Nähe – einfach, schnell und zuverlässig mit Dentalax";
@@ -204,7 +212,20 @@ class FrontendController extends Controller
         $this->data['og:description'] = "Finden Sie jetzt den passenden Zahnarzt in Ihrer Nähe – einfach, schnell und zuverlässig mit Dentalax.";
         $this->data['og:image'] = url('/') . "/frontend/assets/images/og-default.jpg";
 
-        return view('frontend.pages.dentist_registration_page');
+        if ($request->has('plan_id')) {
+            session([
+                'selected_plan_id' => $request->plan_id,
+                'selected_billing_type' => $request->billing_cycle ?? 'monthly',
+            ]);
+        }
+
+        $plan = session('selected_plan_id')
+            ? Plan::find(session('selected_plan_id'))
+            : Plan::where('is_default', true)->first();
+
+        // dd($plan);
+
+        return view('frontend.pages.dentist_registration_page', compact('plan', $this->data));
     }
 
     public function landingPageForDentist()

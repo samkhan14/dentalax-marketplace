@@ -39,7 +39,7 @@
                                     <i class="fas fa-tooth fa-lg"></i>
                                 </div>
                                 <div>
-                                    <h2 class="h4 fw-bold mb-1">Premium-Paket</h2>
+                                    <h2 class="h4 fw-bold mb-1">{{ ucfirst($plan->name) ?? 'Basis' }}</h2>
                                     <p class="mb-0">Geben Sie Ihre Praxisdaten ein</p>
                                 </div>
                             </div>
@@ -121,8 +121,7 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="strasse" name="strasse"
-                                        placeholder="Straße & Hausnummer" required
-                                        value="">
+                                        placeholder="Straße & Hausnummer" required value="">
                                     <label for="strasse">Straße & Hausnummer</label>
                                     <div class="invalid-feedback">Bitte geben Sie Straße und Hausnummer ein.</div>
                                 </div>

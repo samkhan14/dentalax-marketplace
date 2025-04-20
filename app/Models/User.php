@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id'
     ];
 
     /**
@@ -47,4 +48,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function dentistProfile()
+    {
+        return $this->hasOne(\App\Models\DentistProfile::class);
+    }
+
+    public function patientProfile()
+    {
+        return $this->hasOne(\App\Models\PatientProfile::class);
+    }
+
+    public function applicantProfile()
+    {
+        return $this->hasOne(\App\Models\ApplicantProfile::class);
+    }
+
+
 }

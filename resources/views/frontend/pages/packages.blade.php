@@ -54,182 +54,68 @@
     <section class="py-5">
         <div class="container py-3">
             <div class="row g-4 justify-content-center">
-                <!-- Basis-Paket -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
-                    <div class="card h-100 rounded-4 border-0 shadow-sm hover-card">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="h4 fw-bold mb-0" style="color: var(--dental-dark);">Basis</h5>
-                                <div class="badge rounded-pill text-bg-light">Kostenlos</div>
-                            </div>
 
-                            <div class="mb-4">
-                                <span class="display-5 fw-bold" style="color: var(--dental-primary);">0 €</span>
-                            </div>
+                @foreach ($plans as $index => $plan)
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                        <div
+                            class="card h-100 rounded-4 {{ $index == 1 ? 'border-2 border-primary shadow' : 'border-0 shadow-sm' }}  position-relative hover-card">
+                            <div class="card-body p-4 p-xl-5">
 
-                            <p class="text-secondary small mb-4">Der ideale Einstieg für Ihre Praxis</p>
-
-                            <ul class="list-unstyled mb-4">
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
+                                @if ($index == 1)
+                                    <div class="position-absolute top-0 end-0 translate-middle-y me-4">
+                                        <div class="badge rounded-pill text-bg-primary px-3 py-2 shadow-sm">Beliebt</div>
                                     </div>
-                                    <span>Lokale Sichtbarkeit auf Google</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Teilnahme am Bewertungssystem</span>
-                                </li>
-                            </ul>
+                                @endif
 
-                            <form method="POST" action="/paket-bestaetigen">
-                                <input type="hidden" name="paket" value="Basis">
-                                <input type="hidden" name="praxisname" value="Max Mustermann Praxis">
-                                <input type="hidden" name="email" value="praxis@example.de">
-                                <input type="hidden" name="zahlweise" value="monatlich" class="hidden-zahlweise">
-                                <button type="submit" class="btn btn-outline-primary rounded-pill w-100 fw-medium">
-                                    Basis-Paket wählen
-                                </button>
-                            </form>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="h4 fw-bold mb-0" style="color: var(--dental-dark);">{{ $plan['name'] }}</h5>
+
+                                    @if ($index == 0 || $index == 2)
+                                        <div class="badge rounded-pill text-bg-light">{{ $plan['price_tag'] }}</div>
+                                    @endif
+                                </div>
+
+                                <div class="mb-4">
+                                    <span class="display-5 fw-bold" style="color: var(--dental-primary);">
+                                        <span class="monatlich-preis">{{ number_format($plan['price_monthly'], 0) }}
+                                            €</span>
+                                        <span class="jaehrlich-preis d-none">{{ number_format($plan['price_yearly'], 0) }}
+                                            €</span>
+                                    </span>
+                                    <span class="text-muted fs-6 monatlich-preis">/Monat</span>
+                                    <span class="text-muted fs-6 jaehrlich-preis d-none">/Jahr</span>
+                                </div>
+
+                                <p class="text-secondary small mb-4">Perfekt für wachsende Praxen</p>
+
+                                <ul class="list-unstyled mb-4">
+                                    @foreach ($plan['features'] as $feature)
+                                        <li class="d-flex align-items-center mb-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
+                                                style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
+                                                <i class="fas fa-check text-primary small"></i>
+                                            </div>
+                                            <span>{{ $feature }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+
+                                <form method="POST" action="{{ route('plan.selected') }}">
+                                    @csrf
+                                    <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                    <input type="hidden" name="billing_cycle" value="monthly" class="hidden-zahlweise">
+
+                                    <button type="submit"
+                                        class="btn {{ $index == 1 ? 'btn-primary' : 'btn-outline-primary' }} rounded-pill w-100 fw-medium">
+                                        {{ $plan['name'] }} wählen
+                                    </button>
+                                </form>
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
 
-                <!-- PraxisPro-Paket -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card h-100 rounded-4 border-2 border-primary shadow position-relative hover-card">
-                        <div class="card-body p-4 p-xl-5">
-                            <!-- Beliebt-Badge -->
-                            <div class="position-absolute top-0 end-0 translate-middle-y me-4">
-                                <div class="badge rounded-pill text-bg-primary px-3 py-2 shadow-sm">Beliebt</div>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="h4 fw-bold mb-0" style="color: var(--dental-dark);">PraxisPro</h5>
-                            </div>
-
-                            <div class="mb-4">
-                                <span class="display-5 fw-bold" style="color: var(--dental-primary);">
-                                    <span class="monatlich-preis">59 €</span>
-                                    <span class="jaehrlich-preis d-none">636 €</span>
-                                </span>
-                                <span class="text-muted fs-6 monatlich-preis">/Monat</span>
-                                <span class="text-muted fs-6 jaehrlich-preis d-none">/Jahr</span>
-                            </div>
-
-                            <p class="text-secondary small mb-4">Perfekt für wachsende Praxen</p>
-
-                            <ul class="list-unstyled mb-4">
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Eigene moderne Landingpage</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Sichtbarkeit auf Google und Dentalax</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Teilnahme am KI Chat Empfehlung</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Dashboard mit Tracking-Funktionen</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Neue Patienten gewinnen</span>
-                                </li>
-                            </ul>
-
-                            <form method="POST" action="/paket-bestaetigen">
-                                <input type="hidden" name="paket" value="PraxisPro">
-                                <input type="hidden" name="praxisname" value="Max Mustermann Praxis">
-                                <input type="hidden" name="email" value="praxis@example.de">
-                                <input type="hidden" name="zahlweise" value="monatlich" class="hidden-zahlweise">
-                                <button type="submit" class="btn btn-primary rounded-pill w-100 fw-medium">
-                                    PraxisPro wählen
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PraxisPlus-Paket -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card h-100 rounded-4 border-0 shadow-sm hover-card">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="h4 fw-bold mb-0" style="color: var(--dental-dark);">PraxisPlus</h5>
-                                <div class="badge rounded-pill bg-light text-dark">Premium</div>
-                            </div>
-
-                            <div class="mb-4">
-                                <span class="display-5 fw-bold" style="color: var(--dental-primary);">
-                                    <span class="monatlich-preis">89 €</span>
-                                    <span class="jaehrlich-preis d-none">960 €</span>
-                                </span>
-                                <span class="text-muted fs-6 monatlich-preis">/Monat</span>
-                                <span class="text-muted fs-6 jaehrlich-preis d-none">/Jahr</span>
-                            </div>
-
-                            <p class="text-secondary small mb-4">Für etablierte und wachsende Praxen</p>
-
-                            <ul class="list-unstyled mb-4">
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Alle Vorteile von PraxisPro</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Eigene Jobanzeigen veröffentlichen</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
-                                        style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
-                                        <i class="fas fa-check text-primary small"></i>
-                                    </div>
-                                    <span>Zugang zu exklusiven Bewerbungen</span>
-                                </li>
-                            </ul>
-
-                            <form method="POST" action="/paket-bestaetigen">
-                                <input type="hidden" name="paket" value="PraxisPlus">
-                                <input type="hidden" name="praxisname" value="Max Mustermann Praxis">
-                                <input type="hidden" name="email" value="praxis@example.de">
-                                <input type="hidden" name="zahlweise" value="monatlich" class="hidden-zahlweise">
-                                <button type="submit" class="btn btn-primary rounded-pill w-100 fw-medium">
-                                    PraxisPlus wählen
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Trust-Elemente -->
@@ -286,56 +172,64 @@
                                         <td class="py-3 px-4">Sichtbarkeit in der Suche</td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-check text-primary"></i></td>
+                                            <i class="fas fa-check text-primary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                     <tr>
                                         <td class="py-3 px-4">Bewertungssystem</td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-check text-primary"></i></td>
+                                            <i class="fas fa-check text-primary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                     <tr>
                                         <td class="py-3 px-4">Eigene Landingpage</td>
                                         <td class="text-center py-3"><i class="fas fa-minus text-secondary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-check text-primary"></i></td>
+                                            <i class="fas fa-check text-primary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                     <tr>
                                         <td class="py-3 px-4">Hervorgehobene Darstellung</td>
                                         <td class="text-center py-3"><i class="fas fa-minus text-secondary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-check text-primary"></i></td>
+                                            <i class="fas fa-check text-primary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                     <tr>
                                         <td class="py-3 px-4">Teilnahme am KI-Chat</td>
                                         <td class="text-center py-3"><i class="fas fa-minus text-secondary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-check text-primary"></i></td>
+                                            <i class="fas fa-check text-primary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                     <tr>
                                         <td class="py-3 px-4">Dashboard & Tracking</td>
                                         <td class="text-center py-3"><i class="fas fa-minus text-secondary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-check text-primary"></i></td>
+                                            <i class="fas fa-check text-primary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                     <tr>
                                         <td class="py-3 px-4">Neue Patienten gewinnen</td>
                                         <td class="text-center py-3"><i class="fas fa-minus text-secondary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-check text-primary"></i></td>
+                                            <i class="fas fa-check text-primary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                     <tr>
                                         <td class="py-3 px-4">Jobanzeigen</td>
                                         <td class="text-center py-3"><i class="fas fa-minus text-secondary"></i></td>
                                         <td class="text-center py-3" style="background-color: rgba(63, 191, 216, 0.03);">
-                                            <i class="fas fa-minus text-secondary"></i></td>
+                                            <i class="fas fa-minus text-secondary"></i>
+                                        </td>
                                         <td class="text-center py-3"><i class="fas fa-check text-primary"></i></td>
                                     </tr>
                                 </tbody>
@@ -418,14 +312,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Toggle-Funktionalität
             const toggle = document.getElementById("zahlweiseSwitch");
-            toggle.addEventListener("change", () => {
-                const neueZahlweise = toggle.checked ? "jährlich" : "monatlich";
-                document.querySelectorAll(".hidden-zahlweise").forEach(el => el.value = neueZahlweise);
 
-                document.querySelectorAll(".monatlich-preis").forEach(el => el.classList.toggle("d-none",
-                    toggle.checked));
-                document.querySelectorAll(".jaehrlich-preis").forEach(el => el.classList.toggle("d-none", !
-                    toggle.checked));
+            toggle.addEventListener("change", function() {
+                const monatlich = document.querySelectorAll(".monatlich-preis");
+                const jaehrlich = document.querySelectorAll(".jaehrlich-preis");
+                const zahlweiseInputs = document.querySelectorAll(".hidden-zahlweise");
+
+                if (toggle.checked) {
+                    monatlich.forEach(el => el.classList.add("d-none"));
+                    jaehrlich.forEach(el => el.classList.remove("d-none"));
+                    zahlweiseInputs.forEach(input => input.value = "yearly");
+                } else {
+                    jaehrlich.forEach(el => el.classList.add("d-none"));
+                    monatlich.forEach(el => el.classList.remove("d-none"));
+                    zahlweiseInputs.forEach(input => input.value = "monthly");
+                }
             });
 
             // Hover-Effekt für Karten

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 19, 2025 at 03:03 PM
+-- Generation Time: Apr 20, 2025 at 09:35 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -99,6 +99,27 @@ CREATE TABLE `cities` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `cities`
+--
+
+INSERT INTO `cities` (`id`, `name`, `state`, `slug`, `is_popular`, `order`, `created_at`, `updated_at`) VALUES
+(1, 'Berlin', NULL, 'berlin', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(2, 'Hamburg', NULL, 'hamburg', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(3, 'Munich', NULL, 'munich', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(4, 'Cologne', NULL, 'cologne', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(5, 'Frankfurt', NULL, 'frankfurt', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(6, 'Stuttgart', NULL, 'stuttgart', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(7, 'Düsseldorf', NULL, 'duesseldorf', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(8, 'Dortmund', NULL, 'dortmund', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(9, 'Essen', NULL, 'essen', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(10, 'Leipzig', NULL, 'leipzig', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(11, 'Bremen', NULL, 'bremen', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(12, 'Dresden', NULL, 'dresden', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(13, 'Hanover', NULL, 'hanover', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(14, 'Nuremberg', NULL, 'nuremberg', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(15, 'Duisburg', NULL, 'duisburg', 0, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08');
+
 -- --------------------------------------------------------
 
 --
@@ -131,6 +152,35 @@ CREATE TABLE `dental_services` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `dental_services`
+--
+
+INSERT INTO `dental_services` (`id`, `name`, `slug`, `icon`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Zahnreinigung / Prophylaxe', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(2, 'Kontrolluntersuchung', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(3, 'Füllungstherapie', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(4, 'Parodontitisbehandlung', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(5, 'Wurzelbehandlung (Endodontie)', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(6, 'Zahnentfernung', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(7, 'Zahnerhalt', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(8, 'Bleaching / Zahnaufhellung', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(9, 'Veneers', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(10, 'Zahnkorrektur (Aligner/Schienen)', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(11, 'Feste Zahnspange', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(12, 'Lose Zahnspange', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(13, 'Zahnimplantate', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(14, 'Kronen & Brücken', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(15, 'Teil-/Vollprothesen', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(16, 'CAD/CAM Zahnersatz', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(17, 'Kinderzahnheilkunde', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(18, 'Behandlung von Angstpatienten', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(19, 'Seniorenzahnheilkunde', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(20, 'Digitale Zahnberatung', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(21, '3D-Röntgen / DVT', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(22, 'Zahnschmuck', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(23, 'Sportmundschutz', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08');
 
 -- --------------------------------------------------------
 
@@ -455,7 +505,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2025_04_19_145232_create_seo_metadata_table', 1),
 (23, '2025_04_19_145334_create_dentist_impressions_table', 1),
 (24, '2025_04_19_145421_create_dentist_appointments_table', 1),
-(25, '2025_04_19_145539_create_dentist_settings_table', 1);
+(25, '2025_04_19_145539_create_dentist_settings_table', 1),
+(26, '2025_04_20_125711_add_col_is_default_in_plans_table', 2),
+(27, '2025_04_20_130046_add_col_is_default_in_plans_table', 3),
+(28, '2025_04_20_130750_add_col_is_default_in_plans_table', 4),
+(29, '2025_04_20_143308_add_price_tag_in_plans_table', 5);
 
 -- --------------------------------------------------------
 
@@ -480,6 +534,13 @@ CREATE TABLE `model_has_roles` (
   `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'App\\Models\\User', 1);
 
 -- --------------------------------------------------------
 
@@ -556,14 +617,26 @@ CREATE TABLE `permissions` (
 CREATE TABLE `plans` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price_monthly` decimal(10,2) NOT NULL DEFAULT '0.00',
   `price_yearly` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `price_tag` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `features` json DEFAULT NULL,
+  `is_default` tinyint(1) NOT NULL DEFAULT '0',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `plans`
+--
+
+INSERT INTO `plans` (`id`, `name`, `description`, `slug`, `price_monthly`, `price_yearly`, `price_tag`, `features`, `is_default`, `is_active`, `created_at`, `updated_at`) VALUES
+(6, 'Basis', 'Der ideale Einstieg für Ihre Praxis', 'basis', 0.00, 0.00, 'Kostenlos', '[\"Lokale Sichtbarkeit auf Google\", \"Teilnahme am Bewertungssystem\"]', 1, 1, '2025-04-20 09:40:47', '2025-04-20 09:40:47'),
+(7, 'PraxisPro', 'Perfekt für wachsende Praxen', 'praxispro', 59.00, 636.00, 'Beliebt', '[\"Eigene moderne Landingpage\", \"Sichtbarkeit auf Google und Dentalax\", \"Teilnahme am KI Chat Empfehlung\", \"Dashboard mit Tracking-Funktionen\", \"Neue Patienten gewinnen\"]', 0, 1, '2025-04-20 09:40:47', '2025-04-20 09:40:47'),
+(8, 'PraxisPlus', 'Für etablierte und wachsende Praxen', 'praxisplus', 89.00, 960.00, 'Premium', '[\"Alle Vorteile von PraxisPro\", \"Eigene Jobanzeigen veröffentlichen\", \"Zugang zu exklusiven Bewerbungen\"]', 0, 1, '2025-04-20 09:40:47', '2025-04-20 09:40:47');
 
 -- --------------------------------------------------------
 
@@ -598,6 +671,16 @@ CREATE TABLE `roles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'web', '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(2, 'dentist', 'web', '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(3, 'patient', 'web', '2025-04-19 17:36:08', '2025-04-19 17:36:08'),
+(4, 'applicant', 'web', '2025-04-19 17:36:08', '2025-04-19 17:36:08');
 
 -- --------------------------------------------------------
 
@@ -648,6 +731,26 @@ CREATE TABLE `sessions` (
   `last_activity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('2EhcbMAmFxaHxqOzeoWkZQKQbffKI47N1fEMD5aq', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaVdiU25OQXlVOUlDbmtLRThHT0xHeFpMclVqeG1oNUZyMlZRbkVxRiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC96YWhuYXJ6dC1yZWdpc3RyaWVyZW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1745168536),
+('6ICOI1yBrNtkUGWE0l9IdKKBnWN9QZKce1B3MWq2', NULL, '127.0.0.1', 'Dart/3.7 (dart:io)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibDhGSDF4QVN3UktkV1locXJuamtzTnQ1YUtVTU40NFV5cm5mMzFTZyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RyaWVyZW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1745168204),
+('6SUAyd8IF0WCDMVZtXlKtQuFtqld2LOZ44XTYL58', NULL, '127.0.0.1', 'Dart/3.7 (dart:io)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaTNvUmxzNk1ScjdIMzY4dGxoTGlEeDk3YWtQVGp5S1pwanpoVXdFcyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC96YWhuYXJ6dC1yZWdpc3RyaWVyZW4/YmlsbGluZ190eXBlPW1vbnRobHkmcGxhbj03Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1745168857),
+('AzJRqgVQwH67iHgOu978NjfgZ7haAcLZw70EpbG1', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoidGdyUG5IU3dyMmlFbEtKSjBGbEwyU3FHMm9ib2U3c0RaYVlJOU5uZiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wYWtldHdhaGwiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE2OiJzZWxlY3RlZF9wbGFuX2lkIjtzOjE6IjciO3M6MjE6InNlbGVjdGVkX2JpbGxpbmdfdHlwZSI7czo3OiJtb250aGx5Ijt9', 1745168572),
+('FQaDBgV84y7lCUNdNysySQJ32RHZInFNhAWVJC9T', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoibG5oNzdPYXY1NkNnY2dzRjVTVEFUWjNqam9Fc2pyeHJtRTZkNnZOSiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wYWtldHdhaGwiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE2OiJzZWxlY3RlZF9wbGFuX2lkIjtzOjE6IjciO3M6MjE6InNlbGVjdGVkX2JpbGxpbmdfdHlwZSI7czo3OiJtb250aGx5Ijt9', 1745168926),
+('IoA83cNl0rTeTQcLLviHPvQuRMCIXvY6HAqIcC8J', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSUlDRWtBSjdjNWRCdXduMFJQc0hhaWdrSlBlVktCTXdMOXNtanppdiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC96YWhuYXJ6dC1yZWdpc3RyaWVyZW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE2OiJzZWxlY3RlZF9wbGFuX2lkIjtzOjE6IjciO3M6MjE6InNlbGVjdGVkX2JpbGxpbmdfdHlwZSI7czo3OiJtb250aGx5Ijt9', 1745168791),
+('J3yEEDB7nls1caI1EQJ2pHaZH4BknniIj3AlMcC8', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoidkNWZEdId2c1V1hTeExkSzhXbGtOWXJFOG1MS1FKa1d3VzRYdzlJeSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC96YWhuYXJ6dC1yZWdpc3RyaWVyZW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1745168551),
+('JNZpPEShGiz4vggSRgrqH0gWUF7zHvfFKZHuXQCI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiS3lYMFdxaXRrVGtZQWZCdVVEQ3E2Z0lCZ0NWUWpUTWFuVll2R2FEZyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wYWtldHdhaGwiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE2OiJzZWxlY3RlZF9wbGFuX2lkIjtzOjE6IjciO3M6MjE6InNlbGVjdGVkX2JpbGxpbmdfdHlwZSI7czo3OiJtb250aGx5Ijt9', 1745168717),
+('LetUFFUXLaN3Ihu3Oqtb94a25DqVmL9Go07dPOn8', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiNENRMzhYTWNKWjc2R3F0VXBTdGlGWjdWdDlpSnN2endwaWwxQW9qSyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RyaWVyZW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE2OiJzZWxlY3RlZF9wbGFuX2lkIjtzOjE6IjciO3M6MjE6InNlbGVjdGVkX2JpbGxpbmdfdHlwZSI7czo3OiJtb250aGx5Ijt9', 1745168296),
+('P3Wr2WGUHBqFLFc8DycKefYKizsENeCPJytwY8Wl', NULL, '127.0.0.1', 'Dart/3.7 (dart:io)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVEk3eXY5b2RSbGgxdHhqM3E5eFBOQjVZall0RnYxaVcwSEYzYnVLNiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC96YWhuYXJ6dC1yZWdpc3RyaWVyZW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1745168210),
+('RMrQrzwgjeYLjuXGBadeNkoMtZ6jVsbdJ1C0qRbe', NULL, '127.0.0.1', 'Dart/3.7 (dart:io)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoib0p3UVdXbk13TU9na2xUcU0yZ1Z4MlkyVXVxYnRKTFBjNjRIOFpBYiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC96YWhuYXJ6dC1sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1745168200),
+('WoOetgO9P0aWgJThVAiuXAvULpcOS5TKXaRsAo7c', NULL, '127.0.0.1', 'Dart/3.7 (dart:io)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVFlOY2dpazJsQlY3T0N1Y0tPbzlRc3NUU1FKbm9GZEk1ZEpReHhPcCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC96YWhuYXJ6dC1yZWdpc3RyaWVyZW4/YmlsbGluZ190eXBlPW1vbnRobHkmcGxhbj03Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1745168859),
+('XfjOxH4cRETk1hqLHtwbAFOCLqcQci2WqvyekuQU', NULL, '127.0.0.1', 'Dart/3.7 (dart:io)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiN2pKQU1wWFNXU2doNGE0c0hqQzZkUlR5M0NsS0o5MnVjeFh1MmpNMyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1745168316),
+('Ym6BnMBbuU5U2PQPyoLqU0vdP4UsTGISnn7sC74y', NULL, '127.0.0.1', 'Dart/3.7 (dart:io)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOEt0TVR0bGc0aWVJZUVMZ002b2NNUVFrbU43bFpaaU9GTVVGWVVwcSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9rb250YWt0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1745168393);
+
 -- --------------------------------------------------------
 
 --
@@ -665,6 +768,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `google_id`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'admin@dentalax.com', NULL, '$2y$12$xfO1BLN6s9H/.fBdRuC4Iuwu0rZtNI5XokyGWjPo0f19t/b/Fa6GG', NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08');
 
 --
 -- Indexes for dumped tables
@@ -947,7 +1057,7 @@ ALTER TABLE `applicant_profiles`
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `claims`
@@ -959,7 +1069,7 @@ ALTER TABLE `claims`
 -- AUTO_INCREMENT for table `dental_services`
 --
 ALTER TABLE `dental_services`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `dentist_appointments`
@@ -1043,7 +1153,7 @@ ALTER TABLE `job_posts`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `patient_profiles`
@@ -1067,7 +1177,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `plans`
 --
 ALTER TABLE `plans`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -1079,7 +1189,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `seo_metadata`
@@ -1091,7 +1201,7 @@ ALTER TABLE `seo_metadata`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

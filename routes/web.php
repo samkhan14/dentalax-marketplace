@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\DentistDashboardController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\PatientProfileController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +32,7 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('/kontakt', 'Contact')->name('contact');
     Route::get('/ueber-uns', 'aboutUs')->name('about_us');
 
-    // login and registration pages
+    // login and registration
     Route::get('/patienten-login', 'patientLoginPage')->name('patient.login.page');
     Route::get('/zahnarzt-login', 'dentistLoginPage')->name('dentist.login.page');
     Route::get('/registrieren', 'mainRegistrationPage')->name('registration.page');
@@ -47,4 +51,26 @@ Route::controller(FrontendController::class)->group(function () {
     // Route::get('/zahnaerzte-nach-staedten','')->name('');
     // Route::get('/zahnaerzte-nach-staedten','')->name('');
 
+});
+
+
+Route::controller(PlanController::class)->group(function () {
+    Route::post('/plan-selected', 'planSelected')->name('plan.selected');
+    // Route::get('/plan-selected/{plan:slug}', 'planSelected')->name('plan.selected');
+});
+
+
+
+
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+});
+
+Route::middleware(['auth', 'role:dentist'])->group(function () {
+    Route::get('/dashboard/dentist', [DentistDashboardController::class, 'index'])->name('dashboard.dentist');
+});
+
+Route::middleware(['auth', 'role:patient|applicant'])->group(function () {
+    Route::get('/dashboard', [PatientProfileController::class, 'Dashboard'])->name('dashboard.shared');
 });
