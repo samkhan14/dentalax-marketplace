@@ -6,5 +6,37 @@ use Illuminate\Database\Eloquent\Model;
 
 class DentistProfile extends Model
 {
-    //
+    protected $table = 'dentist_profiles';
+
+    protected $fillable = [
+        'user_id',
+        'first_name',
+        'city_id',
+        'plan_id',
+        'foundation_experience',
+        'expertise_areas',
+        'practice_name',
+        'practice_description',
+        'permanent_address',
+        'phone',
+        'latitude',
+        'longitude',
+        'website',
+        'logo',
+        'status',
+        'landing_page_customized',
+        'is_featured',
+        'priority',
+        'dentist_schedule_id ',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
 }

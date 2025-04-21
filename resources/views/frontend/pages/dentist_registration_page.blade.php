@@ -26,10 +26,6 @@
         <div class="container py-4">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="alert alert-primary alert-dismissible fade show mb-4" role="alert">
-                        message info
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
 
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden" data-aos="fade-up">
                         <div class="card-header p-4 bg-primary text-white">
@@ -46,20 +42,38 @@
                         </div>
 
                         <div class="card-body p-4 p-md-5">
-                            <form method="POST" action="/register" class="needs-validation" novalidate>
-                                <!-- Praxisdaten -->
+                            <form id="dentistRegistrationForm" method="POST"
+                                action="{{ route('dentist.registration.store') }}" class="needs-validation" novalidate>
+                                @csrf
+                                <!-- Plan Info (hidden if no plan selected) -->
+                                @if (session('selected_plan_id'))
+                                    <div class="alert alert-info mb-4">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Sie registrieren sich für das Paket: <strong>{{ $plan->name }}</strong>
+                                        <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                        <input type="hidden" name="billing_cycle"
+                                            value="{{ session('selected_billing_type', 'monthly') }}">
+                                    </div>
+                                @endif
+
+                                <!-- Practice Info -->
                                 <h3 class="h5 fw-bold mb-4" style="color: var(--dental-dark);">
                                     <i class="fas fa-building me-2 text-primary"></i> Praxisinformationen
                                 </h3>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="praxisname" name="praxisname"
-                                        placeholder="Praxisname" required value="">
-                                    <label for="praxisname">Praxisname</label>
+                                    <input type="text" class="form-control" id="practice_name" name="practice_name"
+                                        required>
+                                    <label for="practice_name">Praxisname</label>
                                     <div class="invalid-feedback">Bitte geben Sie den Namen Ihrer Praxis ein.</div>
                                 </div>
 
-                                <!-- Inhaber/Ansprechpartner -->
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="practice_description" name="practice_description" style="height: 100px"></textarea>
+                                    <label for="practice_description">Kurze Praxisbeschreibung (optional)</label>
+                                </div>
+
+                                <!-- Dentist Info -->
                                 <h3 class="h5 fw-bold mt-4 mb-3" style="color: var(--dental-dark);">
                                     <i class="fas fa-user-md me-2 text-primary"></i> Ansprechpartner
                                 </h3>
@@ -68,7 +82,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="vorname" name="vorname"
-                                                placeholder="Vorname" required value="">
+                                                required>
                                             <label for="vorname">Vorname</label>
                                             <div class="invalid-feedback">Bitte geben Sie Ihren Vornamen ein.</div>
                                         </div>
@@ -76,7 +90,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nachname" name="nachname"
-                                                placeholder="Nachname" required value="">
+                                                required>
                                             <label for="nachname">Nachname</label>
                                             <div class="invalid-feedback">Bitte geben Sie Ihren Nachnamen ein.</div>
                                         </div>
@@ -84,13 +98,12 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="name@example.com" required value="">
+                                    <input type="email" class="form-control" id="email" name="email" required>
                                     <label for="email">E-Mail-Adresse</label>
                                     <div class="invalid-feedback">Bitte geben Sie eine gültige E-Mail-Adresse ein.</div>
                                 </div>
 
-                                <!-- Passwort -->
+                                <!-- Password -->
                                 <h3 class="h5 fw-bold mt-4 mb-3" style="color: var(--dental-dark);">
                                     <i class="fas fa-lock me-2 text-primary"></i> Zugangspasswort
                                 </h3>
@@ -98,113 +111,89 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input type="password" class="form-control" id="passwort" name="passwort"
-                                                placeholder="Passwort" required>
-                                            <label for="passwort">Passwort</label>
-                                            <div class="invalid-feedback">Bitte geben Sie ein sicheres Passwort ein.</div>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                required>
+                                            <label for="password">Passwort</label>
+                                            <div class="invalid-feedback">Mindestens 8 Zeichen mit Groß-/Kleinbuchstaben,
+                                                Zahlen und Sonderzeichen</div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input type="password" class="form-control" id="passwort_bestaetigen"
-                                                name="passwort_bestaetigen" placeholder="Passwort bestätigen" required>
-                                            <label for="passwort_bestaetigen">Passwort bestätigen</label>
-                                            <div class="invalid-feedback">Die Passwörter stimmen nicht überein.</div>
+                                            <input type="password" class="form-control" id="password_confirmation"
+                                                name="password_confirmation" required>
+                                            <label for="password_confirmation">Passwort bestätigen</label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Adresse -->
+                                <!-- Address -->
                                 <h3 class="h5 fw-bold mt-4 mb-3" style="color: var(--dental-dark);">
                                     <i class="fas fa-map-marker-alt me-2 text-primary"></i> Praxisadresse
                                 </h3>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="strasse" name="strasse"
-                                        placeholder="Straße & Hausnummer" required value="">
-                                    <label for="strasse">Straße & Hausnummer</label>
+                                    <input type="text" class="form-control" id="permanent_address"
+                                        name="permanent_address" required>
+                                    <label for="permanent_address">Straße & Hausnummer</label>
                                     <div class="invalid-feedback">Bitte geben Sie Straße und Hausnummer ein.</div>
                                 </div>
 
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="plz" name="plz"
-                                                placeholder="PLZ" required value="">
-                                            <label for="plz">Postleitzahl</label>
+                                            <input type="text" class="form-control" id="postal_code"
+                                                name="postal_code" required>
+                                            <label for="postal_code">Postleitzahl</label>
                                             <div class="invalid-feedback">Bitte geben Sie eine gültige Postleitzahl ein.
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="stadt" name="stadt"
-                                                placeholder="Stadt" required value="">
-                                            <label for="stadt">Stadt</label>
-                                            <div class="invalid-feedback">Bitte geben Sie Ihren Ort ein.</div>
+                                            <select class="form-select" id="city_id" name="city_id" required>
+                                                <option value="" selected disabled>Bitte wählen</option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="city_id">Stadt</label>
+                                            <div class="invalid-feedback">Bitte wählen Sie eine Stadt aus.</div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Kontaktdaten -->
+                                <!-- Contact -->
                                 <h3 class="h5 fw-bold mt-4 mb-3" style="color: var(--dental-dark);">
                                     <i class="fas fa-phone me-2 text-primary"></i> Kontaktinformationen
                                 </h3>
 
                                 <div class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="telefon" name="telefon"
-                                        placeholder="Telefonnummer" required value="">
-                                    <label for="telefon">Telefonnummer</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    <label for="phone">Telefonnummer</label>
                                     <div class="invalid-feedback">Bitte geben Sie eine gültige Telefonnummer ein.</div>
                                 </div>
 
                                 <div class="form-floating mb-4">
-                                    <input type="url" class="form-control" id="webseite" name="webseite"
-                                        placeholder="https://www.example.com" value="">
-                                    <label for="webseite">Webseite (optional)</label>
+                                    <input type="url" class="form-control" id="website" name="website">
+                                    <label for="website">Webseite (optional)</label>
                                 </div>
 
-                                <!-- Öffnungszeiten -->
-                                <h3 class="h5 fw-bold mt-4 mb-3" style="color: var(--dental-dark);">
-                                    <i class="fas fa-clock me-2 text-primary"></i> Öffnungszeiten
-                                </h3>
-
-                                <div class="card mb-4 border-0 bg-light">
-                                    <div class="card-body p-3">
-                                        <div class="small text-secondary mb-2">
-                                            <i class="fas fa-info-circle me-1"></i>
-                                            Sie können Ihre Öffnungszeiten nach der Registrierung in Ihrem Praxisprofil
-                                            ergänzen.
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Datenschutz & AGB -->
+                                <!-- Privacy -->
                                 <div class="mb-4 form-check">
                                     <input type="checkbox" class="form-check-input" id="datenschutz" name="datenschutz"
                                         required>
                                     <label class="form-check-label" for="datenschutz">
-                                        Ich habe die <a href="/datenschutz" target="_blank">Datenschutzerklärung</a> und
-                                        <a href="/agb" target="_blank">AGB</a> gelesen und stimme diesen zu.
+                                        Ich habe die <a href="/datenschutz" target="_blank">Datenschutzerklärung</a>
+                                        gelesen und stimme zu.
                                     </label>
-                                    <div class="invalid-feedback">Sie müssen den Datenschutzbestimmungen und AGB zustimmen,
-                                        um fortzufahren.</div>
-                                </div>
-
-                                <div class="mb-5 form-check">
-                                    <input type="checkbox" class="form-check-input" id="marketing" name="marketing">
-                                    <label class="form-check-label" for="marketing">
-                                        Ich möchte Neuigkeiten und spezielle Angebote für Zahnärzte per E-Mail erhalten.
-                                    </label>
+                                    <div class="invalid-feedback">Sie müssen den Datenschutzbestimmungen zustimmen.</div>
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-primary btn-lg rounded-pill">
+                                    <button type="submit" class="btn btn-primary btn-lg rounded-pill" id="submitBtn">
                                         <i class="fas fa-paper-plane me-2"></i> Praxis jetzt registrieren
                                     </button>
-                                    <p class="small text-center text-secondary mt-2">
-                                        Nach der Registrierung erhalten Sie eine Bestätigungsmail.
-                                    </p>
                                 </div>
                             </form>
                         </div>
@@ -288,39 +277,128 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // AOS Initialisierung, falls vorhanden
+            const form = document.getElementById('dentistRegistrationForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const privacyCheckbox = document.getElementById('datenschutz');
+            const passwordInput = document.getElementById('password');
+            const passwordConfirmInput = document.getElementById('password_confirmation');
+
+            // Create error element if it doesn't exist
+            if (!document.getElementById('password_confirmation-error')) {
+                const errorElement = document.createElement('div');
+                errorElement.id = 'password_confirmation-error';
+                errorElement.className = 'invalid-feedback';
+                passwordConfirmInput.parentNode.appendChild(errorElement);
+            }
+
+            // Enable/disable submit button based on privacy checkbox
+            if (privacyCheckbox) {
+                privacyCheckbox.addEventListener('change', function() {
+                    submitBtn.disabled = !this.checked;
+                });
+                submitBtn.disabled = !privacyCheckbox.checked;
+            }
+
+            // Real-time password validation
+            function validatePassword() {
+                const errorElement = document.getElementById('password_confirmation-error');
+
+                if (passwordInput.value !== passwordConfirmInput.value) {
+                    passwordConfirmInput.classList.add('is-invalid');
+                    if (errorElement) {
+                        errorElement.textContent = 'Die Passwörter stimmen nicht überein';
+                    }
+                    return false;
+                } else {
+                    passwordConfirmInput.classList.remove('is-invalid');
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                    }
+                    return true;
+                }
+            }
+
+            passwordInput.addEventListener('input', validatePassword);
+            passwordConfirmInput.addEventListener('input', validatePassword);
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                if (!validatePassword()) {
+                    return;
+                }
+
+                // Show loading state
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML =
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Wird verarbeitet...';
+
+                // Clear previous errors
+                document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+                document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+
+                // Submit via AJAX
+                fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: new FormData(form)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw err;
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = data.redirect;
+                        }
+                    })
+                    .catch(error => {
+                        // Reset button
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+
+                        // Handle validation errors
+                        if (error.errors) {
+                            Object.entries(error.errors).forEach(([field, messages]) => {
+                                const input = form.querySelector(`[name="${field}"]`);
+                                const errorElement = document.getElementById(
+                                    `${field}-error`) ||
+                                    input?.closest('.form-floating')?.querySelector(
+                                        '.invalid-feedback');
+
+                                if (input) {
+                                    input.classList.add('is-invalid');
+                                }
+                                if (errorElement) {
+                                    errorElement.textContent = messages[0];
+                                }
+                            });
+                        }
+
+                        // Show general errors
+                        if (error.message) {
+                            alert(error.message);
+                        }
+                    });
+            });
+
+            // Initialize AOS if available
             if (typeof AOS !== 'undefined') {
                 AOS.init({
                     duration: 800,
                     once: true
                 });
             }
-
-            // Formularvalidierung
-            var forms = document.querySelectorAll('.needs-validation');
-            Array.prototype.slice.call(forms).forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-
-                    // Überprüfen, ob Passwörter übereinstimmen
-                    const passwort = document.getElementById('passwort');
-                    const passwortBestaetigen = document.getElementById('passwort_bestaetigen');
-
-                    if (passwort.value !== passwortBestaetigen.value) {
-                        passwortBestaetigen.setCustomValidity(
-                            'Die Passwörter stimmen nicht überein');
-                        event.preventDefault();
-                        event.stopPropagation();
-                    } else {
-                        passwortBestaetigen.setCustomValidity('');
-                    }
-
-                    form.classList.add('was-validated');
-                }, false);
-            });
         });
     </script>
 @endsection

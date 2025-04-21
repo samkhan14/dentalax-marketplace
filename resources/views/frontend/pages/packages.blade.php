@@ -100,7 +100,7 @@
                                     @endforeach
                                 </ul>
 
-                                <form method="POST" action="{{ route('plan.selected') }}">
+                                <form method="get" action="{{ route('dentist.registration.page') }}">
                                     @csrf
                                     <input type="hidden" name="plan_id" value="{{ $plan->id }}">
                                     <input type="hidden" name="billing_cycle" value="monthly" class="hidden-zahlweise">

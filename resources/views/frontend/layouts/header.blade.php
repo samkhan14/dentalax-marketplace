@@ -32,7 +32,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('dentist.Dashboard')}}">
+                                <a class="dropdown-item" href="{{ route('dentist.dashboard')}}">
                                     <i class="fas fa-tachometer-alt me-2 text-primary"></i> Praxis-Dashboard
                                 </a>
                             </li>

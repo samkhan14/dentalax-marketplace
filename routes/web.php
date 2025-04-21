@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\DentistDashboardController;
+use App\Http\Controllers\DentistProfileController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PatientProfileController;
 use App\Http\Controllers\PlanController;
@@ -32,35 +33,42 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('/kontakt', 'Contact')->name('contact');
     Route::get('/ueber-uns', 'aboutUs')->name('about_us');
 
-    // login and registration
-    Route::get('/patienten-login', 'patientLoginPage')->name('patient.login.page');
-    Route::get('/zahnarzt-login', 'dentistLoginPage')->name('dentist.login.page');
-    Route::get('/registrieren', 'mainRegistrationPage')->name('registration.page');
-    Route::get('/patient-registrieren', 'patientRegistrationPage')->name('patient.registration.page');
-    Route::get('/zahnarzt-registrieren', 'dentistRegistrationPage')->name('dentist.registration.page');
-    Route::get('/passwort-vergessen', 'passwordForget')->name('password.forget.for.both');
 
+    Route::get('/registrieren', 'mainRegistrationPage')->name('registration.page');
+    Route::get('/passwort-vergessen', 'passwordForget')->name('password.forget.for.both');
 
     // for backend routes
     // dynamic route like dentist-in-berlin -- should be dynamic
     Route::get('/zahnaerzte-nach-staedten', 'allCities')->name('all_cities');
     Route::get('/zahnarzt-in/{city:slug}', 'dentistCityDetailPage')->name('city.doctor.details');
 
-    Route::get('/zahnarzt-dashboard', 'dentistDashboard')->name('dentist.Dashboard');
+
+});
+
+
+Route::controller(PatientProfileController::class)->group(function () {
+    Route::get('/patient-registrieren', 'patientRegistrationPage')->name('patient.registration.page');
+    Route::post('/patient-registrieren', 'patientRegistrationStore')->name('patient.registration.store');
+    Route::get('/patienten-login', 'patientLoginPage')->name('patient.login.page');
+    Route::post('/patienten-login', 'patientLoginStore')->name('patient.login');
+    Route::get('/patienten-dashboard', 'Dashboard')->name('patient.dashboard');
+});
+
+
+Route::controller(DentistProfileController::class)->group(function () {
+    Route::get('/zahnarzt-registrieren', 'dentistRegistrationPage')->name('dentist.registration.page');
+    Route::post('/zahnarzt-registrieren', 'dentistRegistrationStore')->name('dentist.registration.store');
+    Route::get('/zahnarzt-login', 'dentistLoginPage')->name('dentist.login.page');
+    Route::post('/zahnarzt-login', 'dentistLoginStore')->name('dentist.login');
+    Route::get('/zahnarzt-dashboard', 'Dashboard')->name('dentist.dashboard');
     Route::get('/zahnarzt/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('dentist.landingpage');
-    // Route::get('/zahnaerzte-nach-staedten','')->name('');
-    // Route::get('/zahnaerzte-nach-staedten','')->name('');
-
 });
 
 
-Route::controller(PlanController::class)->group(function () {
-    Route::post('/plan-selected', 'planSelected')->name('plan.selected');
-    // Route::get('/plan-selected/{plan:slug}', 'planSelected')->name('plan.selected');
-});
-
-
-
+// sample dashboard
+Route::get('/sample-dashboard', function() {
+    return view('frontend.pages.dashboards.dashboard_page');
+})->name('sample.dashboard');
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
@@ -68,9 +76,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 });
 
 Route::middleware(['auth', 'role:dentist'])->group(function () {
-    Route::get('/dashboard/dentist', [DentistDashboardController::class, 'index'])->name('dashboard.dentist');
+    // Route::get('/dashboard/dentist', [DentistProfileController::class, 'index'])->name('dashboard.dentist');
+    Route::post('/dentist/logout', [DentistProfileController::class, 'logout'])->name('dentist.logout');
 });
 
 Route::middleware(['auth', 'role:patient|applicant'])->group(function () {
     Route::get('/dashboard', [PatientProfileController::class, 'Dashboard'])->name('dashboard.shared');
+    Route::post('/patient/logout', [PatientProfileController::class, 'logout'])->name('patient.logout');
 });
