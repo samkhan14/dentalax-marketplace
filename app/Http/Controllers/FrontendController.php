@@ -153,6 +153,7 @@ class FrontendController extends Controller
 
         return view('frontend.pages.main_registration_page');
     }
+
     public function landingPageForDentist()
     {
         $this->data['title'] = "Fuer Zahnarztsuche | Dentalax – Zahnarztsuche in ganz Deutschland";

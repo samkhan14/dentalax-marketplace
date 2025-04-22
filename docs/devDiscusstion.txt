@@ -1,0 +1,1 @@
+1. after logout from dentist. check cross url hit yeh patient login page par jarha hy Fallback route ki wjh se.

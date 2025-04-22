@@ -54,6 +54,13 @@
                                         <input type="hidden" name="billing_cycle"
                                             value="{{ session('selected_billing_type', 'monthly') }}">
                                     </div>
+                                    @else
+                                    <div class="alert alert-info mb-4">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Sie registrieren sich für das Paket: <strong>Basis</strong>
+                                        <input type="hidden" name="plan_id" value="1">
+                                        <input type="hidden" name="billing_cycle" value="monthly">
+                                    </div>
                                 @endif
 
                                 <!-- Practice Info -->

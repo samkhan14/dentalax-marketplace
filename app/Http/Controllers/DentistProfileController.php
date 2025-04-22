@@ -16,6 +16,7 @@ class DentistProfileController extends Controller
 {
     public function dentistRegistrationPage(Request $request)
     {
+
         if ($request->has('plan_id')) {
             session([
                 'selected_plan_id' => $request->plan_id,
@@ -23,9 +24,12 @@ class DentistProfileController extends Controller
             ]);
         }
 
+
         $plan = session('selected_plan_id')
             ? Plan::find(session('selected_plan_id'))
             : Plan::where('is_default', true)->first();
+
+
 
         $cities = City::orderBy('name')->get();
 
@@ -36,6 +40,7 @@ class DentistProfileController extends Controller
 
     public function dentistRegistrationStore(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'vorname' => 'required|string|max:255',
             'nachname' => 'required|string|max:255',
@@ -120,9 +125,11 @@ class DentistProfileController extends Controller
 
     public function Dashboard(Request $request)
     {
-        dd($request);
-
-        return view('frontend.pages.dashboards.dentist_dashboard');
+        $page = $request->get('page', 'dashboard');
+         $profileData = $request->user()->dentistProfile;
+        $plan = $profileData->plan;
+        //  dd($profileData);
+        return view('frontend.pages.dashboards.dentist_dashboard', compact('profileData', 'plan', 'page'));
     }
 
     // Handle dentist login
@@ -134,20 +141,26 @@ class DentistProfileController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        $remember = $request->filled('remember');
+        // $remember = $request->filled('remember');
 
-        if (Auth::attempt($credentials, $remember)) {
-            $user = Auth::user();
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user()->load('roles');
 
-            if ($user->role !== 'dentist') {
-                Auth::logout();
-                throw ValidationException::withMessages([
-                    'email' => 'Diese Anmeldedaten sind für Zahnärzte nicht gültig.'
-                ]);
+            // ✅ Debug check (remove in production)
+            //  dd( $user,$user->getRoleNames());
+
+            // ✅ Check if user is patient or applicant
+            if ($user->hasRole('dentist')) {
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('dentist.dashboard'));
             }
 
-            $request->session()->regenerate();
-            return redirect()->intended(route('dentist.dashboard'));
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Diese Anmeldedaten sind für Patienten nicht gültig.'
+            ]);
         }
 
         throw ValidationException::withMessages([

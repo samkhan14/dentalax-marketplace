@@ -39,4 +39,13 @@ class DentistProfile extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
+    public function dentistSchedule()
+    {
+        return $this->hasMany(DentistSchedule::class);
+    }
+
 }

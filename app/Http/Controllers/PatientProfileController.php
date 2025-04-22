@@ -14,9 +14,10 @@ use App\Models\City;
 
 class PatientProfileController extends Controller
 {
-    public function Dashboard()
+    public function Dashboard(Request $request)
     {
-        return view('frontend.pages.dashboards.patient_applicant_dashboard');
+        $page = $request->get('page', 'home');
+        return view('frontend.pages.dashboards.patient_applicant_dashboard', compact('page'));
     }
 
     public function patientRegistrationPage()
@@ -70,6 +71,8 @@ class PatientProfileController extends Controller
         // Assign the role of 'patient' to the user
         $user->assignRole('patient');
 
+        // dd($user, $user->getRoleNames());
+
         // Create the patient in the patients table with the user_id
         $patient = Patient::create([
             'user_id' => $user->id,
@@ -106,21 +109,26 @@ class PatientProfileController extends Controller
 
         $credentials = $request->only('email', 'password');
         // $remember = $request->filled('angemeldet_bleiben');
+        // dd($credentials);
 
-        dd($credentials);
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user()->load('roles');
 
-        if (Auth::attempt($credentials, $remember)) {
-            $user = Auth::user();
+            // ✅ Debug check (remove in production)
+            // dd($user->getRoleNames());
 
-            if ($user->role !== 'patient') {
-                Auth::logout();
-                throw ValidationException::withMessages([
-                    'email' => 'Diese Anmeldedaten sind für Patienten nicht gültig.'
-                ]);
+            // ✅ Check if user is patient or applicant
+            if ($user->hasAnyRole(['patient', 'applicant'])) {
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('patient.dashboard'));
             }
 
-            $request->session()->regenerate();
-            return redirect()->intended(route('patient.dashboard'));
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Diese Anmeldedaten sind für Patienten nicht gültig.'
+            ]);
         }
 
         throw ValidationException::withMessages([

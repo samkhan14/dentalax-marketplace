@@ -49,6 +49,7 @@ Route::prefix('/patienten')->name('patient.')->group(function () {
     });
 
     // Protected routes (require auth and patient role)
+
     Route::middleware(['auth', CheckRole::class . ':patient'])->group(function () {
         Route::controller(PatientProfileController::class)->group(function () {
             Route::get('/dashboard', 'Dashboard')->name('dashboard');
@@ -88,9 +89,21 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 });
 
+
 // ----------------------
 // ✅ SAMPLE DEMO ROUTE (No changes)
 // ----------------------
 Route::get('/sample-dashboard', function () {
     return view('frontend.pages.dashboards.dashboard_page');
 })->name('sample.dashboard');
+
+
+// Fallback for route('login') — used internally by Laravel after logout or auth failure
+Route::get('/login', function () {
+    // Redirect based on URL path or role logic
+    if (request()->is('zahnarzt*')) {
+        return redirect()->route('dentist.login.page');
+    }
+
+    return redirect()->route('patient.login.page'); // or main login page
+})->name('login');

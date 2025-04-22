@@ -55,7 +55,7 @@
 
                                 <div class="mb-4">
                                     <div class="form-floating">
-                                        <input type="password" class="form-control" id="passwort" name="passwort"
+                                        <input type="password" class="form-control" id="passwort" name="password"
                                             placeholder="Passwort" required>
                                         <label for="passwort">Passwort</label>
                                     </div>
@@ -64,11 +64,11 @@
                                 <!-- Hidden field für next-Parameter -->
                                 <input type="hidden" name="next" value="">
 
-                                <div class="mb-4 form-check">
+                                {{-- <div class="mb-4 form-check">
                                     <input type="checkbox" class="form-check-input" id="angemeldet_bleiben"
                                         name="angemeldet_bleiben">
                                     <label class="form-check-label" for="angemeldet_bleiben">Angemeldet bleiben</label>
-                                </div>
+                                </div> --}}
 
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary btn-lg rounded-pill">
@@ -77,7 +77,7 @@
                                 </div>
 
                                 <div class="mt-4 text-center">
-                                    <p>Noch kein Praxiskonto? <a href="{{ route('registration.page') }}"
+                                    <p>Noch kein Praxiskonto? <a href="{{ route('dentist.registration.page') }}"
                                             class="text-decoration-none">Praxis
                                             registrieren</a></p>
                                     <p class="mb-0"><a href="{{ route('password.forget.for.both') }}"
