@@ -25,10 +25,7 @@
         <div class="container py-4">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
-                    <div class="alert alert-primary alert-dismissible fade show mb-4" role="alert">
-                         message alert
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+
 
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden" data-aos="fade-up">
                         <div class="card-body p-4 p-md-5">
@@ -40,28 +37,32 @@
                                 <p class="text-secondary mb-0">Melden Sie sich an, um auf Ihr Patientenkonto zuzugreifen</p>
                             </div>
 
-                            <form method="post" action="">
+                            <form method="POST" action="{{ route('patient.login.in') }}">
+                                @csrf
                                 <div class="mb-4">
                                     <div class="form-floating">
                                         <input type="email" class="form-control" id="email" name="email"
                                             placeholder="name@example.com" required>
                                         <label for="email">E-Mail-Adresse</label>
+                                        @error('email')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="mb-4">
                                     <div class="form-floating">
-                                        <input type="password" class="form-control" id="passwort" name="passwort"
+                                        <input type="password" class="form-control" id="passwort" name="password"
                                             placeholder="Passwort" required>
                                         <label for="passwort">Passwort</label>
                                     </div>
                                 </div>
 
-                                <div class="mb-4 form-check">
+                                {{-- <div class="mb-4 form-check">
                                     <input type="checkbox" class="form-check-input" id="angemeldet_bleiben"
                                         name="angemeldet_bleiben">
                                     <label class="form-check-label" for="angemeldet_bleiben">Angemeldet bleiben</label>
-                                </div>
+                                </div> --}}
 
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary btn-lg rounded-pill">
@@ -70,9 +71,11 @@
                                 </div>
 
                                 <div class="mt-4 text-center">
-                                    <p>Noch kein Konto? <a href="{{ route('registration.page')}}" class="text-decoration-none">Jetzt
+                                    <p>Noch kein Konto? <a href="{{ route('main.registration.page') }}"
+                                            class="text-decoration-none">Jetzt
                                             registrieren</a></p>
-                                    <p class="mb-0"><a href="{{ route('password.forget.for.both')}}" class="text-decoration-none">Passwort
+                                    <p class="mb-0"><a href="{{ route('password.forget.for.both') }}"
+                                            class="text-decoration-none">Passwort
                                             vergessen?</a></p>
                                 </div>
                             </form>
@@ -82,7 +85,8 @@
                     <div class="mt-4 text-center">
                         <p class="mb-0">
                             <i class="fas fa-tooth me-2 text-secondary"></i>
-                            Sie sind Zahnarzt? <a href="{{ route('dentist.login.page')}}" class="text-decoration-none">Zum Zahnarzt-Login</a>
+                            Sie sind Zahnarzt? <a href="{{ route('dentist.login.page') }}" class="text-decoration-none">Zum
+                                Zahnarzt-Login</a>
                         </p>
                     </div>
                 </div>
@@ -115,10 +119,12 @@
                                             Online-Präsenz mit unseren speziell entwickelten Zahnarzt-Paketen.</p>
                                         <div
                                             class="d-flex flex-column flex-sm-row gap-2 justify-content-center justify-content-md-start">
-                                            <a href="{{ route('registration.page')}}" class="btn btn-primary rounded-pill">
+                                            <a href="{{ route('dentist.registration.page') }}"
+                                                class="btn btn-primary rounded-pill">
                                                 <i class="fas fa-clinic-medical me-2"></i> Praxis registrieren
                                             </a>
-                                            <a href="{{ route('for_dentists')}}" class="btn btn-outline-primary rounded-pill">
+                                            <a href="{{ route('for_dentists') }}"
+                                                class="btn btn-outline-primary rounded-pill">
                                                 <i class="fas fa-info-circle me-2"></i> Mehr erfahren
                                             </a>
                                         </div>
@@ -126,8 +132,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="text-center">
-                                        <img src="{{ asset('frontend/assets/static/img/dentist-illustration.svg')}}" alt="Zahnarzt Illustration"
-                                            class="img-fluid" style="max-height: 230px;">
+                                        <img src="{{ asset('frontend/assets/static/img/dentist-illustration.svg') }}"
+                                            alt="Zahnarzt Illustration" class="img-fluid" style="max-height: 230px;">
                                     </div>
                                 </div>
                             </div>

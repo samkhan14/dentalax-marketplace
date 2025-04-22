@@ -40,12 +40,16 @@
                                 <p class="text-secondary mb-0">Melden Sie sich an, um auf Ihr Praxiskonto zuzugreifen</p>
                             </div>
 
-                            <form method="post" action="/zahnarzt-login">
+                            <form method="POST" action="{{ route('dentist.login') }}">
+                                @csrf
                                 <div class="mb-4">
                                     <div class="form-floating">
                                         <input type="email" class="form-control" id="email" name="email"
                                             placeholder="name@example.com" required>
                                         <label for="email">E-Mail-Adresse</label>
+                                        @error('email')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -73,9 +77,10 @@
                                 </div>
 
                                 <div class="mt-4 text-center">
-                                    <p>Noch kein Praxiskonto? <a href="{{ route('registration.page')}}" class="text-decoration-none">Praxis
+                                    <p>Noch kein Praxiskonto? <a href="{{ route('registration.page') }}"
+                                            class="text-decoration-none">Praxis
                                             registrieren</a></p>
-                                    <p class="mb-0"><a href="{{ route('password.forget.for.both')}}"
+                                    <p class="mb-0"><a href="{{ route('password.forget.for.both') }}"
                                             class="text-decoration-none">Passwort vergessen?</a></p>
                                 </div>
                             </form>
@@ -85,7 +90,8 @@
                     <div class="mt-4 text-center">
                         <p class="mb-0">
                             <i class="fas fa-user me-2 text-secondary"></i>
-                            Sie sind Patient? <a href="{{ route('patient.login.page')}}" class="text-decoration-none">Zum Patienten-Login</a>
+                            Sie sind Patient? <a href="{{ route('patient.login.page') }}" class="text-decoration-none">Zum
+                                Patienten-Login</a>
                         </p>
                     </div>
                 </div>

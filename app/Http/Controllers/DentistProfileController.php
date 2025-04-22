@@ -7,6 +7,7 @@ use App\Models\Plan;
 use App\Models\City;
 use App\Models\DentistProfile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -51,7 +52,7 @@ class DentistProfileController extends Controller
             'practice_name' => 'required|string|max:255',
             'practice_description' => 'required|string',
             'permanent_address' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:10',
+            'postal_code' => 'string|max:10',
             'city_id' => 'required|exists:cities,id',
             'phone' => 'required|string|max:20',
             'website' => 'nullable|url',
@@ -106,7 +107,7 @@ class DentistProfileController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Registrierung erfolgreich!',
-            'redirect' => route('dentist.dashboard')
+            'redirect' => route('dentist.login.page')
         ]);
     }
 
@@ -119,8 +120,39 @@ class DentistProfileController extends Controller
 
     public function Dashboard(Request $request)
     {
+        dd($request);
 
         return view('frontend.pages.dashboards.dentist_dashboard');
+    }
+
+    // Handle dentist login
+    public function dentistLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            $user = Auth::user();
+
+            if ($user->role !== 'dentist') {
+                Auth::logout();
+                throw ValidationException::withMessages([
+                    'email' => 'Diese Anmeldedaten sind für Zahnärzte nicht gültig.'
+                ]);
+            }
+
+            $request->session()->regenerate();
+            return redirect()->intended(route('dentist.dashboard'));
+        }
+
+        throw ValidationException::withMessages([
+            'email' => __('auth.failed'),
+        ]);
     }
 
     public function logout(Request $request)

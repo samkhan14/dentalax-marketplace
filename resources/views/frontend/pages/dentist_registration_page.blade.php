@@ -144,7 +144,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="postal_code"
                                                 name="postal_code" required>
-                                            <label for="postal_code">Postleitzahl</label>
+                                            <label for="postal_code">Postleitzahl (optional)</label>
                                             <div class="invalid-feedback">Bitte geben Sie eine gültige Postleitzahl ein.
                                             </div>
                                         </div>
@@ -372,7 +372,7 @@
                             Object.entries(error.errors).forEach(([field, messages]) => {
                                 const input = form.querySelector(`[name="${field}"]`);
                                 const errorElement = document.getElementById(
-                                    `${field}-error`) ||
+                                        `${field}-error`) ||
                                     input?.closest('.form-floating')?.querySelector(
                                         '.invalid-feedback');
 

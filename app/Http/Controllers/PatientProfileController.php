@@ -7,6 +7,7 @@ use App\Models\PatientProfile as Patient;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Models\City;
 
@@ -85,13 +86,46 @@ class PatientProfileController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Registrierung erfolgreich!',
-            'redirect' => route('patient.dashboard')
+            'redirect' => route('patient.login.page')
         ]);
     }
 
     public function patientLoginPage()
     {
         return view('frontend.pages.patient_login_page');
+    }
+
+    // Handle patient login
+    public function patientLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            // 'angemeldet_bleiben' => 'nullable|boolean',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        // $remember = $request->filled('angemeldet_bleiben');
+
+        dd($credentials);
+
+        if (Auth::attempt($credentials, $remember)) {
+            $user = Auth::user();
+
+            if ($user->role !== 'patient') {
+                Auth::logout();
+                throw ValidationException::withMessages([
+                    'email' => 'Diese Anmeldedaten sind für Patienten nicht gültig.'
+                ]);
+            }
+
+            $request->session()->regenerate();
+            return redirect()->intended(route('patient.dashboard'));
+        }
+
+        throw ValidationException::withMessages([
+            'email' => __('auth.failed'),
+        ]);
     }
 
     public function logout(Request $request)
