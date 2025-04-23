@@ -26,8 +26,8 @@
     <!-- Notyf -->
     <link type="text/css" href="{{ asset('backend/assets/vendor/notyf/notyf.min.css')}}" rel="stylesheet">
     <!-- Volt CSS -->
-    <link type="text/css" href="{{ asset('backend/assets/css/volt.css" rel="stylesheet')}}">
-    <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+    <link type="text/css" href="{{ asset('backend/assets/css/volt.css')}}" rel="stylesheet">
+
 </head>
 
 <body>

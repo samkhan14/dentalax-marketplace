@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
 
 require __DIR__ . '/auth.php';
+require __DIR__.'/admin.php';
 
 
 // ----------------------
@@ -81,13 +82,6 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
     });
 });
 
-
-// ----------------------
-// ✅ ADMIN ROUTES (Corrected - was already good)
-// ----------------------
-Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-});
 
 
 // ----------------------

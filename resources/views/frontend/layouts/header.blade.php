@@ -60,27 +60,31 @@
                      <li class="nav-item dropdown ms-lg-2">
                          <a class="nav-link dropdown-toggle px-3" href="#" id="loginDropdown" role="button"
                              data-bs-toggle="dropdown" aria-expanded="false">
-                             <i class="fas fa-user-circle me-1"></i> Login
+                             <i class="fas fa-user-circle me-1"></i> @auth {{ Auth::user()->name }} @else Login @endauth
                          </a>
                          <ul class="dropdown-menu dropdown-menu-end dropdown-animation" aria-labelledby="loginDropdown">
-                             <li>
-                                 <a class="dropdown-item" href="{{ route('patient.login.page') }}">
-                                     <i class="fas fa-user me-2 text-primary"></i> Patienten-Login
-                                 </a>
-                             </li>
-                             <li>
-                                 <a class="dropdown-item" href="{{ route('dentist.login.page') }}">
-                                     <i class="fas fa-tooth me-2 text-primary"></i> Zahnarzt-Login
-                                 </a>
-                             </li>
+                            @guest
+                            <li>
+                                <a class="dropdown-item" href="{{ route('patient.login.page') }}">
+                                    <i class="fas fa-user me-2 text-primary"></i> Patienten-Login
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('dentist.login.page') }}">
+                                    <i class="fas fa-tooth me-2 text-primary"></i> Zahnarzt-Login
+                                </a>
+                            </li>
+                            @endguest
                          </ul>
                      </li>
+                     @if(!Auth::check())
                      <li class="nav-item ms-lg-2">
                          <a class="btn btn-primary rounded-pill px-4 nav-btn-animation"
                              href="{{ route('main.registration.page') }}">
                              <i class="fas fa-user-plus me-1"></i> Registrieren
                          </a>
                      </li>
+                        @endif
                  </ul>
              </div>
          </div>
