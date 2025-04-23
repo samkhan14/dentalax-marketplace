@@ -1,0 +1,7 @@
+.sidebar .nav-item.active > .nav-link {
+    background-color: #40bfd8 !important;
+}
+
+.sidebar .nav-link .sidebar-icon {
+    color: #fff !important;
+}

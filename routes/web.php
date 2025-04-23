@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicantProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\DentistDashboardController;
@@ -12,7 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
 
 require __DIR__ . '/auth.php';
-require __DIR__.'/admin.php';
+require __DIR__ . '/admin.php';
 
 
 // ----------------------
@@ -58,6 +59,31 @@ Route::prefix('/patienten')->name('patient.')->group(function () {
         });
     });
 });
+
+
+// ----------------------
+// ✅ Applicant ROUTES (Updated with middleware)
+// ----------------------
+Route::prefix('/bewerbungen')->name('applicant.')->group(function () {
+    // Public routes (no auth)
+    Route::controller(ApplicantProfileController::class)->group(function () {
+        Route::get('/registrieren', 'applicantRegistrationPage')->name('registration.page');
+        Route::post('/registrieren', 'applicantRegistrationStore')->name('registration.store');
+        Route::get('/login', 'applicantLoginPage')->name('login.page');
+        Route::post('/login-in', 'applicantLogin')->name('login.in');
+    });
+
+    // Protected routes (require auth and patient role)
+
+    Route::middleware(['auth', CheckRole::class . ':applicant'])->group(function () {
+        Route::controller(PatientProfileController::class)->group(function () {
+            Route::get('/dashboard', 'Dashboard')->name('dashboard');
+            Route::post('/logout', 'logout')->name('logout');
+        });
+    });
+});
+
+
 
 
 // ----------------------

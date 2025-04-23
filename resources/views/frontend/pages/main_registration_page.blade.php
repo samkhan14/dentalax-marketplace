@@ -25,14 +25,10 @@
         <div class="container py-4">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <div class="alert alert-primary alert-dismissible fade show mb-4" role="alert">
-                         message info
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
 
                     <div class="row g-4">
                         <!-- Karte für Patienten -->
-                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
                             <div class="card border-0 shadow-sm rounded-4 h-100 transition-hover"
                                 style="transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;"
                                 onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)';"
@@ -72,7 +68,8 @@
                                     </div>
 
                                     <div class="d-grid gap-2">
-                                        <a href="{{ route('patient.registration.page')}}" class="btn btn-primary btn-lg rounded-pill">
+                                        <a href="{{ route('patient.registration.page') }}"
+                                            class="btn btn-primary btn-md rounded-pill">
                                             <i class="fas fa-user-plus me-2"></i> Als Patient registrieren
                                         </a>
                                     </div>
@@ -81,7 +78,7 @@
                         </div>
 
                         <!-- Karte für Zahnärzte -->
-                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                             <div class="card border-0 shadow-sm rounded-4 h-100 transition-hover"
                                 style="transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;"
                                 onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)';"
@@ -121,8 +118,60 @@
                                     </div>
 
                                     <div class="d-grid gap-2">
-                                        <a href="{{ route('dentist.registration.page')}}" class="btn btn-primary btn-lg rounded-pill">
+                                        <a href="{{ route('dentist.registration.page') }}"
+                                            class="btn btn-primary btn-md rounded-pill">
                                             <i class="fas fa-clinic-medical me-2"></i> Als Zahnarzt registrieren
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card border-0 shadow-sm rounded-4 h-100 transition-hover"
+                                style="transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;"
+                                onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)';"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .5rem 1rem rgba(0, 0, 0, .15)';">
+                                <div class="card-body p-4 p-md-5">
+                                    <div class="text-center mb-4">
+                                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+                                            style="width: 70px; height: 70px; background-color: rgba(63, 191, 216, 0.1);">
+                                            <i class="fas fa-tooth text-primary fa-2x"></i>
+                                        </div>
+                                        <h2 class="h3 fw-bold mb-3" style="color: var(--dental-dark);">Ich bin Bewerbungen
+                                        </h2>
+                                        <p class="text-secondary mb-4">Registrieren Sie Ihre Praxis, um mehr Patienten zu
+                                            gewinnen und Ihre Online-Präsenz zu verbessern.</p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h3 class="h6 fw-bold mb-3" style="color: var(--dental-dark);">Als Bewerbungen
+                                            können
+                                            Sie:</h3>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check-circle text-primary me-3"></i>
+                                                <span>Ihre Praxis online präsentieren</span>
+                                            </li>
+                                            <li class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check-circle text-primary me-3"></i>
+                                                <span>Online-Terminbuchungen annehmen</span>
+                                            </li>
+                                            <li class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check-circle text-primary me-3"></i>
+                                                <span>Patientenbewertungen erhalten</span>
+                                            </li>
+                                            <li class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check-circle text-primary me-3"></i>
+                                                <span>Marketing-Tools für Ihre Praxis nutzen</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="d-grid gap-2">
+                                        <a href="{{ route('dentist.registration.page') }}"
+                                            class="btn btn-primary btn-md rounded-pill">
+                                            <i class="fas fa-clinic-medical me-2"></i> Bewerbungen registrieren
                                         </a>
                                     </div>
                                 </div>
