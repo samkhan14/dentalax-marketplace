@@ -2,4 +2,12 @@
 Route::fallback(function () {
     // ...
 }); apply this
+/login and /admin koi hit kare tw home par redirect karwao
+auth k routes koi hit kare tw home par redirect karwao
+or agar role k hisab se auth k route koi hit kare agar role match nahi karta or login hy woh tw usko uske dashboard pr redirect karwao.
 
+2. login/logout code ki agar ek hi coding hosakti hy tw karo.
+3.long forms ki seperate request or service pattrn par use karo.
+4. db trans method use karo + try catch
+5. logs sath sath manage karo
+6. global helpers/scope/traits/ create karo.

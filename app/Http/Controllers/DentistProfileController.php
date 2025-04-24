@@ -16,7 +16,7 @@ class DentistProfileController extends Controller
 {
     public function dentistRegistrationPage(Request $request)
     {
-
+        // If request has plan_id (from pricing page), store in session
         if ($request->has('plan_id')) {
             session([
                 'selected_plan_id' => $request->plan_id,
@@ -24,18 +24,15 @@ class DentistProfileController extends Controller
             ]);
         }
 
+        // Use session or fallback to default plan
+        $plan = Plan::find(session('selected_plan_id')) ?? Plan::where('is_default', true)->first();
 
-        $plan = session('selected_plan_id')
-            ? Plan::find(session('selected_plan_id'))
-            : Plan::where('is_default', true)->first();
-
-
+        // Fallback billing cycle
+        $billingCycle = session('selected_billing_type', 'monthly');
 
         $cities = City::orderBy('name')->get();
 
-        //  dd($plan, $this->data);
-
-        return view('frontend.pages.dentist_registration_page', compact('plan', 'cities'));
+        return view('frontend.pages.dentist_registration_page', compact('plan', 'cities', 'billingCycle'));
     }
 
     public function dentistRegistrationStore(Request $request)
@@ -111,7 +108,7 @@ class DentistProfileController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Registrierung erfolgreich!',
+            'message' => 'Sie haben sich erfolgreich registriert. Bitte melden Sie sich jetzt an.',
             'redirect' => route('dentist.login.page')
         ]);
     }
@@ -126,7 +123,7 @@ class DentistProfileController extends Controller
     public function Dashboard(Request $request)
     {
         $page = $request->get('page', 'dashboard');
-         $profileData = $request->user()->dentistProfile;
+        $profileData = $request->user()->dentistProfile;
         $plan = $profileData->plan;
         //  dd($profileData);
         return view('frontend.pages.dashboards.dentist_dashboard', compact('profileData', 'plan', 'page'));
@@ -139,6 +136,12 @@ class DentistProfileController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
+        // Check if the user is already logged in
+        if (Auth::check()) {
+            return redirect()->intended(route('dentist.dashboard'));
+        }
+
 
         $credentials = $request->only('email', 'password');
         // $remember = $request->filled('remember');

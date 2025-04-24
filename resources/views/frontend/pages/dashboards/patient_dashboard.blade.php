@@ -13,7 +13,7 @@
             <!-- Dashboard Header -->
             <div class="row align-items-center mb-4">
                 <div class="col-md-6">
-                    <h1 class="h3 fw-bold text-primary mb-1">{{ ucfirst($user->hasRole('patient') ? 'Patient' : 'Applicant') }} Dashboard</h1>
+                    <h1 class="h3 fw-bold text-primary mb-1">{{ ucfirst($user->hasRole('patient') ? 'Patient' : '') }} Dashboard</h1>
                     <p class="text-muted">Willkommen, {{ Auth::user()->name}}</p>
                 </div>
                 {{-- <div class="col-md-6 text-md-end">

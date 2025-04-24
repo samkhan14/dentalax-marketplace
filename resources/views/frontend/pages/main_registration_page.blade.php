@@ -138,14 +138,14 @@
                                             style="width: 70px; height: 70px; background-color: rgba(63, 191, 216, 0.1);">
                                             <i class="fas fa-tooth text-primary fa-2x"></i>
                                         </div>
-                                        <h2 class="h3 fw-bold mb-3" style="color: var(--dental-dark);">Ich bin Bewerbungen
+                                        <h2 class="h3 fw-bold mb-3" style="color: var(--dental-dark);">Ich bin Ántragsteller
                                         </h2>
-                                        <p class="text-secondary mb-4">Registrieren Sie Ihre Praxis, um mehr Patienten zu
+                                        <p class="text-secondary mb-4">Registrieren Sie Ihre Praxis, um mehr Ántragsteller zu
                                             gewinnen und Ihre Online-Präsenz zu verbessern.</p>
                                     </div>
 
                                     <div class="mb-4">
-                                        <h3 class="h6 fw-bold mb-3" style="color: var(--dental-dark);">Als Bewerbungen
+                                        <h3 class="h6 fw-bold mb-3" style="color: var(--dental-dark);">Als Ántragsteller
                                             können
                                             Sie:</h3>
                                         <ul class="list-unstyled mb-0">
@@ -169,9 +169,9 @@
                                     </div>
 
                                     <div class="d-grid gap-2">
-                                        <a href="{{ route('dentist.registration.page') }}"
+                                        <a href="{{ route('applicant.registration.page') }}"
                                             class="btn btn-primary btn-md rounded-pill">
-                                            <i class="fas fa-clinic-medical me-2"></i> Bewerbungen registrieren
+                                            <i class="fas fa-clinic-medical me-2"></i> Ántragsteller registrieren
                                         </a>
                                     </div>
                                 </div>

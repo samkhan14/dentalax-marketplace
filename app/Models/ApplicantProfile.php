@@ -6,5 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class ApplicantProfile extends Model
 {
-    //
+    protected $table = 'applicant_profiles';
+
+    protected $fillable = [
+        'user_id',
+        'phone',
+        'city_id',
+        'resume_path',
+        'experience',
+        'created_at',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
 }

@@ -14,6 +14,7 @@ class CheckRole
             return match (true) {
                 str_contains($request->path(), 'patienten') => redirect()->route('patient.login.page'),
                 str_contains($request->path(), 'zahnarzt') => redirect()->route('dentist.login.page'),
+                str_contains($request->path(), 'antragsteller') => redirect()->route('applicant.login.page'),
                 default => redirect()->route('main.registration.page'),
             };
         }

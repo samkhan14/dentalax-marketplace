@@ -40,105 +40,114 @@
         }
     </style>
 </head>
-    <body>
-        @include('frontend.layouts.header')
-        <!-- Main Content -->
-        <main style="padding-top: 70px;">
-            @yield('content')
-        </main>
-        <!-- Footer -->
-        @include('frontend.layouts.footer')
 
-        <!-- Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+    @include('frontend.layouts.header')
+    <!-- Main Content -->
+    <main style="padding-top: 70px;">
+        @yield('content')
+    </main>
+    <!-- Footer -->
+    @include('frontend.layouts.footer')
 
-        <!-- Custom JavaScript -->
-        <script src="{{ asset('frontend/assets/js/script.js') }}"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Geolocation + Umkreis Slider Script -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const rangeInput = document.getElementById("umkreisRange");
-                const rangeValue = document.getElementById("rangeValue");
+    <!-- Custom JavaScript -->
+    <script src="{{ asset('frontend/assets/js/script.js') }}"></script>
 
-                if (rangeInput && rangeValue) {
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Include Toastr CSS and JS files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+    <!-- Geolocation + Umkreis Slider Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rangeInput = document.getElementById("umkreisRange");
+            const rangeValue = document.getElementById("rangeValue");
+
+            if (rangeInput && rangeValue) {
+                rangeValue.textContent = `${rangeInput.value} km`;
+                rangeInput.addEventListener("input", () => {
                     rangeValue.textContent = `${rangeInput.value} km`;
-                    rangeInput.addEventListener("input", () => {
-                        rangeValue.textContent = `${rangeInput.value} km`;
-                    });
-                }
-            });
-        </script>
+                });
+            }
+        });
+    </script>
 
-        <script>
-            // Geolocation Funktion
-            function sucheInDerNahe() {
-                const geoBtn = document.getElementById("geoBtn");
-                const geoLoader = document.getElementById("geoLoader");
+    <script>
+        // Geolocation Funktion
+        function sucheInDerNahe() {
+            const geoBtn = document.getElementById("geoBtn");
+            const geoLoader = document.getElementById("geoLoader");
 
-                geoBtn.disabled = true; // Deaktiviere den Button während der Standortermittlung
-                geoLoader.style.display = "block"; // Spinner wird angezeigt
+            geoBtn.disabled = true; // Deaktiviere den Button während der Standortermittlung
+            geoLoader.style.display = "block"; // Spinner wird angezeigt
 
-                // Geolocation Anfrage
-                if (navigator.geolocation) {
-                    console.log("Geolocation wird angefordert...");
+            // Geolocation Anfrage
+            if (navigator.geolocation) {
+                console.log("Geolocation wird angefordert...");
 
-                    navigator.geolocation.getCurrentPosition(success, error);
+                navigator.geolocation.getCurrentPosition(success, error);
+            } else {
+                alert("Geolocation wird von deinem Browser nicht unterstützt.");
+                geoBtn.disabled = false;
+                geoLoader.style.display = "none"; // Spinner wird ausgeblendet
+            }
+
+            // Erfolgsfall
+            function success(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const umkreis = 25; // Umkreis auf 25 km setzen
+
+                console.log("Standort erfolgreich ermittelt: ", lat, lng); // Debugging
+
+                // Weiterleitung zur /suche Route mit den Koordinaten
+                window.location.href = `/suche?lat=${lat}&lng=${lng}&umkreis=${umkreis}`;
+            }
+
+            // Fehlerfall (bei nicht ermittelbarem Standort)
+            function error(err) {
+                console.log("Fehler bei Geolocation:", err); // Fehler-Log
+                geoBtn.disabled = false; // Button aktivieren
+                geoLoader.style.display = "none"; // Spinner ausblenden
+
+                if (err.code === 1) {
+                    alert("Standortberechtigung verweigert. Bitte erlaube den Zugriff auf deinen Standort.");
+                } else if (err.code === 2) {
+                    alert("Standort konnte nicht ermittelt werden.");
                 } else {
-                    alert("Geolocation wird von deinem Browser nicht unterstützt.");
-                    geoBtn.disabled = false;
-                    geoLoader.style.display = "none"; // Spinner wird ausgeblendet
-                }
-
-                // Erfolgsfall
-                function success(position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    const umkreis = 25; // Umkreis auf 25 km setzen
-
-                    console.log("Standort erfolgreich ermittelt: ", lat, lng); // Debugging
-
-                    // Weiterleitung zur /suche Route mit den Koordinaten
-                    window.location.href = `/suche?lat=${lat}&lng=${lng}&umkreis=${umkreis}`;
-                }
-
-                // Fehlerfall (bei nicht ermittelbarem Standort)
-                function error(err) {
-                    console.log("Fehler bei Geolocation:", err); // Fehler-Log
-                    geoBtn.disabled = false; // Button aktivieren
-                    geoLoader.style.display = "none"; // Spinner ausblenden
-
-                    if (err.code === 1) {
-                        alert("Standortberechtigung verweigert. Bitte erlaube den Zugriff auf deinen Standort.");
-                    } else if (err.code === 2) {
-                        alert("Standort konnte nicht ermittelt werden.");
-                    } else {
-                        alert("Ein unbekannter Fehler ist aufgetreten.");
-                    }
+                    alert("Ein unbekannter Fehler ist aufgetreten.");
                 }
             }
-        </script>
+        }
+    </script>
 
-        <script>
-            // Beim Laden der Seite sicherstellen, dass der Spinner ausgeblendet ist
-            window.addEventListener("DOMContentLoaded", function() {
-                const geoLoader = document.getElementById("geoLoader");
-                const geoBtn = document.getElementById("geoBtn");
+    <script>
+        // Beim Laden der Seite sicherstellen, dass der Spinner ausgeblendet ist
+        window.addEventListener("DOMContentLoaded", function() {
+            const geoLoader = document.getElementById("geoLoader");
+            const geoBtn = document.getElementById("geoBtn");
 
-                // Spinner verstecken, Button aktivieren
-                if (geoLoader) geoLoader.style.display = "none"; // Spinner verstecken
-                if (geoBtn) geoBtn.disabled = false; // Button wieder aktivieren
-            });
-        </script>
+            // Spinner verstecken, Button aktivieren
+            if (geoLoader) geoLoader.style.display = "none"; // Spinner verstecken
+            if (geoBtn) geoBtn.disabled = false; // Button wieder aktivieren
+        });
+    </script>
 
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script>
-            AOS.init({
-                duration: 800,
-                once: true
-            });
-        </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
 
-    </body>
+</body>
 
 </html>

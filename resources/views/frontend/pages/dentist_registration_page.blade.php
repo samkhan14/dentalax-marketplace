@@ -46,22 +46,13 @@
                                 action="{{ route('dentist.registration.store') }}" class="needs-validation" novalidate>
                                 @csrf
                                 <!-- Plan Info (hidden if no plan selected) -->
-                                @if (session('selected_plan_id'))
-                                    <div class="alert alert-info mb-4">
-                                        <i class="fas fa-info-circle me-2"></i>
-                                        Sie registrieren sich für das Paket: <strong>{{ $plan->name }}</strong>
-                                        <input type="hidden" name="plan_id" value="{{ $plan->id }}">
-                                        <input type="hidden" name="billing_cycle"
-                                            value="{{ session('selected_billing_type', 'monthly') }}">
-                                    </div>
-                                    @else
-                                    <div class="alert alert-info mb-4">
-                                        <i class="fas fa-info-circle me-2"></i>
-                                        Sie registrieren sich für das Paket: <strong>Basis</strong>
-                                        <input type="hidden" name="plan_id" value="1">
-                                        <input type="hidden" name="billing_cycle" value="monthly">
-                                    </div>
-                                @endif
+                                <div class="alert alert-info mb-4">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Sie registrieren sich für das Paket: <strong>{{ $plan->name }}</strong>
+                                </div>
+
+                                <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                <input type="hidden" name="billing_cycle" value="{{ $billingCycle }}">
 
                                 <!-- Practice Info -->
                                 <h3 class="h5 fw-bold mb-4" style="color: var(--dental-dark);">
@@ -366,8 +357,11 @@
                     })
                     .then(data => {
                         if (data.success) {
+                            toastr.success(data.message, 'Success');
+                            setTimeout(function() {
                             window.location.href = data.redirect;
-                        }
+                        }, 2000); // Redirect after 2 seconds (optional)
+                            }
                     })
                     .catch(error => {
                         // Reset button

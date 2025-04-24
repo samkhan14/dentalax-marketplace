@@ -17,7 +17,7 @@ class PatientProfileController extends Controller
     public function Dashboard(Request $request)
     {
         $page = $request->get('page', 'home');
-        return view('frontend.pages.dashboards.patient_applicant_dashboard', compact('page'));
+        return view('frontend.pages.dashboards.patient_dashboard', compact('page'));
     }
 
     public function patientRegistrationPage()
@@ -118,7 +118,7 @@ class PatientProfileController extends Controller
             // dd($user->getRoleNames());
 
             // ✅ Check if user is patient or applicant
-            if ($user->hasAnyRole(['patient', 'applicant'])) {
+            if ($user->hasRole('patient')) {
                 $request->session()->regenerate();
 
                 return redirect()->intended(route('patient.dashboard'));
