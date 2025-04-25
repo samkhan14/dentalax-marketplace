@@ -27,103 +27,111 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" data-aos="fade-up">
+                        <div class="card-body p-4 p-md-5">
+                            <!-- Applicant Registration Form -->
+                            <form id="applicantRegistrationForm" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                required>
+                                            <label for="name">Full Name</label>
+                                            <div class="invalid-feedback" id="name-error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                required>
+                                            <label for="email">Email Address</label>
+                                            <div class="invalid-feedback" id="email-error"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="tel" class="form-control" id="phone" name="phone"
+                                                required>
+                                            <label for="phone">Phone Number</label>
+                                            <div class="invalid-feedback" id="phone-error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="city_id" name="city_id" required>
+                                                <option value="" selected disabled>Select City</option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="city_id">City</label>
+                                            <div class="invalid-feedback" id="city_id-error"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="experience" name="experience" style="height: 100px"></textarea>
+                                    <label for="experience">Experience (Optional)</label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="resume" class="form-label">Upload Resume (PDF/DOC)</label>
+                                    <input class="form-control" type="file" id="resume" name="resume"
+                                        accept=".pdf,.doc,.docx" required>
+                                    <div class="invalid-feedback" id="resume-error"></div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                required>
+                                            <label for="password">Password</label>
+                                            <div class="invalid-feedback" id="password-error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" id="password_confirmation"
+                                                name="password_confirmation" required>
+                                            <label for="password_confirmation">Confirm Password</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4 form-check">
+                                    <input type="checkbox" class="form-check-input" id="terms" name="terms"
+                                        required>
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="/terms" target="_blank">Terms and Conditions</a>
+                                    </label>
+                                    <div class="invalid-feedback" id="terms-error"></div>
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg rounded-pill" id="submitBtn"
+                                        disabled>
+                                        <span id="submitText"><i class="fas fa-user-plus me-2"></i> Register as
+                                            Applicant</span>
+                                        <span id="submitSpinner" class="spinner-border spinner-border-sm d-none"></span>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div id="formErrors" class="alert alert-danger d-none mt-3"></div>
+                        </div>
                     </div>
-                @endif
-
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden" data-aos="fade-up">
-                    <div class="card-body p-4 p-md-5">
-                        <!-- Applicant Registration Form -->
-                        <form id="applicantRegistrationForm" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="name" name="name" required>
-                                        <label for="name">Full Name</label>
-                                        <div class="invalid-feedback" id="name-error"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="email" name="email" required>
-                                        <label for="email">Email Address</label>
-                                        <div class="invalid-feedback" id="email-error"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="tel" class="form-control" id="phone" name="phone" required>
-                                        <label for="phone">Phone Number</label>
-                                        <div class="invalid-feedback" id="phone-error"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select" id="city_id" name="city_id" required>
-                                            <option value="" selected disabled>Select City</option>
-                                            @foreach($cities as $city)
-                                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <label for="city_id">City</label>
-                                        <div class="invalid-feedback" id="city_id-error"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="experience" name="experience" style="height: 100px"></textarea>
-                                <label for="experience">Experience (Optional)</label>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="resume" class="form-label">Upload Resume (PDF/DOC)</label>
-                                <input class="form-control" type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
-                                <div class="invalid-feedback" id="resume-error"></div>
-                            </div>
-
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                        <label for="password">Password</label>
-                                        <div class="invalid-feedback" id="password-error"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="password_confirmation"
-                                            name="password_confirmation" required>
-                                        <label for="password_confirmation">Confirm Password</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-4 form-check">
-                                <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
-                                <label class="form-check-label" for="terms">
-                                    I agree to the <a href="/terms" target="_blank">Terms and Conditions</a>
-                                </label>
-                                <div class="invalid-feedback" id="terms-error"></div>
-                            </div>
-
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg rounded-pill" id="submitBtn" disabled>
-                                    <span id="submitText"><i class="fas fa-user-plus me-2"></i> Register as Applicant</span>
-                                    <span id="submitSpinner" class="spinner-border spinner-border-sm d-none"></span>
-                                </button>
-                            </div>
-                        </form>
-
-                        <div id="formErrors" class="alert alert-danger d-none mt-3"></div>
-                    </div>
-                </div>
 
                     <div class="mt-5">
                         <div class="card border-0 shadow-sm rounded-4" data-aos="fade-up" data-aos-delay="100">
@@ -232,7 +240,9 @@
             // File type validation for resume
             document.getElementById('resume').addEventListener('change', function(e) {
                 const file = e.target.files[0];
-                const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                const validTypes = ['application/pdf', 'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ];
                 const errorElement = document.getElementById('resume-error');
 
                 if (file && !validTypes.includes(file.type)) {
@@ -276,7 +286,10 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            window.location.href = data.redirect;
+                            toastr.success(data.message, 'Success');
+                            setTimeout(function() {
+                                window.location.href = data.redirect;
+                            }, 2000);
                         } else {
                             throw data;
                         }

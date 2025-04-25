@@ -65,12 +65,12 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="tel" class="form-control" id="phone" name="phone">
-                                    <label for="phone">Telefonnummer (optional)</label>
+                                    <label for="phone">Telefonnummer</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="date" class="form-control" id="dob" name="dob">
-                                    <label for="dob">Geburtsdatum (optional)</label>
+                                    <label for="dob">Geburtsdatum</label>
                                 </div>
 
                                 <div class="row g-3">
@@ -262,7 +262,10 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            window.location.href = data.redirect;
+                            toastr.success(data.message, 'Success');
+                            setTimeout(function() {
+                                window.location.href = data.redirect;
+                            }, 2000); // Redirect after 2 seconds (optional)
                         } else {
                             throw data;
                         }

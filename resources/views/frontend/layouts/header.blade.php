@@ -2,10 +2,10 @@
  <header class="header-modern">
      <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
          <div class="container">
-             {{-- <a class="navbar-brand" href="/">
+             <a class="navbar-brand" href="/">
                  <img src="{{ asset('frontend/assets/images/Dentalax Logo Neu.png') }}" alt="Dentalax Logo"
                      style="height: 60px;" class="logo-animation">
-             </a> --}}
+             </a>
 
              <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

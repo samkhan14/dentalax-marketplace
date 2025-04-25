@@ -42,6 +42,7 @@
                         </div>
 
                         <div class="card-body p-4 p-md-5">
+                            <div id="formErrors" class="alert alert-danger d-none mb-4"></div>
                             <form id="dentistRegistrationForm" method="POST"
                                 action="{{ route('dentist.registration.store') }}" class="needs-validation" novalidate>
                                 @csrf
@@ -62,13 +63,13 @@
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="practice_name" name="practice_name"
                                         required>
-                                    <label for="practice_name">Praxisname</label>
+                                    <label for="practice_name">Praxisname*</label>
                                     <div class="invalid-feedback">Bitte geben Sie den Namen Ihrer Praxis ein.</div>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" id="practice_description" name="practice_description" style="height: 100px"></textarea>
-                                    <label for="practice_description">Kurze Praxisbeschreibung (optional)</label>
+                                    <label for="practice_description">Kurze Praxisbeschreibung*</label>
                                 </div>
 
                                 <!-- Dentist Info -->
@@ -81,7 +82,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="vorname" name="vorname"
                                                 required>
-                                            <label for="vorname">Vorname</label>
+                                            <label for="vorname">Vorname*</label>
                                             <div class="invalid-feedback">Bitte geben Sie Ihren Vornamen ein.</div>
                                         </div>
                                     </div>
@@ -89,7 +90,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nachname" name="nachname"
                                                 required>
-                                            <label for="nachname">Nachname</label>
+                                            <label for="nachname">Nachname*</label>
                                             <div class="invalid-feedback">Bitte geben Sie Ihren Nachnamen ein.</div>
                                         </div>
                                     </div>
@@ -97,7 +98,7 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="email" class="form-control" id="email" name="email" required>
-                                    <label for="email">E-Mail-Adresse</label>
+                                    <label for="email">E-Mail-Adresse*</label>
                                     <div class="invalid-feedback">Bitte geben Sie eine gültige E-Mail-Adresse ein.</div>
                                 </div>
 
@@ -111,7 +112,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password" name="password"
                                                 required>
-                                            <label for="password">Passwort</label>
+                                            <label for="password">Passwort*</label>
                                             <div class="invalid-feedback">Mindestens 8 Zeichen mit Groß-/Kleinbuchstaben,
                                                 Zahlen und Sonderzeichen</div>
                                         </div>
@@ -120,7 +121,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password_confirmation"
                                                 name="password_confirmation" required>
-                                            <label for="password_confirmation">Passwort bestätigen</label>
+                                            <label for="password_confirmation">Passwort bestätigen*</label>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +143,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="postal_code"
                                                 name="postal_code" required>
-                                            <label for="postal_code">Postleitzahl (optional)</label>
+                                            <label for="postal_code">Postleitzahl</label>
                                             <div class="invalid-feedback">Bitte geben Sie eine gültige Postleitzahl ein.
                                             </div>
                                         </div>
@@ -155,7 +156,7 @@
                                                     <option value="{{ $city->id }}">{{ $city->name }}</option>
                                                 @endforeach
                                             </select>
-                                            <label for="city_id">Stadt</label>
+                                            <label for="city_id">Stadt*</label>
                                             <div class="invalid-feedback">Bitte wählen Sie eine Stadt aus.</div>
                                         </div>
                                     </div>
@@ -168,13 +169,13 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="tel" class="form-control" id="phone" name="phone" required>
-                                    <label for="phone">Telefonnummer</label>
+                                    <label for="phone">Telefonnummer*</label>
                                     <div class="invalid-feedback">Bitte geben Sie eine gültige Telefonnummer ein.</div>
                                 </div>
 
                                 <div class="form-floating mb-4">
                                     <input type="url" class="form-control" id="website" name="website">
-                                    <label for="website">Webseite (optional)</label>
+                                    <label for="website">Webseite</label>
                                 </div>
 
                                 <!-- Privacy -->
@@ -280,6 +281,7 @@
             const privacyCheckbox = document.getElementById('datenschutz');
             const passwordInput = document.getElementById('password');
             const passwordConfirmInput = document.getElementById('password_confirmation');
+            const formErrors = document.getElementById('formErrors'); // Get the error display element
 
             // Create error element if it doesn't exist
             if (!document.getElementById('password_confirmation-error')) {
@@ -334,6 +336,8 @@
                     '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Wird verarbeitet...';
 
                 // Clear previous errors
+                formErrors.classList.add('d-none');
+                formErrors.textContent = '';
                 document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
                 document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
 
@@ -359,9 +363,9 @@
                         if (data.success) {
                             toastr.success(data.message, 'Success');
                             setTimeout(function() {
-                            window.location.href = data.redirect;
-                        }, 2000); // Redirect after 2 seconds (optional)
-                            }
+                                window.location.href = data.redirect;
+                            }, 2000);
+                        }
                     })
                     .catch(error => {
                         // Reset button
@@ -386,9 +390,15 @@
                             });
                         }
 
-                        // Show general errors
+                        // Show general errors in the formErrors div instead of alert
                         if (error.message) {
-                            alert(error.message);
+                            formErrors.textContent = error.message;
+                            formErrors.classList.remove('d-none');
+                            // Scroll to the error message
+                            formErrors.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
                         }
                     });
             });

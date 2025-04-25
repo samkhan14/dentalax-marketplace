@@ -11,3 +11,4 @@ or agar role k hisab se auth k route koi hit kare agar role match nahi karta or 
 4. db trans method use karo + try catch
 5. logs sath sath manage karo
 6. global helpers/scope/traits/ create karo.
+8. content check har section ka uske hisab se hona chahey
