@@ -16,9 +16,7 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 
 
-// ----------------------
-// ✅ FRONTEND ROUTES
-// ----------------------
+// ----------------------// ✅ FRONTEND ROUTES// ----------------------
 
 Route::controller(FrontendController::class)->group(function () {
     Route::get('/', 'index')->name('home.page');
@@ -38,39 +36,36 @@ Route::controller(FrontendController::class)->group(function () {
 });
 
 
-// ----------------------
-// ✅ PATIENT ROUTES (Updated with middleware)
-// ----------------------
+// ✅ UNIVERSAL LOGIN + LOGOUT ROUTES (Centralized)
+Route::post('/login', [UserController::class, 'userLogin'])->name('user.login');
+Route::post('/logout', [UserController::class, 'userLogout'])->name('user.logout');
+
+
+// ---------------------- // ✅ PATIENT ROUTES (Updated with middleware) // ----------------------
 Route::prefix('/patienten')->name('patient.')->group(function () {
     // Public routes (no auth)
     Route::controller(PatientProfileController::class)->group(function () {
         Route::get('/registrieren', 'patientRegistrationPage')->name('registration.page');
         Route::post('/registrieren', 'patientRegistrationStore')->name('registration.store');
         Route::get('/login', 'patientLoginPage')->name('login.page');
-        Route::post('/login-in', 'patientLogin')->name('login.in');
     });
 
     // Protected routes (require auth and patient role)
-
     Route::middleware(['auth', CheckRole::class . ':patient'])->group(function () {
         Route::controller(PatientProfileController::class)->group(function () {
             Route::get('/dashboard', 'Dashboard')->name('dashboard');
-            Route::post('/logout', 'logout')->name('logout');
         });
     });
 });
 
 
-// ----------------------
-// ✅ Applicant ROUTES (Updated with middleware)
-// ----------------------
+// ---------------------- // ✅ Applicant ROUTES (Updated with middleware) // ----------------------
 Route::prefix('/antragsteller')->name('applicant.')->group(function () {
     // Public routes (no auth)
     Route::controller(ApplicantProfileController::class)->group(function () {
         Route::get('/registrieren', 'applicantRegistrationPage')->name('registration.page');
         Route::post('/registrieren', 'applicantRegistrationStore')->name('registration.store');
         Route::get('/login', 'applicantLoginPage')->name('login.page');
-        Route::post('/login-in', 'applicantLogin')->name('login.in');
     });
 
     // Protected routes (require auth and patient role)
@@ -78,22 +73,18 @@ Route::prefix('/antragsteller')->name('applicant.')->group(function () {
     Route::middleware(['auth', CheckRole::class . ':applicant'])->group(function () {
         Route::controller(ApplicantProfileController::class)->group(function () {
             Route::get('/dashboard', 'Dashboard')->name('dashboard');
-            Route::post('/logout', 'logout')->name('logout');
         });
     });
 });
 
 
-// ----------------------
-// ✅ DENTIST ROUTES (Updated with middleware)
-// ----------------------
+// ---------------------- // ✅ DENTIST ROUTES (Updated with middleware) // ----------------------
 Route::prefix('zahnarzt')->name('dentist.')->group(function () {
     // Public routes (no auth)
     Route::controller(DentistProfileController::class)->group(function () {
         Route::get('/registrieren', 'dentistRegistrationPage')->name('registration.page');
         Route::post('/registrieren', 'dentistRegistrationStore')->name('registration.store');
         Route::get('/login', 'dentistLoginPage')->name('login.page');
-        Route::post('/login', 'dentistLogin')->name('login');
         Route::get('/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('landingpage');
     });
 
@@ -101,26 +92,32 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
     Route::middleware(['auth', CheckRole::class . ':dentist'])->group(function () {
         Route::controller(DentistProfileController::class)->group(function () {
             Route::get('/dashboard', 'Dashboard')->name('dashboard');
-            Route::post('/logout', 'logout')->name('logout');
         });
     });
 });
 
+// ✅ UNIVERSAL GET /login REDIRECT (if someone hits /login directly)
+Route::get('/login', function () {
+    if (auth()->check()) {
+        $role = auth()->user()->getRoleNames()->first();
+        return match ($role) {
+            'patient'   => redirect()->route('patient.dashboard'),
+            'dentist'   => redirect()->route('dentist.dashboard'),
+            'applicant' => redirect()->route('applicant.dashboard'),
+            default     => redirect()->route('home.page'),
+        };
+    }
+    return redirect()->route('home.page');
+})->name('login');
 
-// ----------------------
-// ✅ SAMPLE DEMO ROUTE (No changes)
-// ----------------------
+// ✅ GLOBAL FALLBACK ROUTE
+Route::fallback(function () {
+    return redirect()->route('home.page');
+});
+
+
+// ---------------------- // ✅ SAMPLE DEMO ROUTE (No changes) // ----------------------
 Route::get('/sample-dashboard', function () {
     return view('frontend.pages.dashboards.dashboard_page');
 })->name('sample.dashboard');
 
-
-// Fallback for route('login') — used internally by Laravel after logout or auth failure
-Route::get('/login', function () {
-    // Redirect based on URL path or role logic
-    if (request()->is('zahnarzt*')) {
-        return redirect()->route('dentist.login.page');
-    }
-
-    return redirect()->route('patient.login.page'); // or main login page
-})->name('login');

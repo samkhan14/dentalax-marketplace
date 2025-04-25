@@ -41,7 +41,7 @@
                                 <p class="text-secondary mb-0">Melden Sie sich an, um auf Ihr Praxiskonto zuzugreifen</p>
                             </div>
 
-                            <form method="POST" action="{{ route('dentist.login') }}">
+                            <form method="POST" action="{{ route('user.login') }}">
                                 @csrf
                                 <div class="mb-4">
                                     <div class="form-floating">

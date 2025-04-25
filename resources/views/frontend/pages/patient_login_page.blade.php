@@ -37,7 +37,7 @@
                                 <p class="text-secondary mb-0">Melden Sie sich an, um auf Ihr Patientenkonto zuzugreifen</p>
                             </div>
 
-                            <form method="POST" action="{{ route('patient.login.in') }}">
+                            <form method="POST" action="{{ route('user.login') }}">
                                 @csrf
                                 <div class="mb-4">
                                     <div class="form-floating">

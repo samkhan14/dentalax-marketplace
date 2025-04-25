@@ -15,73 +15,56 @@ class UserController extends Controller
     {
         $this->userService = $userService;
     }
-    public function adminloginView()
-    {
-        return view('backend.pages.registration.admin-login');
-    }
 
-    public function patientRegister(Request $request)
+    public function userLogin(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user = $this->userService->patientRegister($request);
 
-        if ($user) {
-            return redirect()->back()->with('success', 'Registration successfully');
-        } else {
-            return redirect()->back()->with('error', 'Registration failed');
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
+            $role = $user->getRoleNames()->first();
+
+            return match ($role) {
+                'patient' => redirect()->route('patient.dashboard'),
+                'dentist' => redirect()->route('dentist.dashboard'),
+                'applicant' => redirect()->route('applicant.dashboard'),
+                default => redirect()->route('home.page'),
+            };
         }
+
+        return back()->withErrors(['email' => 'Ungültige Zugangsdaten.']);
+
     }
 
-    public function applicantRegister(Request $request)
+    public function logout(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
+        $role = Auth::user()?->getRoleNames()->first();
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        $user = $this->userService->applicantRegister($request);
-
-        if ($user) {
-            return redirect()->back()->with('success', 'Registration successfully');
-        } else {
-            return redirect()->back()->with('error', 'Registration failed');
-        }
+        return match ($role) {
+            'patient' => redirect()->route('patient.login.page'),
+            'dentist' => redirect()->route('dentist.login.page'),
+            'applicant' => redirect()->route('applicant.login.page'),
+            default => redirect()->route('home.page'),
+        };
     }
 
-    public function dentistRegister(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
 
-        $user = $this->userService->dentistRegister($request);
 
-        if ($user) {
-            return redirect()->back()->with('success', 'Registration successfully');
-        } else {
-            return redirect()->back()->with('error', 'Registration failed');
-        }
-    }
+
 
 
 }

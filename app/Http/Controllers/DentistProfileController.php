@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DentistRegistrationRequest;
+use App\Services\DentistProfileService;
 use Illuminate\Http\Request;
 use App\Models\Plan;
 use App\Models\City;
@@ -14,6 +16,12 @@ use App\Models\User;
 
 class DentistProfileController extends Controller
 {
+    protected $dentistProfileService;
+
+    public function __construct(DentistProfileService $dentistProfileService)
+    {
+        $this->dentistProfileService = $dentistProfileService;
+    }
     public function dentistRegistrationPage(Request $request)
     {
         // If request has plan_id (from pricing page), store in session
@@ -35,81 +43,19 @@ class DentistProfileController extends Controller
         return view('frontend.pages.dentist_registration_page', compact('plan', 'cities', 'billingCycle'));
     }
 
-    public function dentistRegistrationStore(Request $request)
+    public function dentistRegistrationStore(DentistRegistrationRequest $request)
     {
-        // dd($request->all());
-        $validated = $request->validate([
-            'vorname' => 'required|string|max:255',
-            'nachname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => [
-                'required',
-                'string',
-                Password::min(8)
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols(),
-            ],
-            'password_confirmation' => 'required|same:password',
-            'practice_name' => 'required|string|max:255',
-            'practice_description' => 'required|string',
-            'permanent_address' => 'required|string|max:255',
-            'postal_code' => 'string|max:10',
-            'city_id' => 'required|exists:cities,id',
-            'phone' => 'required|string|max:20',
-            'website' => 'nullable|url',
-            'plan_id' => 'required|exists:plans,id',
-            'billing_cycle' => 'nullable|in:monthly,yearly',
-            'datenschutz' => 'required|accepted'
-        ], [
-            'datenschutz.accepted' => 'Sie müssen die Datenschutzerklärung akzeptieren.',
-            'email.unique' => 'Diese E-Mail ist bereits registriert.',
-            'password_confirmation.same' => 'Die Passwörter stimmen nicht überein.'
-        ]);
+        $validated = $request->validated();
 
-        if (User::where('email', $validated['email'])->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Diese E-Mail-Adresse ist bereits registriert.'
-            ]);
-        }
+        $result = $this->dentistProfileService->dentistRegistrationStore($validated);
 
-        // Create user
-        $user = User::create([
-            'name' => $validated['vorname'] . ' ' . $validated['nachname'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
-
-
-        // Assign role to user
-        $user->assignRole('dentist');
-        // Create dentist profile
-        DentistProfile::create([
-            'user_id' => $user->id,
-            'city_id' => $validated['city_id'],
-            'plan_id' => $validated['plan_id'] ?? 1,
-            'foundation_experience' => 'not specified',
-            'expertise_areas' => $validated['expertise_areas'] ?? null,
-            'logo' => $validated['logo'] ?? null,
-            'latitude' => $validated['latitude'] ?? null,
-            'longitude' => $validated['longitude'] ?? null,
-            'practice_name' => $validated['practice_name'],
-            'practice_description' => $validated['practice_description'],
-            'permanent_address' => $validated['permanent_address'],
-            'postal_code' => $validated['postal_code'],
-            'phone' => $validated['phone'],
-            'website' => $validated['website'],
-            'status' => 'unclaimed'
-        ]);
-
-        // Clear session
+        // Clear plan session
         session()->forget(['selected_plan_id', 'selected_billing_type']);
 
         return response()->json([
-            'success' => true,
-            'message' => 'Sie haben sich erfolgreich registriert. Bitte melden Sie sich jetzt an.',
-            'redirect' => route('dentist.login.page')
+            'success' => $result['success'],
+            'message' => $result['message'],
+            'redirect' => $result['redirect'] ?? null,
         ]);
     }
 
@@ -119,7 +65,6 @@ class DentistProfileController extends Controller
         return view('frontend.pages.dentist_login_page');
     }
 
-
     public function Dashboard(Request $request)
     {
         $page = $request->get('page', 'dashboard');
@@ -128,58 +73,5 @@ class DentistProfileController extends Controller
         //  dd($profileData);
         return view('frontend.pages.dashboards.dentist_dashboard', compact('profileData', 'plan', 'page'));
     }
-
-    // Handle dentist login
-    public function dentistLogin(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        // Check if the user is already logged in
-        if (Auth::check()) {
-            return redirect()->intended(route('dentist.dashboard'));
-        }
-
-
-        $credentials = $request->only('email', 'password');
-        // $remember = $request->filled('remember');
-
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user()->load('roles');
-
-            // ✅ Debug check (remove in production)
-            //  dd( $user,$user->getRoleNames());
-
-            // ✅ Check if user is patient or applicant
-            if ($user->hasRole('dentist')) {
-                $request->session()->regenerate();
-
-                return redirect()->intended(route('dentist.dashboard'));
-            }
-
-            Auth::logout();
-
-            throw ValidationException::withMessages([
-                'email' => 'Diese Anmeldedaten sind für Patienten nicht gültig.'
-            ]);
-        }
-
-        throw ValidationException::withMessages([
-            'email' => __('auth.failed'),
-        ]);
-    }
-
-    public function logout(Request $request)
-    {
-        // Log out the user
-        Auth::logout();
-        $request->session()->invalidate();
-        // Regenerate the session token
-        $request->session()->regenerateToken();
-        return redirect()->route('dentist.login.page')->with('success', 'Sie haben sich erfolgreich abgemeldet.');
-    }
-
 
 }

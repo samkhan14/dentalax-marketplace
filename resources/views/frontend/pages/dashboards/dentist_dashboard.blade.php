@@ -59,7 +59,7 @@
                           class="list-group-item list-group-item-action fw-medium text-danger">
                               <i class="fas fa-sign-out-alt me-2"></i> Abmelden
                       </a>
-                      <form id="logout-form" action="{{ route('dentist.logout') }}" method="POST" class="d-none">
+                      <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
                           @csrf
                       </form>
                       </div>
