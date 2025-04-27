@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.css"> --}}
     @php
-         $page = request()->get('page'); // current ?page= value
-         $user = Auth::user()->load('roles');
+        $page = request()->get('page'); // current ?page= value
+        $user = Auth::user()->load('roles');
     @endphp
 
     <section class="py-4">
@@ -13,8 +13,9 @@
             <!-- Dashboard Header -->
             <div class="row align-items-center mb-4">
                 <div class="col-md-6">
-                    <h1 class="h3 fw-bold text-primary mb-1">{{ ucfirst($user->hasRole('patient') ? 'Patient' : '') }} Dashboard</h1>
-                    <p class="text-muted">Willkommen, {{ Auth::user()->name}}</p>
+                    <h1 class="h3 fw-bold text-primary mb-1">{{ ucfirst($user->hasRole('patient') ? 'Patient' : '') }}
+                        Dashboard</h1>
+                    <p class="text-muted">Willkommen, {{ Auth::user()->name }}</p>
                 </div>
                 {{-- <div class="col-md-6 text-md-end">
                     <span class="badge bg-success me-2">Premium-Paket: PraxisPlus</span>
@@ -48,11 +49,12 @@
                                 <i class="fas fa-lock me-2"></i> Passwort ändern
                             </a>
 
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                 class="list-group-item list-group-item-action fw-medium text-danger">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Abmelden
+                                <i class="fas fa-sign-out-alt me-2"></i> Abmelden
                             </a>
-                            <form id="logout-form" action="{{ route('patient.logout') }}" method="POST" class="d-none">
+                            <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
 
@@ -2018,5 +2020,4 @@ Wir legen großen Wert auf eine angenehme Atmosphäre, in der Sie sich wohlfühl
             }
         }
     </style>
-
- @endsection
+@endsection

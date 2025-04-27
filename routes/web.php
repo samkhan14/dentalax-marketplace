@@ -101,10 +101,10 @@ Route::get('/login', function () {
     if (auth()->check()) {
         $role = auth()->user()->getRoleNames()->first();
         return match ($role) {
-            'patient'   => redirect()->route('patient.dashboard'),
-            'dentist'   => redirect()->route('dentist.dashboard'),
+            'patient' => redirect()->route('patient.dashboard'),
+            'dentist' => redirect()->route('dentist.dashboard'),
             'applicant' => redirect()->route('applicant.dashboard'),
-            default     => redirect()->route('home.page'),
+            default => redirect()->route('home.page'),
         };
     }
     return redirect()->route('home.page');

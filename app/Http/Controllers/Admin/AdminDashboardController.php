@@ -17,6 +17,10 @@ class AdminDashboardController extends Controller
 {
     public function adminLoginPage()
     {
+        if (Auth::check() && Auth::user()->hasRole('admin')) {
+            // 🔥 Already logged-in admin user
+            return redirect()->route('admin.dashboard');
+        }
         return view('backend.pages.adminLogin');
     }
 

@@ -45,7 +45,7 @@ class UserController extends Controller
 
     }
 
-    public function logout(Request $request)
+    public function userLogout(Request $request)
     {
         $role = Auth::user()?->getRoleNames()->first();
 

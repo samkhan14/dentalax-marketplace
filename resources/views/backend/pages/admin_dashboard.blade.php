@@ -162,7 +162,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-xl-8">
+        <div class="col-12 col-xl-12">
             <div class="row">
                 {{-- <div class="col-12 mb-4">
                     <div class="card border-0 shadow">
@@ -302,7 +302,7 @@
                         </div>
                     </div>
                 </div> --}}
-                <div class="col-12 col-xxl-6 mb-4">
+                <div class="col-12 col-xxl-4 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
                             <h2 class="fs-5 fw-bold mb-0">Active Users</h2>
@@ -316,7 +316,7 @@
                                             <!-- Avatar -->
                                             <a href="#" class="avatar">
                                                 <img class="rounded" alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-1.jpg">
+                                                    src="{{ asset('backend/assets/img/team/profile-picture-1.jpg') }}">
                                             </a>
                                         </div>
                                         <div class="col-auto ms--2">
@@ -324,7 +324,7 @@
                                                 <a href="#">Chris Wood</a>
                                             </h4>
                                         </div>
-                                        <div class="col text-end">
+                                        {{-- <div class="col text-end">
                                             <a href="#"
                                                 class="btn btn-sm btn-secondary d-inline-flex align-items-center">
                                                 <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20"
@@ -335,7 +335,7 @@
                                                 </svg>
                                                 Invite
                                             </a>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </li>
                                 <li class="list-group-item px-0">
@@ -344,7 +344,7 @@
                                             <!-- Avatar -->
                                             <a href="#" class="avatar">
                                                 <img class="rounded" alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-2.jpg">
+                                                    src="{{ asset('backend/assets/img/team/profile-picture-2.jpg') }}">
                                             </a>
                                         </div>
                                         <div class="col-auto ms--2">
@@ -353,7 +353,7 @@
                                             </h4>
 
                                         </div>
-                                        <div class="col text-end">
+                                        {{-- <div class="col text-end">
                                             <a href="#"
                                                 class="btn btn-sm btn-secondary d-inline-flex align-items-center">
                                                 <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20"
@@ -364,7 +364,7 @@
                                                 </svg>
                                                 Message
                                             </a>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </li>
                                 <li class="list-group-item px-0">
@@ -373,7 +373,7 @@
                                             <!-- Avatar -->
                                             <a href="#" class="avatar">
                                                 <img class="rounded" alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-3.jpg">
+                                                    src="{{ asset('backend/assets/img/team/profile-picture-3.jpg') }}">
                                             </a>
                                         </div>
                                         <div class="col-auto ms--2">
@@ -385,7 +385,7 @@
                                                 <small>Offline</small>
                                             </div>
                                         </div>
-                                        <div class="col text-end">
+                                        {{-- <div class="col text-end">
                                             <a href="#"
                                                 class="btn btn-sm btn-secondary d-inline-flex align-items-center">
                                                 <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20"
@@ -396,7 +396,7 @@
                                                 </svg>
                                                 Message
                                             </a>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </li>
                                 <li class="list-group-item px-0">
@@ -405,7 +405,7 @@
                                             <!-- Avatar -->
                                             <a href="#" class="avatar">
                                                 <img class="rounded" alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-4.jpg">
+                                                    src="{{ asset('backend/assets/img/team/profile-picture-4.jpg') }}">
                                             </a>
                                         </div>
                                         <div class="col-auto ms--2">
@@ -417,7 +417,7 @@
                                                 <small>Offline</small>
                                             </div>
                                         </div>
-                                        <div class="col text-end">
+                                        {{-- <div class="col text-end">
                                             <a href="#"
                                                 class="btn btn-sm btn-secondary d-inline-flex align-items-center">
                                                 <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20"
@@ -428,22 +428,22 @@
                                                 </svg>
                                                 Message
                                             </a>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-xxl-6 mb-4">
+                <div class="col-12 col-xxl-4 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Progress track</h2>
-                            <a href="#" class="btn btn-sm btn-primary">See tasks</a>
+                            <h2 class="fs-5 fw-bold mb-0">Neue Stellenangebote</h2>
+                            <a href="#" class="btn btn-sm btn-primary">See All</a>
                         </div>
                         <div class="card-body">
                             <!-- Project 1 -->
-                            <div class="row mb-4">
+                            {{-- <div class="row mb-4">
                                 <div class="col-auto">
                                     <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -465,9 +465,20 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Project 2 -->
-                            <div class="row align-items-center mb-4">
+                            </div> --}}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xxl-4 mb-4">
+                    <div class="card border-0 shadow">
+                        <div class="card-header border-bottom d-flex align-items-center justify-content-between">
+                            <h2 class="fs-5 fw-bold mb-0">Aktivitäten</h2>
+                            <a href="#" class="btn btn-sm btn-primary">See All</a>
+                        </div>
+                        <div class="card-body">
+                            <!-- Project 1 -->
+                            {{-- <div class="row mb-4">
                                 <div class="col-auto">
                                     <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -480,76 +491,29 @@
                                 <div class="col">
                                     <div class="progress-wrapper">
                                         <div class="progress-info">
-                                            <div class="h6 mb-0">Themesberg - Design System</div>
-                                            <div class="small fw-bold text-gray-500"><span>60 %</span></div>
+                                            <div class="h6 mb-0">Rocket - SaaS Template</div>
+                                            <div class="small fw-bold text-gray-500"><span>75 %</span></div>
                                         </div>
                                         <div class="progress mb-0">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="60"
-                                                aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="75"
+                                                aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Project 3 -->
-                            <div class="row align-items-center mb-4">
-                                <div class="col-auto">
-                                    <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                        <path fill-rule="evenodd"
-                                            d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="col">
-                                    <div class="progress-wrapper">
-                                        <div class="progress-info">
-                                            <div class="h6 mb-0">Homepage Design in Figma</div>
-                                            <div class="small fw-bold text-gray-500"><span>45 %</span></div>
-                                        </div>
-                                        <div class="progress mb-0">
-                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="45"
-                                                aria-valuemin="0" aria-valuemax="100" style="width: 45%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Project 4 -->
-                            <div class="row align-items-center mb-3">
-                                <div class="col-auto">
-                                    <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                        <path fill-rule="evenodd"
-                                            d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="col">
-                                    <div class="progress-wrapper">
-                                        <div class="progress-info">
-                                            <div class="h6 mb-0">Backend for Themesberg v2</div>
-                                            <div class="small fw-bold text-gray-500"><span>34 %</span></div>
-                                        </div>
-                                        <div class="progress mb-0">
-                                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="34"
-                                                aria-valuemin="0" aria-valuemax="100" style="width: 34%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> --}}
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-xl-4">
+        {{-- <div class="col-12 col-xl-4">
             <div class="col-12 px-0 mb-4">
                 <div class="card border-0 shadow">
                     <div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
                         <div class="d-block">
-                            <div class="h6 fw-normal text-gray mb-2">Total orders</div>
-                            <h2 class="h3 fw-extrabold">452</h2>
+                            <div class="h6 fw-normal text-gray mb-2">Aktivitäten</div>
+                            <h2 class="h3 fw-extrabold">5</h2>
                             <div class="small mt-2">
                                 <span class="fas fa-angle-up text-success"></span>
                                 <span class="text-success fw-bold">18.2%</span>
@@ -668,43 +632,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 px-0">
-                <div class="card border-0 shadow">
-                    <div class="card-body">
-                        <h2 class="fs-5 fw-bold mb-1">Acquisition</h2>
-                        <p>Tells you where your visitors originated from, such as search engines, social networks or website
-                            referrals.</p>
-                        <div class="d-block">
-                            <div class="d-flex align-items-center me-5">
-                                <div class="icon-shape icon-sm icon-shape-danger rounded me-3">
-                                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="d-block">
-                                    <label class="mb-0">Bounce Rate</label>
-                                    <h4 class="mb-0">33.50%</h4>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-3">
-                                <div class="icon-shape icon-sm icon-shape-purple rounded me-3">
-                                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="d-block">
-                                    <label class="mb-0">Sessions</label>
-                                    <h4 class="mb-0">9,567</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

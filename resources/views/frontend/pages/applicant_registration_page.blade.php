@@ -42,7 +42,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="name" name="name"
-                                                required>
+                                                placeholder=" Full Name" required>
                                             <label for="name">Full Name</label>
                                             <div class="invalid-feedback" id="name-error"></div>
                                         </div>
@@ -50,7 +50,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="email" class="form-control" id="email" name="email"
-                                                required>
+                                                placeholder="Email Address" required>
                                             <label for="email">Email Address</label>
                                             <div class="invalid-feedback" id="email-error"></div>
                                         </div>
@@ -61,7 +61,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="tel" class="form-control" id="phone" name="phone"
-                                                required>
+                                                placeholder="Phone Number" required>
                                             <label for="phone">Phone Number</label>
                                             <div class="invalid-feedback" id="phone-error"></div>
                                         </div>
@@ -81,13 +81,13 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <textarea class="form-control" id="experience" name="experience" style="height: 100px"></textarea>
+                                    <textarea class="form-control" id="experience" placeholder="Experience" name="experience" style="height: 100px"></textarea>
                                     <label for="experience">Experience (Optional)</label>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="resume" class="form-label">Upload Resume (PDF/DOC)</label>
-                                    <input class="form-control" type="file" id="resume" name="resume"
+                                    <input class="form-control" type="file" id="resume" name="resume_path"
                                         accept=".pdf,.doc,.docx" required>
                                     <div class="invalid-feedback" id="resume-error"></div>
                                 </div>
@@ -96,7 +96,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password" name="password"
-                                                required>
+                                                placeholder="Password" required>
                                             <label for="password">Password</label>
                                             <div class="invalid-feedback" id="password-error"></div>
                                         </div>
@@ -104,7 +104,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password_confirmation"
-                                                name="password_confirmation" required>
+                                                name="password_confirmation" placeholder="Confirm Password" required>
                                             <label for="password_confirmation">Confirm Password</label>
                                         </div>
                                     </div>

@@ -1,7 +1,7 @@
 @extends('frontend.layouts.master')
 @section('content')
     @php
-         $page = request()->get('page');
+        $page = request()->get('page');
     @endphp
 
     <section class="py-4">
@@ -10,7 +10,7 @@
             <div class="row align-items-center mb-4">
                 <div class="col-md-6">
                     <h1 class="h3 fw-bold text-primary mb-1">Applicant Dashboard</h1>
-                    <p class="text-muted">Willkommen, {{ Auth::user()->name}}</p>
+                    <p class="text-muted">Willkommen, {{ Auth::user()->name }}</p>
                 </div>
                 {{-- <div class="col-md-6 text-md-end">
                     <span class="badge bg-success me-2">Premium-Paket: PraxisPlus</span>
@@ -39,11 +39,12 @@
                                 <i class="fas fa-star me-2"></i> Beworbene Jobs
                             </a>
 
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                 class="list-group-item list-group-item-action fw-medium text-danger">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Abmelden
+                                <i class="fas fa-sign-out-alt me-2"></i> Abmelden
                             </a>
-                            <form id="logout-form" action="{{ route('applicant.logout') }}" method="POST" class="d-none">
+                            <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
 
@@ -1835,5 +1836,4 @@ Wir legen großen Wert auf eine angenehme Atmosphäre, in der Sie sich wohlfühl
             }
         }
     </style>
-
- @endsection
+@endsection

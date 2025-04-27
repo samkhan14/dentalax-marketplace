@@ -5,3 +5,11 @@
 .sidebar .nav-link .sidebar-icon {
     color: #fff !important;
 }
+
+span.sidebar-text {
+    text-transform: capitalize;
+}
+
+.text-bg-primary {
+    background-color: #40bfd8 !important;
+}
