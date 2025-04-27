@@ -62,13 +62,14 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="practice_name" name="practice_name"
-                                        required>
+                                        placeholder="Praxisname" required>
                                     <label for="practice_name">Praxisname*</label>
                                     <div class="invalid-feedback">Bitte geben Sie den Namen Ihrer Praxis ein.</div>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <textarea class="form-control" id="practice_description" name="practice_description" style="height: 100px"></textarea>
+                                    <textarea class="form-control" id="practice_description" name="practice_description" style="height: 100px"
+                                        placeholder="Kurze Praxisbeschreibung*"></textarea>
                                     <label for="practice_description">Kurze Praxisbeschreibung*</label>
                                 </div>
 
@@ -81,7 +82,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="vorname" name="vorname"
-                                                required>
+                                                placeholder="Vorname" required>
                                             <label for="vorname">Vorname*</label>
                                             <div class="invalid-feedback">Bitte geben Sie Ihren Vornamen ein.</div>
                                         </div>
@@ -89,7 +90,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nachname" name="nachname"
-                                                required>
+                                                placeholder="Nachname" required>
                                             <label for="nachname">Nachname*</label>
                                             <div class="invalid-feedback">Bitte geben Sie Ihren Nachnamen ein.</div>
                                         </div>
@@ -97,7 +98,8 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="E-Mail Adresse" required>
                                     <label for="email">E-Mail-Adresse*</label>
                                     <div class="invalid-feedback">Bitte geben Sie eine gültige E-Mail-Adresse ein.</div>
                                 </div>
@@ -111,7 +113,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password" name="password"
-                                                required>
+                                                placeholder="Passwort" required>
                                             <label for="password">Passwort*</label>
                                             <div class="invalid-feedback">Mindestens 8 Zeichen mit Groß-/Kleinbuchstaben,
                                                 Zahlen und Sonderzeichen</div>
@@ -120,7 +122,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password_confirmation"
-                                                name="password_confirmation" required>
+                                                placeholder="Passwort bestätigen" name="password_confirmation" required>
                                             <label for="password_confirmation">Passwort bestätigen*</label>
                                         </div>
                                     </div>
@@ -133,7 +135,7 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="permanent_address"
-                                        name="permanent_address" required>
+                                        name="permanent_address" placeholder="Straße & Hausnummer" required>
                                     <label for="permanent_address">Straße & Hausnummer</label>
                                     <div class="invalid-feedback">Bitte geben Sie Straße und Hausnummer ein.</div>
                                 </div>
@@ -142,7 +144,7 @@
                                     <div class="col-md-4">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="postal_code"
-                                                name="postal_code" required>
+                                                name="postal_code" placeholder="Postleitzahl" required>
                                             <label for="postal_code">Postleitzahl</label>
                                             <div class="invalid-feedback">Bitte geben Sie eine gültige Postleitzahl ein.
                                             </div>
@@ -150,7 +152,8 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="city_id" name="city_id" required>
+                                            <select class="form-select" id="city_id" name="city_id"
+                                                placeholder="Stadt" required>
                                                 <option value="" selected disabled>Bitte wählen</option>
                                                 @foreach ($cities as $city)
                                                     <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -168,13 +171,15 @@
                                 </h3>
 
                                 <div class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                        placeholder="Telefonnummer" required>
                                     <label for="phone">Telefonnummer*</label>
                                     <div class="invalid-feedback">Bitte geben Sie eine gültige Telefonnummer ein.</div>
                                 </div>
 
                                 <div class="form-floating mb-4">
-                                    <input type="url" class="form-control" id="website" name="website">
+                                    <input type="url" class="form-control" id="website" name="website"
+                                        placeholder="Webseite">
                                     <label for="website">Webseite</label>
                                 </div>
 

@@ -42,7 +42,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="vorname" name="vorname"
-                                                required>
+                                                placeholder="Vorname" required>
                                             <label for="vorname">Vorname</label>
                                             <div class="invalid-feedback" id="vorname-error"></div>
                                         </div>
@@ -50,7 +50,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nachname" name="nachname"
-                                                required>
+                                                placeholder="Nachname" required>
                                             <label for="nachname">Nachname</label>
                                             <div class="invalid-feedback" id="nachname-error"></div>
                                         </div>
@@ -58,26 +58,28 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="E-Mail Adresse" required>
                                     <label for="email">E-Mail-Adresse</label>
                                     <div class="invalid-feedback" id="email-error"></div>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                        placeholder="Telefonnummer" required>
                                     <label for="phone">Telefonnummer</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
+                                {{-- <div class="form-floating mb-3">
                                     <input type="date" class="form-control" id="dob" name="dob">
                                     <label for="dob">Geburtsdatum</label>
-                                </div>
+                                </div> --}}
 
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password" name="password"
-                                                required>
+                                                placeholder="Passwort" required>
                                             <label for="password">Passwort</label>
                                             <div class="invalid-feedback" id="password-error"></div>
                                         </div>
@@ -85,7 +87,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password_confirmation"
-                                                name="password_confirmation" required>
+                                                name="password_confirmation" placeholder="Passwort bestätigen" required>
                                             <label for="password_confirmation">Passwort bestätigen</label>
                                         </div>
                                     </div>
@@ -94,14 +96,16 @@
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="postal_code" name="postal_code">
-                                            <label for="postal_code">PLZ (optional)</label>
+                                            <input type="text" class="form-control" id="postal_code" name="postal_code"
+                                                placeholder="PLZ">
+                                            <label for="postal_code">PLZ </label>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="city" name="city">
-                                            <label for="city">Ort (optional)</label>
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                placeholder="Adresse" required>
+                                            <label for="city">Adresse </label>
                                         </div>
                                     </div>
                                 </div>

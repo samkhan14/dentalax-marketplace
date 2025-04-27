@@ -15,8 +15,8 @@ class PatientProfileService
 
         try {
             $user = User::create([
-                'name'     => $validated['name'],
-                'email'    => $validated['email'],
+                'name' => $validated['vorname'] . ' ' . $validated['nachname'],
+                'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
             ]);
 
@@ -24,10 +24,10 @@ class PatientProfileService
 
             PatientProfile::create([
                 'user_id' => $user->id,
-                'phone'   => $validated['phone'],
-                'gender'  => $validated['gender'],
-                'dob'     => $validated['dob'],
-                'city'    => $validated['city'],
+                'phone' => $validated['phone'],
+                'gender' => $validated['gender'] ?? 'not specified',
+                // 'dob' => $validated['dob'],
+                // 'city' => $validated['city'],
                 'address' => $validated['address'],
             ]);
 
