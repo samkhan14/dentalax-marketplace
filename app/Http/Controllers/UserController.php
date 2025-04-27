@@ -18,32 +18,37 @@ class UserController extends Controller
 
     public function userLogin(Request $request)
     {
+        $credentials = $request->only('email', 'password');
+        $expectedRole = $request->input('expected_role'); // 'patient', 'applicant', 'dentist'
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-
-        if (Auth::attempt($request->only('email', 'password'))) {
+        if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $role = $user->getRoleNames()->first();
 
-            return match ($role) {
-                'patient' => redirect()->route('patient.dashboard'),
-                'dentist' => redirect()->route('dentist.dashboard'),
-                'applicant' => redirect()->route('applicant.dashboard'),
-                default => redirect()->route('home.page'),
+            if (!$user->hasRole($expectedRole)) {
+                Auth::logout();
+
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['email' => 'Diese Zugangsdaten gehören nicht zu einem ' . ucfirst($expectedRole) . '-Konto.']);
+            }
+
+            $request->session()->regenerate();
+
+            $redirectRoute = match ($expectedRole) {
+                'dentist' => route('dentist.dashboard'),
+                'patient' => route('patient.dashboard'),
+                'applicant' => route('applicant.dashboard'),
+                default => route('home.page'),
             };
+
+            return redirect()->intended($redirectRoute);
         }
 
-        return back()->withErrors(['email' => 'Ungültige Zugangsdaten.']);
-
+        return redirect()->back()
+            ->withInput()
+            ->withErrors(['email' => 'Ungültige Anmeldedaten.']);
     }
+
 
     public function userLogout(Request $request)
     {

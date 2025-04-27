@@ -26,10 +26,10 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
                     @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden" data-aos="fade-up">
                         <div class="card-body p-4 p-md-5">
@@ -43,6 +43,7 @@
 
                             <form method="POST" action="{{ route('user.login') }}">
                                 @csrf
+                                <input type="hidden" name="expected_role" value="dentist">
                                 <div class="mb-4">
                                     <div class="form-floating">
                                         <input type="email" class="form-control" id="email" name="email"

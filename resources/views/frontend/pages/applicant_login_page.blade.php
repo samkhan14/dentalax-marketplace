@@ -39,6 +39,7 @@
 
                             <form method="POST" action="{{ route('user.login') }}">
                                 @csrf
+                                <input type="hidden" name="expected_role" value="applicant">
                                 <div class="mb-4">
                                     <div class="form-floating">
                                         <input type="email" class="form-control" id="email" name="email"
