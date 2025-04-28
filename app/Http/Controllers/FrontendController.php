@@ -36,8 +36,16 @@ class FrontendController extends Controller
         $this->data['og:description'] = "Finden Sie jetzt den passenden Zahnarzt in Ihrer Nähe – einfach, schnell und zuverlässig mit Dentalax.";
         $this->data['og:image'] = url('/') . "/frontend/assets/images/og-default.jpg";
 
-        // $cities = City::orderBy('name')->get();
-        return view('frontend.pages.all_cities');
+        $cities = City::orderBy('name')->get();
+        return view('frontend.pages.all_cities', compact('cities'));
+    }
+
+    public function dentistCityDetailPage(City $city)
+    {
+        // Here you can fetch dentists for this city if needed
+        // $dentists = Dentist::where('city_id', $city->id)->get();
+
+        return view('frontend.pages.dentist_in_city');
     }
 
     public function forDentists()
