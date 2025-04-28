@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DentistProfile extends Model
 {
+    use SoftDeletes;
     protected $table = 'dentist_profiles';
 
     protected $fillable = [
@@ -28,6 +30,7 @@ class DentistProfile extends Model
         'is_featured',
         'priority',
         'dentist_schedule_id ',
+        'deleted_at'
     ];
 
     public function user()

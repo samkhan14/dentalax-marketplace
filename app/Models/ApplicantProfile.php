@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ApplicantProfile extends Model
 {
+    use SoftDeletes;
     protected $table = 'applicant_profiles';
 
     protected $fillable = [
@@ -15,6 +17,7 @@ class ApplicantProfile extends Model
         'resume_path',
         'experience',
         'created_at',
+        'deleted_at'
     ];
 
     public function user()
