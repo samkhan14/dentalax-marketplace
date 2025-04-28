@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApplicantRegistrationEmail;
 
 class ApplicantProfileService
 {
@@ -36,6 +38,12 @@ class ApplicantProfileService
                 'resume_path'  => $validated['resume_path'] ?? null,
                 'experience'   => $validated['experience'],
             ]);
+
+            // Send email to the user
+             Mail::to($user->email)->send(new ApplicantRegistrationEmail($user));
+
+            // skip observer for custom activity log
+            // $dentistProfile->skipObserver = true;
 
             DB::commit();
 

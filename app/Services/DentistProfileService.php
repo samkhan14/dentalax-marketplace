@@ -6,6 +6,8 @@ use App\Models\DentistProfile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DentistRegistrationEmail;
 
 class DentistProfileService
 {
@@ -41,6 +43,9 @@ class DentistProfileService
                 'website'               => $validated['website'],
                 'status'                => 'unclaimed',
             ]);
+
+            // Send registration email (optional)
+             Mail::to($user->email)->send(new DentistRegistrationEmail($user));
 
             DB::commit();
 

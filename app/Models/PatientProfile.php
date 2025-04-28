@@ -29,4 +29,9 @@ class PatientProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function activityLogs()
+    {
+        return $this->morphMany(\App\Models\ActivityLog::class, 'loggable');
+    }
 }

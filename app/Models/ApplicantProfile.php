@@ -30,4 +30,11 @@ class ApplicantProfile extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function activityLogs()
+    {
+        return $this->morphMany(\App\Models\ActivityLog::class, 'loggable');
+    }
+
+
+
 }

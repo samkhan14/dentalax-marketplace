@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Plan;
+use App\Models\DentistProfile;
 
 class FrontendController extends Controller
 {
@@ -42,10 +43,14 @@ class FrontendController extends Controller
 
     public function dentistCityDetailPage(City $city)
     {
-        // Here you can fetch dentists for this city if needed
-        // $dentists = Dentist::where('city_id', $city->id)->get();
+        $this->data['title'] = "Zahnarzt in " . $city->name . " | Dentalax – Zahnarztsuche in ganz Deutschland";
 
-        return view('frontend.pages.dentist_in_city');
+        // Eager load both city and user relationships
+        $dentists = DentistProfile::with(['city', 'user'])
+            ->where('city_id', $city->id)
+            // ->where('status', 'active')
+            ->get();
+        return view('frontend.pages.dentist_city_detail_page', compact('city', 'dentists'));
     }
 
     public function forDentists()

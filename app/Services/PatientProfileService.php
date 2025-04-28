@@ -6,6 +6,8 @@ use App\Models\PatientProfile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PatientRegistrationEmail;
 
 class PatientProfileService
 {
@@ -30,6 +32,9 @@ class PatientProfileService
                 // 'city' => $validated['city'],
                 'address' => $validated['address'],
             ]);
+
+             // Send registration email
+          Mail::to($user->email)->send(new PatientRegistrationEmail($user));
 
             DB::commit();
 

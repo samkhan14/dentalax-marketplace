@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class DentistProfile extends Model
 {
@@ -12,7 +13,6 @@ class DentistProfile extends Model
 
     protected $fillable = [
         'user_id',
-        'first_name',
         'city_id',
         'plan_id',
         'foundation_experience',
@@ -50,5 +50,12 @@ class DentistProfile extends Model
     {
         return $this->hasMany(DentistSchedule::class);
     }
+
+    public function activityLogs(): MorphMany
+    {
+        return $this->morphMany(\App\Models\ActivityLog::class, 'loggable');
+    }
+
+
 
 }

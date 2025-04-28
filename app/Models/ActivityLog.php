@@ -6,5 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActivityLog extends Model
 {
-    //
+    protected $fillable = [
+        'user_id', 'module', 'action_type', 'loggable_type', 'loggable_id', 'message', 'ip_address', 'user_agent',
+    ];
+
+    public function loggable()
+    {
+        return $this->morphTo();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
