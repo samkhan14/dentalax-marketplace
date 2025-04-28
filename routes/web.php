@@ -37,7 +37,8 @@ Route::controller(FrontendController::class)->group(function () {
 
 
 // ✅ UNIVERSAL LOGIN + LOGOUT ROUTES (Centralized)
-Route::post('/login', [UserController::class, 'userLogin'])->name('user.login');
+Route::post('/login', [UserController::class, 'userLogin'])->name('user.login')->middleware(['throttle:5,1']);
+;
 Route::post('/logout', [UserController::class, 'userLogout'])->name('user.logout');
 
 
@@ -46,7 +47,7 @@ Route::prefix('/patienten')->name('patient.')->group(function () {
     // Public routes (no auth)
     Route::controller(PatientProfileController::class)->group(function () {
         Route::get('/registrieren', 'patientRegistrationPage')->name('registration.page');
-        Route::post('/registrieren', 'patientRegistrationStore')->name('registration.store');
+        Route::post('/registrieren', 'patientRegistrationStore')->name('registration.store')->middleware(['throttle:5,1']);
         Route::get('/login', 'patientLoginPage')->name('login.page');
     });
 
@@ -64,7 +65,7 @@ Route::prefix('/antragsteller')->name('applicant.')->group(function () {
     // Public routes (no auth)
     Route::controller(ApplicantProfileController::class)->group(function () {
         Route::get('/registrieren', 'applicantRegistrationPage')->name('registration.page');
-        Route::post('/registrieren', 'applicantRegistrationStore')->name('registration.store');
+        Route::post('/registrieren', 'applicantRegistrationStore')->name('registration.store')->middleware(['throttle:5,1']);
         Route::get('/login', 'applicantLoginPage')->name('login.page');
     });
 
@@ -83,7 +84,7 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
     // Public routes (no auth)
     Route::controller(DentistProfileController::class)->group(function () {
         Route::get('/registrieren', 'dentistRegistrationPage')->name('registration.page');
-        Route::post('/registrieren', 'dentistRegistrationStore')->name('registration.store');
+        Route::post('/registrieren', 'dentistRegistrationStore')->name('registration.store')->middleware(['throttle:5,1']);
         Route::get('/login', 'dentistLoginPage')->name('login.page');
         Route::get('/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('landingpage');
     });
@@ -117,7 +118,7 @@ Route::fallback(function () {
 
 
 // ---------------------- // ✅ SAMPLE DEMO ROUTE (No changes) // ----------------------
-Route::get('/sample-dashboard', function () {
-    return view('frontend.pages.dashboards.dashboard_page');
-})->name('sample.dashboard');
+// Route::get('/sample-dashboard', function () {
+//     return view('frontend.pages.dashboards.dashboard_page');
+// })->name('sample.dashboard');
 
