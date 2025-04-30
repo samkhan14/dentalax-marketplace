@@ -82,7 +82,7 @@
                                     <p>Noch kein Praxiskonto? <a href="{{ route('dentist.registration.page') }}"
                                             class="text-decoration-none">Praxis
                                             registrieren</a></p>
-                                    <p class="mb-0"><a href="{{ route('password.forget.for.both') }}"
+                                    <p class="mb-0"><a href="{{ route('password.request') }}"
                                             class="text-decoration-none">Passwort vergessen?</a></p>
                                 </div>
                             </form>

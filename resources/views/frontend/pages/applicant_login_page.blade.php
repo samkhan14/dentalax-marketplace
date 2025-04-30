@@ -75,7 +75,7 @@
                                     <p>Noch kein Konto? <a href="{{ route('main.registration.page') }}"
                                             class="text-decoration-none">Jetzt
                                             registrieren</a></p>
-                                    <p class="mb-0"><a href="{{ route('password.forget.for.both') }}"
+                                    <p class="mb-0"><a href="{{ route('password.request') }}"
                                             class="text-decoration-none">Passwort
                                             vergessen?</a></p>
                                 </div>

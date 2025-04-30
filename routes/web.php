@@ -12,7 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 require __DIR__ . '/admin.php';
 
 
