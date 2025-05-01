@@ -1,0 +1,91 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Plan;
+use App\Services\StripeService;
+use Illuminate\Support\Facades\DB;
+
+class PlanSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $plans = [
+            [
+                'name' => 'Basis',
+                'slug' => 'basis',
+                'description' => 'Der ideale Einstieg für Ihre Praxis',
+                'price_monthly' => 0,
+                'price_yearly' => 0,
+                'price_tag' => 'Kostenlos',
+                'features' => [
+                    'Lokale Sichtbarkeit auf Google',
+                    'Teilnahme am Bewertungssystem',
+                ],
+                'is_default' => true,
+            ],
+            [
+                'name' => 'PraxisPro',
+                'slug' => 'praxispro',
+                'description' => 'Perfekt für wachsende Praxen',
+                'price_monthly' => 59,
+                'price_yearly' => 636,
+                'price_tag' => 'Beliebt',
+                'features' => [
+                    'Eigene moderne Landingpage',
+                    'Sichtbarkeit auf Google und Dentalax',
+                    'Teilnahme am KI Chat Empfehlung',
+                    'Dashboard mit Tracking-Funktionen',
+                    'Neue Patienten gewinnen',
+                ],
+            ],
+            [
+                'name' => 'PraxisPlus',
+                'slug' => 'praxisplus',
+                'description' => 'Für etablierte und wachsende Praxen',
+                'price_monthly' => 89,
+                'price_yearly' => 960,
+                'price_tag' => 'Premium',
+                'features' => [
+                    'Alle Vorteile von PraxisPro',
+                    'Eigene Jobanzeigen veröffentlichen',
+                    'Zugang zu exklusiven Bewerbungen',
+                ],
+            ],
+        ];
+
+        DB::beginTransaction();
+
+        try {
+            $stripe = new StripeService();
+
+            foreach ($plans as $planData) {
+                $features = $planData['features'];
+                unset($planData['features']);
+
+                $plan = Plan::create([
+                    ...$planData,
+                    'features' => json_encode($features),
+                ]);
+
+                if ($plan->price_monthly > 0 || $plan->price_yearly > 0) {
+                    $stripeData = $stripe->createProductAndPrices($plan);
+
+                    $plan->update([
+                        'stripe_product_id' => $stripeData['product_id'],
+                        'stripe_price_monthly' => $stripeData['price_monthly'],
+                        'stripe_price_yearly' => $stripeData['price_yearly'],
+                    ]);
+                }
+            }
+
+            DB::commit();
+            echo "✅ Plans seeded and synced with Stripe.\n";
+        } catch (\Exception $e) {
+            DB::rollBack();
+            echo "❌ PlanSeeder failed: " . $e->getMessage() . "\n";
+        }
+    }
+}
+

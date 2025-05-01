@@ -27,6 +27,10 @@ class User extends Authenticatable
         'password',
         'google_id',
         'deleted_at',
+        'stripe_id',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
     ];
 
     /**

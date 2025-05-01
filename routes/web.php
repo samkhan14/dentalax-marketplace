@@ -11,6 +11,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
+use Illuminate\Support\Facades\Mail;
 
 require __DIR__.'/auth.php';
 require __DIR__ . '/admin.php';
@@ -114,6 +115,15 @@ Route::get('/login', function () {
 // ✅ GLOBAL FALLBACK ROUTE
 Route::fallback(function () {
     return redirect()->route('home.page');
+});
+
+Route::get('/send-test-mail', function () {
+    Mail::raw('Test email from Dentalax via Mailtrap working perfectly!', function ($message) {
+        $message->to('test@example.com') // Replace with any test email you want
+                ->subject('🎉 Dentalax Test Mail via Mailtrap');
+    });
+
+    return '✅ Test email sent! Check your Mailtrap inbox.';
 });
 
 
