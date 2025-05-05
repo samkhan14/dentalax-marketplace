@@ -14,6 +14,7 @@ class PlanController extends Controller
     public function index()
     {
         $plans = Plan::latest()->get();
+        // dd($plans);
         return view('backend.pages.plans.index', compact('plans'));
     }
 
@@ -40,7 +41,7 @@ class PlanController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.plans.index')->with('success', 'Plan erfolgreich erstellt und mit Stripe synchronisiert.');
+            return redirect()->route('admin.plans.index')->with('success', 'Plan has been created on Stripe and Portal.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Fehler beim Erstellen: ' . $e->getMessage()]);

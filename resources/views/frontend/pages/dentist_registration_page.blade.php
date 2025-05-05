@@ -53,6 +53,7 @@
                                 </div>
 
                                 <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                <input type="hidden" name="plan_slug" value="{{ $planSlug }}">
                                 <input type="hidden" name="billing_cycle" value="{{ $billingCycle }}">
 
                                 <!-- Practice Info -->

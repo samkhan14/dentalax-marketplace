@@ -7,6 +7,7 @@ use App\Services\DentistProfileService;
 use Illuminate\Http\Request;
 use App\Models\Plan;
 use App\Models\City;
+use Illuminate\Support\Facades\Session;
 use App\Models\DentistProfile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -24,28 +25,50 @@ class DentistProfileController extends Controller
     }
     public function dentistRegistrationPage(Request $request)
     {
-        // If request has plan_id (from pricing page), store in session
-        if ($request->has('plan_id')) {
+        // Save plan selection to session if coming from pricing page
+        if ($request->filled('plan_id')) {
             session([
                 'selected_plan_id' => $request->plan_id,
+                'selected_plan_slug' => $request->plan_slug,
                 'selected_billing_type' => $request->billing_cycle ?? 'monthly',
             ]);
         }
 
-        // Use session or fallback to default plan
-        $plan = Plan::find(session('selected_plan_id')) ?? Plan::where('is_default', true)->first();
+        // Retrieve selected plan or fallback to default
+        $planId = session('selected_plan_id');
+        $plan = Plan::find($planId) ?? Plan::where('is_default', true)->first();
 
-        // Fallback billing cycle
+        if (!$plan) {
+            return redirect()->route('pricing')->with('error', 'Plan not found. Please select again.');
+        }
+
+        // Use session value or fallback
+        $planSlug = session('selected_plan_slug', $plan->slug);
         $billingCycle = session('selected_billing_type', 'monthly');
 
         $cities = City::orderBy('name')->get();
 
-        return view('frontend.pages.dentist_registration_page', compact('plan', 'cities', 'billingCycle'));
+        return view('frontend.pages.dentist_registration_page', compact(
+            'plan',
+            'cities',
+            'billingCycle',
+            'planSlug'
+        ));
     }
+
 
     public function dentistRegistrationStore(DentistRegistrationRequest $request)
     {
         $validated = $request->validated();
+
+        if (in_array($validated['plan_slug'], ['praxispro', 'praxisplus'])) {
+            if (in_array($validated['billing_cycle'], ['monthly', 'yearly'])) {
+                session()->put('dentist_form_data', $validated);
+                return response()->json([
+                    'redirect' => route('stripe.checkout'),
+                ]);
+            }
+        }
 
         $result = $this->dentistProfileService->dentistRegistrationStore($validated);
 

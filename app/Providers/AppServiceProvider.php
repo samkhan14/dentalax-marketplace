@@ -7,6 +7,7 @@ use App\Models\DentistProfile;
 use App\Models\User;
 use App\Models\PatientProfile;
 use App\Models\ApplicantProfile;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Cashier::calculateTaxes();
         DentistProfile::observe(\App\Observers\DentistProfileObserver::class);
         // User::observe(\App\Observers\UserObserver::class);
         PatientProfile::observe(\App\Observers\PatientProfileObserver::class);

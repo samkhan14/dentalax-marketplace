@@ -48,4 +48,14 @@ class StripeService
     {
         Product::update($productId, ['active' => false]);
     }
+
+    // activate stripe product
+    public function activateProduct($productId)
+    {
+        Product::update($productId, ['active' => true]);
+    }
+
+
+
+
 }

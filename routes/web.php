@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicantProfileController;
+use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\DentistDashboardController;
@@ -96,6 +97,21 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
             Route::get('/dashboard', 'Dashboard')->name('dashboard');
         });
     });
+});
+
+// ---------------------- // ✅ DENTIST ROUTES (Updated with middleware) // ----------------------
+Route::prefix('/stripe')->name('stripe.')->group(function () {
+    // Public routes (no auth)
+    Route::controller(StripeController::class)->group(function () {
+        Route::get('/checkout',  'checkout')->name('checkout');
+    });
+
+    // Protected routes (require auth and dentist role)
+    // Route::middleware(['auth', CheckRole::class . ':dentist'])->group(function () {
+    //     Route::controller(DentistProfileController::class)->group(function () {
+    //         Route::get('/dashboard', 'Dashboard')->name('dashboard');
+    //     });
+    // });
 });
 
 // ✅ UNIVERSAL GET /login REDIRECT (if someone hits /login directly)

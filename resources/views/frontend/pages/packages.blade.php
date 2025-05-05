@@ -103,6 +103,8 @@
                                 <form method="get" action="{{ route('dentist.registration.page') }}">
                                     @csrf
                                     <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                    <input type="hidden" name="plan_slug" value="{{ $plan->slug }}">
+                                    <input type="hidden" name="plan_slug" value="{{ $plan->slug }}">
                                     <input type="hidden" name="billing_cycle" value="monthly" class="hidden-zahlweise">
 
                                     <button type="submit"

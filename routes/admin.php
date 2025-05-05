@@ -42,13 +42,11 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 
         // for admin plan routes
         Route::controller(PlanController::class)->group(function () {
-            Route::get('/pläne', 'index')->name('plans.index');
-            Route::get('/pläne/create', 'create')->name('plans.create');
-            Route::post('/pläne', 'store')->name('plans.store');
-            Route::get('/pläne/{plan}', 'show')->name('plans.show');
-            Route::get('/pläne/{plan}/edit', 'edit')->name('plans.edit');
-            Route::put('/pläne/{plan}', 'update')->name('plans.update');
-            Route::delete('/pläne/{plan}', 'destroy')->name('plans.destroy');
+            Route::get('/plan', 'index')->name('plans.index');
+            Route::post('/plan', 'store')->name('plans.store');
+            Route::get('/plan/{plan}/edit', 'edit')->name('plans.edit');
+            Route::put('/plan/{plan}', 'update')->name('plans.update');
+            Route::delete('/plan/{plan}', 'destroy')->name('plans.destroy');
         });
 
         // end protedted routes

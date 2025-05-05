@@ -42,6 +42,7 @@
     <!-- Core -->
     <script src="{{ asset('backend/assets/vendor/@popperjs/core/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
     <!-- Vendor JS -->
     <script src="{{ asset('backend/assets/vendor/onscreen/dist/on-screen.umd.min.js') }}"></script>
     <!-- Slider -->

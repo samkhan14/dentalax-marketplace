@@ -29,6 +29,7 @@ class DentistRegistrationRequest extends FormRequest
             'website'              => 'nullable|url|max:255',
             'datenschutz'          => 'accepted',
             'plan_id'              => ['required', Rule::exists('plans', 'id')],
+            'plan_slug'            => ['required', Rule::exists('plans', 'slug')],
             'billing_cycle'        => ['required', Rule::in(['monthly', 'yearly'])],
         ];
     }

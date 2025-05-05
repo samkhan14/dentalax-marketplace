@@ -61,7 +61,7 @@
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
                     </span>
-                    <span class="sidebar-text">Armaturenbrett</span>
+                    <span class="sidebar-text">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item {{ $page == 'users' ? 'active' : '' }}">
@@ -75,7 +75,7 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </span>
-                    <span class="sidebar-text">Benutzer</span>
+                    <span class="sidebar-text">Users</span>
                 </a>
             </li>
             <li class="nav-item {{ $page == 'patients' ? 'active' : '' }}">
@@ -89,7 +89,7 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </span>
-                    <span class="sidebar-text">Patientinnen</span>
+                    <span class="sidebar-text">Patients</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -103,7 +103,7 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </span>
-                    <span class="sidebar-text">Pläne</span>
+                    <span class="sidebar-text">Plans</span>
                 </a>
             </li>
 
@@ -119,7 +119,7 @@
                                     clip-rule="evenodd"></path>
                             </svg>
                         </span>
-                        <span class="sidebar-text">Zahnärztinnen</span>
+                        <span class="sidebar-text">Dentists</span>
                     </span>
                     <span class="link-arrow">
                         <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
@@ -134,13 +134,13 @@
                     <ul class="flex-column nav">
                         <li class="nav-item {{ $page == 'dentists' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.dentists') }}">
-                                <span class="sidebar-text">Alle Zahnärzte
+                                <span class="sidebar-text">All Dentists
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page == 'dentist.create' ? 'active' : '' }}">
+                        <li class="nav-item {{ $page == 'dentist.import' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.dentist.import') }}">
-                                <span class="sidebar-text">Zahnärzte importieren</span>
+                                <span class="sidebar-text">Dentist Import</span>
                             </a>
                         </li>
                     </ul>
