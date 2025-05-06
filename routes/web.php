@@ -89,21 +89,25 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
         Route::post('/registrieren', 'dentistRegistrationStore')->name('registration.store')->middleware(['throttle:5,1']);
         Route::get('/login', 'dentistLoginPage')->name('login.page');
         Route::get('/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('landingpage');
+        Route::get('/praxis-daten-eingeben-neu', 'dentistWizard')->name('wizard'); // (for temp placed)
     });
 
     // Protected routes (require auth and dentist role)
     Route::middleware(['auth', CheckRole::class . ':dentist'])->group(function () {
         Route::controller(DentistProfileController::class)->group(function () {
             Route::get('/dashboard', 'Dashboard')->name('dashboard');
+
         });
     });
 });
 
 // ---------------------- // ✅ DENTIST ROUTES (Updated with middleware) // ----------------------
-Route::prefix('/stripe')->name('stripe.')->group(function () {
+Route::prefix('stripe')->name('stripe.')->group(function () {
     // Public routes (no auth)
     Route::controller(StripeController::class)->group(function () {
         Route::get('/checkout',  'checkout')->name('checkout');
+        Route::get('/checkout/success', 'checkoutSuccess')->name('success');
+        Route::get('/checkout/cancel', 'checkoutCancel')->name('cancel');
     });
 
     // Protected routes (require auth and dentist role)

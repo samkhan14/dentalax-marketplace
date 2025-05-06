@@ -56,19 +56,9 @@ class DentistProfileController extends Controller
         ));
     }
 
-
     public function dentistRegistrationStore(DentistRegistrationRequest $request)
     {
         $validated = $request->validated();
-
-        if (in_array($validated['plan_slug'], ['praxispro', 'praxisplus'])) {
-            if (in_array($validated['billing_cycle'], ['monthly', 'yearly'])) {
-                session()->put('dentist_form_data', $validated);
-                return response()->json([
-                    'redirect' => route('stripe.checkout'),
-                ]);
-            }
-        }
 
         $result = $this->dentistProfileService->dentistRegistrationStore($validated);
 
@@ -95,6 +85,10 @@ class DentistProfileController extends Controller
         $plan = $profileData->plan;
         //  dd($profileData);
         return view('frontend.pages.dashboards.dentist_dashboard', compact('profileData', 'plan', 'page'));
+    }
+
+    public function dentistWizard(){
+        return view('frontend.pages.practice_wizard');
     }
 
 }

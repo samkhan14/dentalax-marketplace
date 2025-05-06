@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 01, 2025 at 06:50 PM
+-- Generation Time: May 06, 2025 at 06:33 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -90,6 +90,14 @@ CREATE TABLE `cache` (
   `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('dentalx_cache_5c785c036466adea360111aa28563bfd556b5fba', 'i:1;', 1746465639),
+('dentalx_cache_5c785c036466adea360111aa28563bfd556b5fba:timer', 'i:1746465639;', 1746465639);
 
 -- --------------------------------------------------------
 
@@ -567,7 +575,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (44, '2025_05_01_170833_create_customer_columns', 11),
 (45, '2025_05_01_170834_create_subscriptions_table', 12),
 (46, '2025_05_01_170835_create_subscription_items_table', 13),
-(47, '2025_05_01_180920_add_deletd_at_col_in_plans_table', 14);
+(47, '2025_05_01_180920_add_deletd_at_col_in_plans_table', 14),
+(48, '2025_05_06_122311_add_col_status_in_users_table', 15);
 
 -- --------------------------------------------------------
 
@@ -984,6 +993,7 @@ CREATE TABLE `users` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '1',
   `google_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -999,23 +1009,23 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `google_id`, `remember_token`, `deleted_at`, `created_at`, `updated_at`, `stripe_id`, `pm_type`, `pm_last_four`, `trial_ends_at`) VALUES
-(1, 'Admin', 'admin@dentalax.com', NULL, '$2y$12$xfO1BLN6s9H/.fBdRuC4Iuwu0rZtNI5XokyGWjPo0f19t/b/Fa6GG', NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08', NULL, NULL, NULL, NULL),
-(9, 'Ora Graham', 'bedugo@mailinator.com', NULL, '$2y$12$gR7PxGn7J2TjSb20KgrBn.qjBKOspK.i1yVhiDITeYqeq4YkhY9Iy', NULL, NULL, NULL, '2025-04-22 06:47:35', '2025-04-22 06:47:35', NULL, NULL, NULL, NULL),
-(12, 'Ryan Murphy', 'newycamov@mailinator.com', NULL, '$2y$12$7d0CHQTEz2WEJB83RKWsaesGS4vMGbOvxofejiNV8eiA4HljRaWBC', NULL, NULL, NULL, '2025-04-22 08:05:07', '2025-04-22 08:05:07', NULL, NULL, NULL, NULL),
-(13, 'Karly Walton Harrison England', 'talugih@mailinator.com', NULL, '$2y$12$Jo0Gxxes/ZKIDxHcM8sF/uzBG1K7sZlSn4VRO.IVw2Z28.s41Mzpu', NULL, NULL, NULL, '2025-04-22 12:00:12', '2025-04-22 12:00:12', NULL, NULL, NULL, NULL),
-(14, 'Gregory Ball', 'byledipag@mailinator.com', NULL, '$2y$12$svkVtHqm3Z5jenzI126bkO1rxZUm39H7BtebeuTaSo0JDYotbdLAm', NULL, NULL, NULL, '2025-04-24 08:03:39', '2025-04-24 08:03:39', NULL, NULL, NULL, NULL),
-(15, 'Basil Jennings', 'romolejy@mailinator.com', NULL, '$2y$12$mDDI2NBQZ03/465KsyGCzOISw4yPae4GSlJolnttvApkhCr46d1iK', NULL, NULL, NULL, '2025-04-24 08:17:41', '2025-04-24 08:17:41', NULL, NULL, NULL, NULL),
-(16, 'Dillon Sloan', 'poca@mailinator.com', NULL, '$2a$12$BIQvpZRNJSRsSH/IZOfbducu65VP6..U88IV1nAgy/qE1ca9f3UIy', NULL, NULL, NULL, '2025-04-24 08:45:25', '2025-04-24 08:45:25', NULL, NULL, NULL, NULL),
-(17, 'Ezra Macias', 'tydek@mailinator.com', NULL, '$2y$12$su.ZxW1.w.N/fefBAgHFeeCsuhH4uGzyvFDdjfTAFsDq0OXNpCuh6', NULL, NULL, NULL, '2025-04-24 08:55:46', '2025-04-24 08:55:46', NULL, NULL, NULL, NULL),
-(18, 'Cyrus Leonard Sylvester Phillips', 'wufuno@mailinator.com', NULL, '$2y$12$OpLT/y6KYwVNftTIgFGbfeOgSiPmyWG57Z6LqQ5epNJd.vY3kCWw.', NULL, NULL, NULL, '2025-04-24 12:34:39', '2025-04-24 12:34:39', NULL, NULL, NULL, NULL),
-(19, 'Peter Salazar Ila Francis', 'jawodituf@mailinator.com', NULL, '$2y$12$3VpIKVckhpGLoOBUXCSGD.YmhG7dBNyv6BCiAdiUUecNayToiIJFy', NULL, NULL, NULL, '2025-04-24 12:37:52', '2025-04-24 12:37:52', NULL, NULL, NULL, NULL),
-(20, 'Amber Ayers Brody Haley', 'pynizev@mailinator.com', NULL, '$2y$12$1orv.TPtISh6IljTOC4H6uGGqHUGgouz3OaB7cFyVYn77hgBcXwDa', NULL, NULL, NULL, '2025-04-24 13:04:03', '2025-04-24 13:04:03', NULL, NULL, NULL, NULL),
-(21, 'Amir Lester', 'mepalore@mailinator.com', NULL, '$2y$12$pZCQ4RKlNZee8xOEWibdbutUeIYiNJyUQ2D9z5wjQK2VKlqxGS/0q', NULL, NULL, NULL, '2025-04-24 14:15:07', '2025-04-24 14:15:07', NULL, NULL, NULL, NULL),
-(22, 'Blythe Wilcox', 'coxex@mailinator.com', NULL, '$2y$12$tKY0QAhfVQ1MkkW/0GKi..P/NCDOeu3bEqu83KyRcwDc8FVJ11XSu', NULL, NULL, NULL, '2025-04-25 10:59:11', '2025-04-25 10:59:11', NULL, NULL, NULL, NULL),
-(27, 'Macon Heath', 'runaril@mailinator.com', NULL, '$2y$12$cp94oZKFJp1/IcztqlSDku.lJOlkeaC3LuQh70mmhpjoc0gJYqcdS', NULL, NULL, NULL, '2025-04-28 12:40:22', '2025-04-28 12:40:22', NULL, NULL, NULL, NULL),
-(29, 'Azalia Bauer', 'vyquwap@mailinator.com', NULL, '$2y$12$hVSOVZ8tk9jhr7WjyOXh4ejuXgyNHRMK44D/mghz9jNmx7KpexQ16', NULL, NULL, NULL, '2025-04-28 12:47:35', '2025-04-28 12:47:35', NULL, NULL, NULL, NULL),
-(30, 'Wyatt Petty', 'xaxyweho@mailinator.com', NULL, '$2y$12$MV9FnFNvGirUZtUIu3Twk.lrO4m6Ed6AE654ueaJvP1vjhHnTRdhC', NULL, NULL, NULL, '2025-04-29 11:17:41', '2025-04-29 11:17:41', NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `status`, `google_id`, `remember_token`, `deleted_at`, `created_at`, `updated_at`, `stripe_id`, `pm_type`, `pm_last_four`, `trial_ends_at`) VALUES
+(1, 'Admin', 'admin@dentalax.com', NULL, '$2y$12$xfO1BLN6s9H/.fBdRuC4Iuwu0rZtNI5XokyGWjPo0f19t/b/Fa6GG', 1, NULL, NULL, NULL, '2025-04-19 17:36:08', '2025-04-19 17:36:08', NULL, NULL, NULL, NULL),
+(9, 'Ora Graham', 'bedugo@mailinator.com', NULL, '$2y$12$gR7PxGn7J2TjSb20KgrBn.qjBKOspK.i1yVhiDITeYqeq4YkhY9Iy', 1, NULL, NULL, NULL, '2025-04-22 06:47:35', '2025-04-22 06:47:35', NULL, NULL, NULL, NULL),
+(12, 'Ryan Murphy', 'newycamov@mailinator.com', NULL, '$2y$12$7d0CHQTEz2WEJB83RKWsaesGS4vMGbOvxofejiNV8eiA4HljRaWBC', 1, NULL, NULL, NULL, '2025-04-22 08:05:07', '2025-04-22 08:05:07', NULL, NULL, NULL, NULL),
+(13, 'Karly Walton Harrison England', 'talugih@mailinator.com', NULL, '$2y$12$Jo0Gxxes/ZKIDxHcM8sF/uzBG1K7sZlSn4VRO.IVw2Z28.s41Mzpu', 1, NULL, NULL, NULL, '2025-04-22 12:00:12', '2025-04-22 12:00:12', NULL, NULL, NULL, NULL),
+(14, 'Gregory Ball', 'byledipag@mailinator.com', NULL, '$2y$12$svkVtHqm3Z5jenzI126bkO1rxZUm39H7BtebeuTaSo0JDYotbdLAm', 1, NULL, NULL, NULL, '2025-04-24 08:03:39', '2025-04-24 08:03:39', NULL, NULL, NULL, NULL),
+(15, 'Basil Jennings', 'romolejy@mailinator.com', NULL, '$2y$12$mDDI2NBQZ03/465KsyGCzOISw4yPae4GSlJolnttvApkhCr46d1iK', 1, NULL, NULL, NULL, '2025-04-24 08:17:41', '2025-04-24 08:17:41', NULL, NULL, NULL, NULL),
+(16, 'Dillon Sloan', 'poca@mailinator.com', NULL, '$2a$12$BIQvpZRNJSRsSH/IZOfbducu65VP6..U88IV1nAgy/qE1ca9f3UIy', 1, NULL, NULL, NULL, '2025-04-24 08:45:25', '2025-04-24 08:45:25', NULL, NULL, NULL, NULL),
+(17, 'Ezra Macias', 'tydek@mailinator.com', NULL, '$2y$12$su.ZxW1.w.N/fefBAgHFeeCsuhH4uGzyvFDdjfTAFsDq0OXNpCuh6', 1, NULL, NULL, NULL, '2025-04-24 08:55:46', '2025-04-24 08:55:46', NULL, NULL, NULL, NULL),
+(18, 'Cyrus Leonard Sylvester Phillips', 'wufuno@mailinator.com', NULL, '$2y$12$OpLT/y6KYwVNftTIgFGbfeOgSiPmyWG57Z6LqQ5epNJd.vY3kCWw.', 1, NULL, NULL, NULL, '2025-04-24 12:34:39', '2025-04-24 12:34:39', NULL, NULL, NULL, NULL),
+(19, 'Peter Salazar Ila Francis', 'jawodituf@mailinator.com', NULL, '$2y$12$3VpIKVckhpGLoOBUXCSGD.YmhG7dBNyv6BCiAdiUUecNayToiIJFy', 1, NULL, NULL, NULL, '2025-04-24 12:37:52', '2025-04-24 12:37:52', NULL, NULL, NULL, NULL),
+(20, 'Amber Ayers Brody Haley', 'pynizev@mailinator.com', NULL, '$2y$12$1orv.TPtISh6IljTOC4H6uGGqHUGgouz3OaB7cFyVYn77hgBcXwDa', 1, NULL, NULL, NULL, '2025-04-24 13:04:03', '2025-04-24 13:04:03', NULL, NULL, NULL, NULL),
+(21, 'Amir Lester', 'mepalore@mailinator.com', NULL, '$2y$12$pZCQ4RKlNZee8xOEWibdbutUeIYiNJyUQ2D9z5wjQK2VKlqxGS/0q', 1, NULL, NULL, NULL, '2025-04-24 14:15:07', '2025-04-24 14:15:07', NULL, NULL, NULL, NULL),
+(22, 'Blythe Wilcox', 'coxex@mailinator.com', NULL, '$2y$12$tKY0QAhfVQ1MkkW/0GKi..P/NCDOeu3bEqu83KyRcwDc8FVJ11XSu', 1, NULL, NULL, NULL, '2025-04-25 10:59:11', '2025-04-25 10:59:11', NULL, NULL, NULL, NULL),
+(27, 'Macon Heath', 'runaril@mailinator.com', NULL, '$2y$12$cp94oZKFJp1/IcztqlSDku.lJOlkeaC3LuQh70mmhpjoc0gJYqcdS', 1, NULL, NULL, NULL, '2025-04-28 12:40:22', '2025-04-28 12:40:22', NULL, NULL, NULL, NULL),
+(29, 'Azalia Bauer', 'vyquwap@mailinator.com', NULL, '$2y$12$hVSOVZ8tk9jhr7WjyOXh4ejuXgyNHRMK44D/mghz9jNmx7KpexQ16', 1, NULL, NULL, NULL, '2025-04-28 12:47:35', '2025-04-28 12:47:35', NULL, NULL, NULL, NULL),
+(30, 'Wyatt Petty', 'xaxyweho@mailinator.com', NULL, '$2y$12$MV9FnFNvGirUZtUIu3Twk.lrO4m6Ed6AE654ueaJvP1vjhHnTRdhC', 1, NULL, NULL, NULL, '2025-04-29 11:17:41', '2025-04-29 11:17:41', NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -1419,7 +1429,7 @@ ALTER TABLE `job_posts`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `patient_profiles`

@@ -24,6 +24,16 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
+            // Check if the user's status is 1
+            if ($user->status !== 1) {
+                Auth::logout();
+
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['email' => 'Ihr Konto ist derzeit deaktiviert. Bitte kontaktieren Sie den Support.']);
+            }
+
+            // Check if the user has the expected role
             if (!$user->hasRole($expectedRole)) {
                 Auth::logout();
 
@@ -48,7 +58,6 @@ class UserController extends Controller
             ->withInput()
             ->withErrors(['email' => 'Ungültige Anmeldedaten.']);
     }
-
 
     public function userLogout(Request $request)
     {
