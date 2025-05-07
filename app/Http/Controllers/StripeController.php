@@ -18,7 +18,7 @@ class StripeController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $this->stripeService = $stripeService;
     }
-    public function checkout()
+    public function stripeCheckoutSession()
     {
         $formData = session('dentist_form_data');
         // dd('checkout', $formData);

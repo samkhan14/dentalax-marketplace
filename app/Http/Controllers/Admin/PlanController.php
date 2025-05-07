@@ -14,12 +14,13 @@ class PlanController extends Controller
     public function index()
     {
         $plans = Plan::latest()->get();
-        // dd($plans);
+        //  dd($plans);
         return view('backend.pages.plans.index', compact('plans'));
     }
 
     public function store(StorePlanRequest $request, StripeService $stripeService)
     {
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -29,7 +30,9 @@ class PlanController extends Controller
                 'price_monthly' => $request->price_monthly,
                 'price_yearly' => $request->price_yearly,
                 'description' => $request->description,
-                'features' => json_encode($request->features),
+                'features' => json_encode($request->features ?? []),
+                'price_tag' => $request->price_tag ?? 'Free',
+                'is_active' => $request->is_active,
             ]);
 
             $stripeData = $stripeService->createProductAndPrices($plan);
@@ -40,11 +43,13 @@ class PlanController extends Controller
                 'stripe_price_yearly' => $stripeData['price_yearly'],
             ]);
 
+            // dd($stripeData, $plan);
             DB::commit();
-            return redirect()->route('admin.plans.index')->with('success', 'Plan has been created on Stripe and Portal.');
+            // return redirect()->route('admin.plans.index')->with('success', 'Plan has been created on Stripe and Portal.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Fehler beim Erstellen: ' . $e->getMessage()]);
+            return response()->json(['error' => 'Failed to create plan: ' . $e->getMessage()], 500);
+            // return back()->withErrors(['error' => 'Fehler beim Erstellen: ' . $e->getMessage()]);
         }
     }
 

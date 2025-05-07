@@ -48,6 +48,7 @@ class StripeService
             'product' => $product->id,
         ]);
 
+        //  dd($product, $priceMonthly, $priceYearly);
         return [
             'product_id' => $product->id,
             'price_monthly' => $priceMonthly->id,

@@ -17,6 +17,7 @@ class Plan extends Model
         'features',
         'is_default',
         'is_active',
+        'price_tag',
         'stripe_product_id',
         'stripe_price_monthly',
         'stripe_price_yearly',
@@ -28,7 +29,6 @@ class Plan extends Model
         'is_default' => 'boolean',
         'is_active' => 'boolean'
     ];
-
 
 
 }

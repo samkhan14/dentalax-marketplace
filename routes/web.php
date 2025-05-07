@@ -90,6 +90,7 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
         Route::get('/login', 'dentistLoginPage')->name('login.page');
         Route::get('/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('landingpage');
         Route::get('/praxis-daten-eingeben-neu', 'dentistWizard')->name('wizard'); // (for temp placed)
+        Route::get('/checkout','selectPaymentGateway')->name('payment.geteway');
     });
 
     // Protected routes (require auth and dentist role)
@@ -105,7 +106,7 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
 Route::prefix('stripe')->name('stripe.')->group(function () {
     // Public routes (no auth)
     Route::controller(StripeController::class)->group(function () {
-        Route::get('/checkout',  'checkout')->name('checkout');
+        Route::get('/checkout',  'stripeCheckoutSession')->name('checkout');
         Route::get('/checkout/success', 'checkoutSuccess')->name('success');
         Route::get('/checkout/cancel', 'checkoutCancel')->name('cancel');
     });

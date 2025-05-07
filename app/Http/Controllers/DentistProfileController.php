@@ -25,26 +25,17 @@ class DentistProfileController extends Controller
     }
     public function dentistRegistrationPage(Request $request)
     {
-        // Save plan selection to session if coming from pricing page
-        if ($request->filled('plan_id')) {
-            session([
-                'selected_plan_id' => $request->plan_id,
-                'selected_plan_slug' => $request->plan_slug,
-                'selected_billing_type' => $request->billing_cycle ?? 'monthly',
-            ]);
-        }
-
         // Retrieve selected plan or fallback to default
-        $planId = session('selected_plan_id');
+        $planId = $request->get('plan_id');
         $plan = Plan::find($planId) ?? Plan::where('is_default', true)->first();
 
         if (!$plan) {
-            return redirect()->route('pricing')->with('error', 'Plan not found. Please select again.');
+            return redirect()->route('packages')->with('error', 'Plan not found. Please select again.');
         }
 
         // Use session value or fallback
-        $planSlug = session('selected_plan_slug', $plan->slug);
-        $billingCycle = session('selected_billing_type', 'monthly');
+        $planSlug = $request->get('plan_slug', $plan->slug);
+        $billingCycle = $request->get('billing_cycle', 'monthly');
 
         $cities = City::orderBy('name')->get();
 
@@ -54,6 +45,40 @@ class DentistProfileController extends Controller
             'billingCycle',
             'planSlug'
         ));
+    }
+
+    public function selectPaymentGateway()
+    {
+
+        $formData = session('dentist_form_data');
+        if (!$formData) {
+            return redirect()->route('dentist.registration.page')->withErrors(['msg' => 'Session expired. Bitte registrieren Sie erneut.']);
+        }
+
+        $plan = Plan::find($formData['plan_id']);
+        // Determine price based on billing cycle
+        $billingCycle = $formData['billing_cycle'];
+        $baseAmount = 0.00;
+
+        if ($plan->slug === 'praxispro') {
+            $amount = $billingCycle === 'monthly' ? 59.00 : 636.00;
+        } elseif ($plan->slug === 'praxisplus') {
+            $amount = $billingCycle === 'monthly' ? 89.00 : 960.00;
+        } else {
+            $amount = $baseAmount; // fallback for other plans
+        }
+
+        // Calculate VAT (19%) and Net
+        $vat = round($amount * 0.19, 2);
+        $net = round($amount - $vat, 2);
+        return view('frontend.pages.dentist_payment_gateway', [
+            'plan' => $plan,
+            'billing_type' => $formData['billing_cycle'],
+            'amount' => $amount,
+            'net' => $net,
+            'vat' => $vat,
+            'formData' => $formData
+        ]);
     }
 
     public function dentistRegistrationStore(DentistRegistrationRequest $request)
@@ -81,7 +106,6 @@ class DentistProfileController extends Controller
         }
     }
 
-
     public function dentistLoginPage()
     {
 
@@ -101,5 +125,6 @@ class DentistProfileController extends Controller
     {
         return view('frontend.pages.practice_wizard');
     }
+
 
 }

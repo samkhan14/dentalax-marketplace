@@ -22,6 +22,7 @@ class StorePlanRequest extends FormRequest
             'price_yearly' => 'required|numeric|min:0',
             'features' => 'nullable|array',
             'features.*' => 'string|max:255',
+            'price_tag' => 'required|string',
         ];
     }
 

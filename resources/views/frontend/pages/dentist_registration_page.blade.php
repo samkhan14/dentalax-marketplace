@@ -27,6 +27,16 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden" data-aos="fade-up">
                         <div class="card-header p-4 bg-primary text-white">
                             <div class="d-flex align-items-center">

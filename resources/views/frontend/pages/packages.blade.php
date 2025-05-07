@@ -50,6 +50,11 @@
         </div>
     </section>
 
+    @if (session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
     <!-- Preispakete -->
     <section class="py-5">
         <div class="container py-3">
@@ -87,8 +92,8 @@
                                 </div>
 
                                 <p class="text-secondary small mb-4">Perfekt für wachsende Praxen</p>
-
-                                <ul class="list-unstyled mb-4">
+                                {{ $plan['features']}}
+                                {{-- <ul class="list-unstyled mb-4">
                                     @foreach ($plan['features'] as $feature)
                                         <li class="d-flex align-items-center mb-3">
                                             <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
@@ -98,12 +103,11 @@
                                             <span>{{ $feature }}</span>
                                         </li>
                                     @endforeach
-                                </ul>
+                                </ul> --}}
 
                                 <form method="get" action="{{ route('dentist.registration.page') }}">
                                     @csrf
                                     <input type="hidden" name="plan_id" value="{{ $plan->id }}">
-                                    <input type="hidden" name="plan_slug" value="{{ $plan->slug }}">
                                     <input type="hidden" name="plan_slug" value="{{ $plan->slug }}">
                                     <input type="hidden" name="billing_cycle" value="monthly" class="hidden-zahlweise">
 

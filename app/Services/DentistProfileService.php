@@ -60,12 +60,12 @@ class DentistProfileService
                 return [
                     'success' => true,
                     'message' => 'Redirecting to payment...',
-                    'redirect' => route('stripe.checkout'),
+                    'redirect' => route('dentist.payment.geteway'),
                 ];
             }
 
             // 4. Send registration email
-            Mail::to($user->email)->send(new DentistRegistrationEmail($user));
+            // Mail::to($user->email)->send(new DentistRegistrationEmail($user));
 
             DB::commit();
 
