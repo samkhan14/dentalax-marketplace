@@ -21,11 +21,12 @@ class StripeController extends Controller
     public function checkout()
     {
         $formData = session('dentist_form_data');
+        // dd('checkout', $formData);
 
         abort_unless(isset($formData['user_id']), 403, 'Invalid session data. Please try again.');
 
         $user = User::find($formData['user_id']);
-
+        // dd($user);
         try {
             $checkoutUrl = $this->stripeService->createCheckoutSession($formData);
             return redirect()->away($checkoutUrl);

@@ -39,7 +39,7 @@ class ApplicantRegistrationEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.emails.applicant_registration_email',
+            view: 'emails.applicant_registration_email',
             with: [
                 'user' => $this->user,
             ],

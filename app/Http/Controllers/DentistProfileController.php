@@ -58,19 +58,29 @@ class DentistProfileController extends Controller
 
     public function dentistRegistrationStore(DentistRegistrationRequest $request)
     {
-        $validated = $request->validated();
+        try {
+            $validated = $request->validated();
 
-        $result = $this->dentistProfileService->dentistRegistrationStore($validated);
+            $result = $this->dentistProfileService->dentistRegistrationStore($validated);
 
-        // Clear plan session
-        session()->forget(['selected_plan_id', 'selected_billing_type']);
+            // Clear plan session
+            session()->forget(['selected_plan_id', 'selected_billing_type']);
 
-        return response()->json([
-            'success' => $result['success'],
-            'message' => $result['message'],
-            'redirect' => $result['redirect'] ?? null,
-        ]);
+            return response()->json([
+                'success' => $result['success'] ?? false, // Check if key exists
+                'message' => $result['message'] ?? 'Registration failed: Unknown error.',
+                'redirect' => $result['redirect'] ?? null,
+            ]);
+
+        } catch (\Exception $e) {
+            // Handle exception gracefully
+            return response()->json([
+                'success' => false,
+                'message' => 'Registration failed: ' . $e->getMessage(),
+            ]);
+        }
     }
+
 
     public function dentistLoginPage()
     {
@@ -87,7 +97,8 @@ class DentistProfileController extends Controller
         return view('frontend.pages.dashboards.dentist_dashboard', compact('profileData', 'plan', 'page'));
     }
 
-    public function dentistWizard(){
+    public function dentistWizard()
+    {
         return view('frontend.pages.practice_wizard');
     }
 

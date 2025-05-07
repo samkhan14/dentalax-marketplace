@@ -70,11 +70,14 @@ class StripeService
     public function createCheckoutSession(array $formData): string
     {
         $user = User::findOrFail($formData['user_id']);
+        // dd($user, "service me agya");
         // Set Stripe as default payment provider for Cashier
         Cashier::useCustomerModel(User::class);
         // Set Stripe price ID based on plan and billing
         try {
+            // dd("agya try me");
             $priceId = $this->resolveStripePriceId($formData['plan_slug'], $formData['billing_cycle']);
+            // dd($priceId);
         } catch (\Exception $e) {
             \Log::error('Invalid price resolution', ['error' => $e->getMessage()]);
             throw $e; // Let controller handle it
@@ -92,8 +95,9 @@ class StripeService
 
     public function resolveStripePriceId(string $planSlug, string $billingCycle): string
     {
+        // dd($planSlug, $billingCycle);
         $plan = Plan::where('slug', $planSlug)->first();
-
+        // dd($plan);
         if (!$plan) {
             throw new \Exception("Plan not found for slug: {$planSlug}");
         }

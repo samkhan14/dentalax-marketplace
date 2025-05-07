@@ -58,6 +58,8 @@ class DentistProfileService
                 DB::commit(); // commit before redirect
 
                 return [
+                    'success' => true,
+                    'message' => 'Redirecting to payment...',
                     'redirect' => route('stripe.checkout'),
                 ];
             }
@@ -79,6 +81,7 @@ class DentistProfileService
             return [
                 'success' => false,
                 'message' => 'Registrierung fehlgeschlagen: ' . $e->getMessage(),
+                'redirect' => null,
             ];
         }
     }
