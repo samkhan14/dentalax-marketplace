@@ -89,16 +89,17 @@ Route::prefix('zahnarzt')->name('dentist.')->group(function () {
         Route::get('/registrieren', 'dentistRegistrationPage')->name('registration.page');
         Route::post('/registrieren', 'dentistRegistrationStore')->name('registration.store')->middleware(['throttle:5,1']);
         Route::get('/login', 'dentistLoginPage')->name('login.page');
-        Route::get('/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('landingpage');
-        Route::get('/praxis-daten-eingeben-neu', 'dentistWizard')->name('wizard'); // (for temp placed)
+        Route::get('/zahnarztpraxis-dr-mueller', 'landingPageForDentist')->name('landingpage');        // (for temp placed)
         Route::get('/checkout','selectPaymentGateway')->name('payment.geteway');
+        // Route::get('/praxis-daten-eingeben-neu', 'dentistWizard')->name('wizard')->middleware([ 'ensure-practice-wizard-is-accessible']);
+        Route::get('/praxis-daten-eingeben-neu', 'dentistWizard')->name('wizard');
     });
 
     // Protected routes (require auth and dentist role)
     Route::middleware(['auth', CheckRole::class . ':dentist'])->group(function () {
         Route::controller(DentistProfileController::class)->group(function () {
             Route::get('/dashboard', 'Dashboard')->name('dashboard');
-
+            Route::post('/Übungsdaten-übermitteln', 'storeDentistWizard')->name('store.wizard');
         });
     });
 });
@@ -108,7 +109,7 @@ Route::prefix('stripe')->name('stripe.')->group(function () {
     // Public routes (no auth)
     Route::controller(StripeController::class)->group(function () {
         Route::get('/checkout',  'stripeCheckoutSession')->name('checkout');
-        Route::get('/checkout/success', 'checkoutSuccess')->name('success');
+        Route::get('/zahlung/erfolgreich', 'checkoutSuccess')->name('success');
         Route::get('/checkout/cancel', 'checkoutCancel')->name('cancel');
     });
 

@@ -29,6 +29,7 @@ class StripeController extends Controller
         // dd($user);
         try {
             $checkoutUrl = $this->stripeService->createCheckoutSession($formData);
+            session()->put('user_id', $user->id);
             return redirect()->away($checkoutUrl);
 
         } catch (\Throwable $e) {
@@ -46,12 +47,13 @@ class StripeController extends Controller
 
     public function checkoutSuccess(Request $request)
     {
-        $this->stripeService->checkoutSuccess($request);
+        return $this->stripeService->checkoutSuccess($request);
         // return redirect()->route('dentist.register')->with('success', 'Your payment was successful. You can now log in.');
     }
 
     public function checkoutCancel(Request $request)
     {
+        dd($request, "cansel hogae");
         $formData = session('dentist_form_data');
         $user = null;
 

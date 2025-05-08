@@ -91,7 +91,7 @@ class StripeService
                 'success_url' => route('stripe.success'),
                 'cancel_url' => route('stripe.cancel'),
             ]);
-            // dd($checkoutSession);
+        // dd($checkoutSession);
 
         return $checkoutSession->url;
     }
@@ -115,85 +115,136 @@ class StripeService
 
     public function checkoutSuccess(Request $request)
     {
-        // Get user from session or auth
-        $user = auth()->user() ?? User::find(session('user_id')); // fallback for unauthenticated success
+        try {
+            \Log::info('⚡ Stripe Checkout Success Triggered');
 
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'User not found.');
-        }
+            // ✅ Step 1: Get user from session or auth
+            $user = auth()->user() ?? User::find(session('user_id'));
+            \Log::info('✅ User Fetched', ['user_id' => $user?->id]);
 
-        // Login user
-        // Auth::login($user);
-
-        $subscription = $user->subscription('default');
-
-        if (!$subscription || !$subscription->valid()) {
-            return redirect()->route('packages')->with('error', 'Subscription not valid or missing.');
-        }
-
-        DB::transaction(function () use ($user, $subscription) {
-            $stripeSub = $subscription->asStripeSubscription();
-            $latestInvoice = $stripeSub->latest_invoice ?? null;
-            if (!$latestInvoice) {
-                throw new \Exception('Latest invoice not found on Stripe subscription.');
+            if (!$user) {
+                \Log::warning('❌ User not found during Stripe success');
+                return redirect()->route('dentist.login.page')->with('error', 'User not found.');
             }
-            $amount = $latestInvoice->amount_paid / 100;
-            $currency = strtoupper($stripeSub->currency);
-            $transactionId = $stripeSub->id;
 
-            $user->update(['status' => 1]);
-            $user->dentistProfile()?->update(['status' => 'claimed']);
+            // ✅ Step 2: Login user
+            // Auth::login($user);
+            // \Log::info('✅ User Logged In', ['user_id' => $user->id]);
 
-            $payment = Payment::create([
-                'user_id' => $user->id,
-                'plan_id' => $subscription->stripe_price, // or fetch your plan from DB if needed
-                'gateway' => 'stripe',
-                'billing_type' => 'recurring',
-                'transaction_id' => $transactionId,
-                'amount' => $amount,
-                'status' => 'succeeded',
-                'next_billing_date' => $subscription->nextPaymentDate(), // optional, from Cashier
+            // ✅ Step 3: Get subscription
+            $subscription = $user->subscription('default');
+            \Log::info('📦 Subscription Fetched', ['subscription' => $subscription]);
+
+            if (!$subscription || !$subscription->valid()) {
+                \Log::warning('❌ Invalid or missing subscription', ['user_id' => $user->id]);
+                return redirect()->route('packages')->with('error', 'Subscription is not valid or missing.');
+            }
+
+            DB::transaction(function () use ($user, $subscription) {
+
+                \Log::info('🔐 Entering DB Transaction');
+
+                $stripeSub = $subscription->asStripeSubscription();
+                \Log::info('🔁 Stripe Subscription', ['stripe_id' => $stripeSub->id]);
+
+                $latestInvoice = $stripeSub->latest_invoice ?? null;
+
+                if (!$latestInvoice) {
+                    throw new \Exception('Latest invoice not found on Stripe.');
+                }
+
+                $amount = $latestInvoice->amount_paid / 100;
+                $currency = strtoupper($stripeSub->currency);
+                $transactionId = $stripeSub->id;
+
+                \Log::info('💳 Payment Details', [
+                    'amount' => $amount,
+                    'currency' => $currency,
+                    'transaction_id' => $transactionId,
+                ]);
+
+                // ✅ Step 4: Update user and profile
+                $user->update(['status' => 1]);
+                $user->dentistProfile()?->update(['status' => 'claimed']);
+                \Log::info('🧑‍⚕️ User & DentistProfile Updated');
+
+                // ✅ Step 5: Store payment
+                $payment = Payment::create([
+                    'user_id' => $user->id,
+                    'plan_id' => Plan::where('stripe_price_' . $subscription->recurring_interval, $subscription->stripe_price)->value('id') ?? 1,
+                    'gateway' => 'stripe',
+                    'billing_type' => 'recurring',
+                    'transaction_id' => $transactionId,
+                    'amount' => $amount,
+                    'status' => 'succeeded',
+                    'next_billing_date' => $subscription->nextPaymentDate(),
+                ]);
+                \Log::info('💰 Payment Saved', ['payment_id' => $payment->id]);
+
+                // ✅ Step 6: Store invoice
+                $invoice = Invoice::create([
+                    'user_id' => $user->id,
+                    'payment_id' => $payment->id,
+                    'invoice_no' => 'INV-' . strtoupper(uniqid()),
+                    'invoice_pdf' => null,
+                    'total' => $amount,
+                    'issued_at' => now(),
+                ]);
+                \Log::info('🧾 Invoice Saved', ['invoice_id' => $invoice->id]);
+
+                // ✅ Step 7: Store payment log
+                $log = PaymentLog::create([
+                    'transaction_id' => $transactionId,
+                    'payment_gateway' => 'stripe',
+                    'amount' => $amount,
+                    'currency' => $currency,
+                    'payment_method' => 'card',
+                    'payment_method_details' => json_encode($stripeSub->default_payment_method ?? []),
+                    'user_id' => $user->id,
+                    'invoice_id' => $invoice->id,
+                    'subscription_id' => $subscription->id,
+                    'status' => 'completed',
+                    'paid_at' => now(),
+                    'gateway_response' => json_encode($stripeSub),
+                    'gateway_status' => $stripeSub->status,
+                    'ip_address' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
+                ]);
+                \Log::info('📊 Payment Log Created', ['log_id' => $log->id]);
+
+                // ✅ Step 8: Emails
+                // try {
+                //     Mail::to($user->email)->send(new \App\Mail\SendInvoiceToUser($invoice));
+                //     Mail::to(config('mail.admin_address'))->send(new \App\Mail\NotifyAdminOfNewSubscription($user, $invoice));
+                //     \Log::info('📧 Emails Sent');
+                // } catch (\Throwable $mailEx) {
+                //     \Log::error('📬 Email sending failed: ' . $mailEx->getMessage());
+                // }
+            });
+
+            // ✅ Step 9: Clear session
+            session()->forget('dentist_form_data');
+            session()->forget('user_id');
+            \Log::info('🧹 Session cleared');
+
+            return view('frontend.pages.checkout_success');
+
+        } catch (\Throwable $e) {
+            \Log::error('❌ Stripe Success Exception: ' . $e->getMessage());
+
+            \App\Services\StripeExceptionService::handle($e, null, [
+                'transaction_id' => $transactionId ?? null,
+                'amount' => $amount ?? 0.00,
+                'currency' => $currency ?? 'EUR',
             ]);
 
-            $invoice = Invoice::create([
-                'user_id' => $user->id,
-                'payment_id' => $payment->id,
-                'invoice_no' => 'INV-' . strtoupper(uniqid()),
-                // 'invoice_pdf' => $user->invoicePdf($latestInvoice), // implement this method
-                'invoice_pdf' => null,
-                'total' => $amount,
-                'issued_at' => now(),
+            return redirect()->route('dentist.registration.page')->withErrors([
+                'stripe_error' => 'Payment processing failed: ' . $e->getMessage(),
             ]);
-
-            // ✅ Create payment log
-            PaymentLog::create([
-                'transaction_id' => $transactionId,
-                'payment_gateway' => 'stripe',
-                'amount' => $amount,
-                'currency' => $currency,
-                'payment_method' => 'card',
-                'payment_method_details' => json_encode($stripeSub->default_payment_method ?? []),
-                'user_id' => $user->id,
-                'invoice_id' => $invoice->id,
-                'subscription_id' => $subscription->id,
-                'status' => 'completed',
-                'paid_at' => now(),
-                'gateway_response' => json_encode($stripeSub),
-                'gateway_status' => $stripeSub->status,
-                'ip_address' => request()->ip(),
-                'user_agent' => request()->userAgent(),
-            ]);
-
-            // ✅ Send invoice to user
-            // Mail::to($user->email)->send(new \App\Mail\SendInvoiceToUser($invoice));
-
-            // // ✅ Send notification to admin
-            // Mail::to(config('mail.admin_address'))->send(new \App\Mail\NotifyAdminOfNewSubscription($user, $invoice));
-            dd($subscription, $latestInvoice, $amount, $currency, $transactionId, $user, $payment, $invoice);
-        });
-
-        // return redirect()->route('dashboard')->with('success', 'Payment completed and subscription activated.');
+        }
     }
+
+
 
     public function handleCancelledCheckout(array $formData, $user = null): void
     {

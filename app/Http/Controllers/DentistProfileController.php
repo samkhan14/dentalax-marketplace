@@ -126,5 +126,10 @@ class DentistProfileController extends Controller
         return view('frontend.pages.practice_wizard');
     }
 
+    public function storeDentistWizard(Request $request)
+    {
+
+    }
+
 
 }

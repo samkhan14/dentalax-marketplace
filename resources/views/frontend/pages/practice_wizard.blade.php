@@ -64,6 +64,22 @@
             box-shadow: 0 5px 15px rgba(64, 191, 216, 0.2);
         }
 
+        .booking-option-card input[type="radio"]:checked+.option-content {
+            border-color: #0d6efd;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         .booking-option-card .option-icon {
             font-size: 2.2rem;
             margin-bottom: 15px;
@@ -262,7 +278,7 @@
                                     </div>
 
                                     <div class="d-flex justify-content-between mt-4">
-                                        <div></div> <!-- Platzhalter für die Ausrichtung -->
+                                        <div></div>
                                         <button type="button" class="btn btn-primary next-step"
                                             data-target="step2-tab">Weiter</button>
                                     </div>
@@ -309,17 +325,15 @@
                                     </div>
 
                                     <div class="opening-hours-container">
-                                        Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag
                                         <div class="mb-3 opening-hours-row">
                                             <div class="row g-2 align-items-center">
                                                 <div class="col-md-2">
                                                     <label class="form-check-label">
                                                         <input type="checkbox" class="form-check-input me-2 closed-day"
-                                                            name="" value="1">
-
+                                                            name="montag_geschlossen" value="1">
+                                                        Montag
                                                     </label>
                                                 </div>
-
                                                 <div class="col-md-10">
                                                     <div class="row time-input-group" style="display: block;">
                                                         <div class="col-md-5">
@@ -348,13 +362,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="d-flex justify-content-between mt-4">
-                                        <button type="button" class="btn btn-outline-primary prev-step"
-                                            data-target="step2-tab">Zurück</button>
-                                        <button type="button" class="btn btn-primary next-step"
-                                            data-target="step4-tab">Weiter</button>
+                                        <div class="d-flex justify-content-between mt-4">
+                                            <button type="button" class="btn btn-outline-primary prev-step"
+                                                data-target="step2-tab">Zurück</button>
+                                            <button type="button" class="btn btn-primary next-step"
+                                                data-target="step4-tab">Weiter</button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -366,15 +380,14 @@
                                     </div>
 
                                     <div id="leistungen-container">
-                                        {% if leistungen %}
-                                        {% for leistung in leistungen %}
                                         <div class="leistung-item card mb-3">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Titel</label>
                                                         <input type="text" class="form-control"
-                                                            name="leistung_titel[]" value="">
+                                                            name="leistung_titel[]"
+                                                            placeholder="z.B. Professionelle Zahnreinigung">
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Icon</label>
@@ -395,13 +408,12 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <label class="form-label">Beschreibung</label>
-                                                        <textarea class="form-control" name="leistung_beschreibung[]" rows="2"></textarea>
+                                                        <textarea class="form-control" name="leistung_beschreibung[]" rows="2"
+                                                            placeholder="Kurze Beschreibung der Leistung..."></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Leistung-Template -->
                                         <div class="leistung-item card mb-3">
                                             <div class="card-body">
                                                 <div class="row">
@@ -464,12 +476,12 @@
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Name</label>
                                                         <input type="text" class="form-control" name="team_name[]"
-                                                            value="">
+                                                            placeholder="Dr. Max Mustermann">
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Position</label>
                                                         <input type="text" class="form-control" name="team_position[]"
-                                                            value="">
+                                                            placeholder="Zahnarzt">
                                                     </div>
                                                     <div class="col-md-2 d-flex align-items-end mb-3">
                                                         <button type="button"
@@ -477,15 +489,13 @@
                                                     </div>
                                                     <div class="col-md-12 mb-3">
                                                         <label class="form-label">Beschreibung</label>
-                                                        <textarea class="form-control" name="team_beschreibung[]" rows="2"></textarea>
+                                                        <textarea class="form-control" name="team_beschreibung[]" rows="2"
+                                                            placeholder="Kurze Beschreibung der Person und ihres Bereichs..."></textarea>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <label class="form-label">Foto (optional)</label>
                                                         <input type="file" class="form-control" name="team_foto[]"
                                                             accept="image/*">
-                                                        <div class="form-text">
-                                                            Aktuelles Bild: <a href="" target="_blank">Anzeigen</a>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -546,63 +556,58 @@
                                     <div class="booking-options-container mb-5">
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
-                                                <div class="booking-option-card" data-option="dashboard">
-                                                    <div class="option-icon">
-                                                        <i class="fas fa-calendar-check"></i>
+                                                <label class="booking-option-card">
+                                                    <input type="radio" name="terminbuchung_modus" value="dashboard"
+                                                        class="visually-hidden">
+                                                    <div class="option-content">
+                                                        <div class="option-icon">
+                                                            <i class="fas fa-calendar-check"></i>
+                                                        </div>
+                                                        <h5>Dentalax-Dashboard</h5>
+                                                        <p>Verwalten Sie Termine direkt über unser integriertes System.</p>
                                                     </div>
-                                                    <h5>Dentalax-Dashboard</h5>
-                                                    <p>Verwalten Sie Termine direkt über unser integriertes System.
-                                                        Patienten können Termine online buchen, die Sie in Ihrem Dashboard
-                                                        bestätigen.</p>
-                                                    <input class="form-check-input visually-hidden" type="radio"
-                                                        name="terminbuchung_modus" id="terminbuchung_modus_dashboard"
-                                                        value="dashboard">
-                                                </div>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <label class="booking-option-card">
+                                                    <input type="radio" name="terminbuchung_modus" value="redirect"
+                                                        class="visually-hidden">
+                                                    <div class="option-content">
+                                                        <div class="option-icon">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </div>
+                                                        <h5>Externes Buchungssystem</h5>
+                                                        <p>Nutzen Sie bereits Doctolib, Jameda oder ein anderes System?</p>
+                                                    </div>
+                                                </label>
                                             </div>
 
                                             <div class="col-md-6 mb-4">
-                                                <div class="booking-option-card" data-option="redirect">
-                                                    <div class="option-icon">
-                                                        <i class="fas fa-external-link-alt"></i>
+                                                <label class="booking-option-card">
+                                                    <input type="radio" name="terminbuchung_modus" value="api"
+                                                        class="visually-hidden">
+                                                    <div class="option-content">
+                                                        <div class="option-icon">
+                                                            <i class="fas fa-code"></i>
+                                                        </div>
+                                                        <h5>API-Integration</h5>
+                                                        <p>Verbinden Sie Ihre eigene Software über unsere API.</p>
                                                     </div>
-                                                    <h5>Externes Buchungssystem</h5>
-                                                    <p>Nutzen Sie bereits Doctolib, Jameda oder ein anderes System?
-                                                        Patienten werden direkt zu Ihrem bevorzugten Buchungstool
-                                                        weitergeleitet.</p>
-                                                    <input class="form-check-input visually-hidden" type="radio"
-                                                        name="terminbuchung_modus" id="terminbuchung_modus_redirect"
-                                                        value="">
-                                                </div>
+                                                </label>
                                             </div>
 
                                             <div class="col-md-6 mb-4">
-                                                <div class="booking-option-card" data-option="api">
-                                                    <div class="option-icon">
-                                                        <i class="fas fa-code"></i>
+                                                <label class="booking-option-card">
+                                                    <input type="radio" name="terminbuchung_modus" value="formular"
+                                                        class="visually-hidden">
+                                                    <div class="option-content">
+                                                        <div class="option-icon">
+                                                            <i class="fas fa-envelope"></i>
+                                                        </div>
+                                                        <h5>Kontaktformular</h5>
+                                                        <p>Ein einfaches Formular für Terminanfragen.</p>
                                                     </div>
-                                                    <h5>API-Integration</h5>
-                                                    <p>Verbinden Sie Ihre eigene Software über unsere API. Ideal für Praxen
-                                                        mit bestehenden Terminbuchungssystemen, die eine tiefere Integration
-                                                        wünschen.</p>
-                                                    <input class="form-check-input visually-hidden" type="radio"
-                                                        name="terminbuchung_modus" id="terminbuchung_modus_api"
-                                                        value="api">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 mb-4">
-                                                <div class="booking-option-card" data-option="formular">
-                                                    <div class="option-icon">
-                                                        <i class="fas fa-envelope"></i>
-                                                    </div>
-                                                    <h5>Kontaktformular</h5>
-                                                    <p>Ein einfaches Formular, über das Patienten Terminanfragen stellen
-                                                        können. Sie erhalten eine E-Mail und können die Anfrage manuell
-                                                        bearbeiten.</p>
-                                                    <input class="form-check-input visually-hidden" type="radio"
-                                                        name="terminbuchung_modus" id="terminbuchung_modus_formular"
-                                                        value="formular">
-                                                </div>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -910,233 +915,82 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Fortschrittsbalken-Aktualisierung
-            const updateProgress = (stepId) => {
+            // Initialize form navigation
+            const form = document.getElementById('praxis-form');
+
+            // Update progress bar and step circles
+            function updateProgress(currentStep) {
                 const totalSteps = 7;
-                const currentStep = parseInt(stepId.replace('step', ''));
-                const progress = (currentStep - 1) / (totalSteps - 1) * 100;
+                const progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
 
-                document.querySelector('.progress-bar').style.width = progress + '%';
-                document.querySelector('.progress-bar').setAttribute('aria-valuenow', progress);
+                // Update progress bar
+                const progressBar = document.querySelector('.progress-bar');
+                progressBar.style.width = `${progressPercentage}%`;
+                progressBar.setAttribute('aria-valuenow', progressPercentage);
 
-                // Aktualisierung der Schrittkreise
-                updateStepCircles(currentStep);
-            };
-
-            // Kreisschritte aktualisieren
-            const updateStepCircles = (currentStep) => {
+                // Update step circles
                 document.querySelectorAll('.step-circle').forEach((circle, index) => {
-                    if (index + 1 < currentStep) {
-                        circle.classList.add('active');
+                    const stepNumber = index + 1;
+
+                    if (stepNumber < currentStep) {
+                        // Completed step
+                        circle.classList.add('completed');
                         circle.innerHTML = '<i class="fas fa-check"></i>';
-                    } else if (index + 1 === currentStep) {
+                    } else if (stepNumber === currentStep) {
+                        // Current step
                         circle.classList.add('active');
-                        circle.innerHTML = (index + 1).toString();
+                        circle.classList.remove('completed');
+                        circle.innerHTML = stepNumber;
                     } else {
-                        circle.classList.remove('active');
-                        circle.innerHTML = (index + 1).toString();
+                        // Future step
+                        circle.classList.remove('active', 'completed');
+                        circle.innerHTML = stepNumber;
                     }
                 });
-            };
+            }
 
-            // Initialisierung: Schritt 1 aktiv
-            updateProgress('step1');
+            // Switch to specific tab
+            function switchToTab(tabId) {
+                const tabButton = document.getElementById(tabId);
+                if (!tabButton) return;
 
-            // Navigation zwischen Tabs
+                const tabInstance = new bootstrap.Tab(tabButton);
+                tabInstance.show();
+
+                // Update UI after a small delay to ensure tab is shown
+                setTimeout(() => {
+                    const stepNumber = parseInt(tabId.replace('step', '').replace('-tab', ''));
+                    updateProgress(stepNumber);
+                }, 150);
+            }
+
+            // Next/previous button handlers
             document.querySelectorAll('.next-step').forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetTabId = this.dataset.target;
-                    const targetTab = document.getElementById(targetTabId);
-                    bootstrap.Tab.getOrCreateInstance(targetTab).show();
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = button.getAttribute('data-target');
+                    switchToTab(targetId);
                 });
             });
 
             document.querySelectorAll('.prev-step').forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetTabId = this.dataset.target;
-                    const targetTab = document.getElementById(targetTabId);
-                    bootstrap.Tab.getOrCreateInstance(targetTab).show();
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = button.getAttribute('data-target');
+                    switchToTab(targetId);
                 });
             });
 
-            // Aktualisiere bei Tab-Wechsel
-            document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(button => {
-                button.addEventListener('shown.bs.tab', function(event) {
-                    updateProgress(event.target.getAttribute('id'));
+            // Tab change event
+            document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', (event) => {
+                    const stepId = event.target.getAttribute('data-bs-target').replace('#', '');
+                    const stepNumber = parseInt(stepId.replace('step', ''));
+                    updateProgress(stepNumber);
                 });
             });
 
-            // Kachelkarten als klickbare Elemente
-            const bookingCards = document.querySelectorAll('.booking-option-card');
-            bookingCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    // Kachelkartendarstellung aktualisieren
-                    bookingCards.forEach(c => c.classList.remove('selected'));
-                    this.classList.add('selected');
-
-                    // Zugehöriges Radio-Button auswählen
-                    const option = this.dataset.option;
-                    const radio = document.getElementById('terminbuchung_modus_' + option);
-                    if (radio) {
-                        radio.checked = true;
-
-                        // Konfigurationsanzeige aktualisieren
-                        updateConfigVisibility();
-                    }
-                });
-            });
-
-            // Terminbuchungskonfiguration anzeigen/ausblenden
-            function updateConfigVisibility() {
-                // Alle Konfigurationsbereiche ausblenden
-                document.querySelectorAll('.config-section').forEach(section => {
-                    section.style.display = 'none';
-                });
-
-                // Den ausgewählten Konfigurationsbereich anzeigen
-                const selectedOption = document.querySelector('input[name="terminbuchung_modus"]:checked');
-                if (selectedOption) {
-                    const option = selectedOption.value;
-                    const configSection = document.getElementById(option + '_config');
-
-                    if (configSection) {
-                        configSection.style.display = 'block';
-                    }
-                }
-            }
-
-            // Initial die Konfiguration anzeigen
-            updateConfigVisibility();
-
-            // Bei Änderung der Terminbuchungsoption die Konfigurationsanzeige aktualisieren
-            document.querySelectorAll('input[name="terminbuchung_modus"]').forEach(radio => {
-                radio.addEventListener('change', updateConfigVisibility);
-            });
-
-            // Initial die Kachel für die ausgewählte Option markieren
-            const selectedRadio = document.querySelector('input[name="terminbuchung_modus"]:checked');
-            if (selectedRadio) {
-                const option = selectedRadio.value;
-                const card = document.querySelector(`.booking-option-card[data-option="${option}"]`);
-                if (card) {
-                    card.classList.add('selected');
-                }
-            }
-
-            // API-Schlüssel generieren
-            const generateApiKeyBtn = document.getElementById('generate_api_key');
-            if (generateApiKeyBtn) {
-                generateApiKeyBtn.addEventListener('click', function() {
-                    const apiKeyInput = document.getElementById('api_key');
-                    if (apiKeyInput) {
-                        // Zufälligen API-Schlüssel generieren (24 Zeichen)
-                        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                        let apiKey = '';
-                        for (let i = 0; i < 24; i++) {
-                            apiKey += chars.charAt(Math.floor(Math.random() * chars.length));
-                        }
-                        apiKeyInput.value = apiKey;
-                    }
-                });
-            }
-
-            // Endpunkte kopieren
-            const copyButtons = document.querySelectorAll('.copy-btn');
-            copyButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const endpoint = this.dataset.endpoint;
-
-                    // Text in die Zwischenablage kopieren
-                    navigator.clipboard.writeText(endpoint).then(() => {
-                        // Bestätigung anzeigen
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i>';
-
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 1500);
-                    });
-                });
-            });
-
-            // Teammitglieder hinzufügen/entfernen
-            const addTeamBtn = document.getElementById('add-team');
-            if (addTeamBtn) {
-                addTeamBtn.addEventListener('click', function() {
-                    const teamContainer = document.getElementById('team-container');
-                    const teamItems = teamContainer.querySelectorAll('.team-item');
-                    const newItem = teamItems[0].cloneNode(true);
-
-                    // Eingabefelder leeren
-                    newItem.querySelectorAll('input[type="text"], textarea').forEach(input => {
-                        input.value = '';
-                    });
-
-                    // Foto-Input zurücksetzen
-                    newItem.querySelector('input[type="file"]').value = '';
-
-                    // Alten Bild-Hinweis entfernen, falls vorhanden
-                    const formText = newItem.querySelector('.form-text');
-                    if (formText) {
-                        formText.remove();
-                    }
-
-                    teamContainer.appendChild(newItem);
-
-                    // Event-Listener für den Entfernen-Button
-                    newItem.querySelector('.remove-team').addEventListener('click', function() {
-                        if (teamContainer.querySelectorAll('.team-item').length > 1) {
-                            this.closest('.team-item').remove();
-                        }
-                    });
-                });
-            }
-
-            // Event-Listeners für bestehende Entfernen-Buttons
-            document.querySelectorAll('.remove-team').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const teamContainer = document.getElementById('team-container');
-                    if (teamContainer.querySelectorAll('.team-item').length > 1) {
-                        this.closest('.team-item').remove();
-                    }
-                });
-            });
-
-            // Leistungen hinzufügen/entfernen
-            const addLeistungBtn = document.getElementById('add-leistung');
-            if (addLeistungBtn) {
-                addLeistungBtn.addEventListener('click', function() {
-                    const leistungenContainer = document.getElementById('leistungen-container');
-                    const leistungItems = leistungenContainer.querySelectorAll('.leistung-item');
-                    const newItem = leistungItems[0].cloneNode(true);
-
-                    // Eingabefelder leeren
-                    newItem.querySelectorAll('input[type="text"], textarea').forEach(input => {
-                        input.value = '';
-                    });
-
-                    leistungenContainer.appendChild(newItem);
-
-                    // Event-Listener für den Entfernen-Button
-                    newItem.querySelector('.remove-leistung').addEventListener('click', function() {
-                        if (leistungenContainer.querySelectorAll('.leistung-item').length > 1) {
-                            this.closest('.leistung-item').remove();
-                        }
-                    });
-                });
-            }
-
-            // Event-Listeners für bestehende Entfernen-Buttons für Leistungen
-            document.querySelectorAll('.remove-leistung').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const leistungenContainer = document.getElementById('leistungen-container');
-                    if (leistungenContainer.querySelectorAll('.leistung-item').length > 1) {
-                        this.closest('.leistung-item').remove();
-                    }
-                });
-            });
-
-            // Geschlossene Tage bei Öffnungszeiten
+            // Closed days handling
             document.querySelectorAll('.closed-day').forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
                     const timeInputGroup = this.closest('.opening-hours-row').querySelector(
@@ -1148,6 +1002,134 @@
                     }
                 });
             });
+
+            // Add time slots
+            document.querySelectorAll('.add-time-slot').forEach(button => {
+                button.addEventListener('click', function() {
+                    const day = this.dataset.day;
+                    const slotsContainer = document.getElementById(`${day}_additional_slots`);
+
+                    // Clone the first time slot group
+                    const timeSlotGroup = this.closest('.time-input-group').cloneNode(true);
+
+                    // Clear the values
+                    timeSlotGroup.querySelectorAll('input').forEach(input => {
+                        input.value = '';
+                    });
+
+                    // Add remove button
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'btn btn-outline-danger btn-sm remove-time-slot';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    timeSlotGroup.querySelector('.col-md-2').appendChild(removeBtn);
+
+                    slotsContainer.appendChild(timeSlotGroup);
+                });
+            });
+
+            // Add new Leistung
+            document.getElementById('add-leistung')?.addEventListener('click', function() {
+                const container = document.getElementById('leistungen-container');
+                const firstItem = container.querySelector('.leistung-item');
+                const newItem = firstItem.cloneNode(true);
+
+                // Clear inputs
+                newItem.querySelectorAll('input, textarea, select').forEach(input => {
+                    input.value = '';
+                });
+
+                container.appendChild(newItem);
+            });
+
+            // Add new Team member
+            document.getElementById('add-team')?.addEventListener('click', function() {
+                const container = document.getElementById('team-container');
+                const firstItem = container.querySelector('.team-item');
+                const newItem = firstItem.cloneNode(true);
+
+                // Clear inputs
+                newItem.querySelectorAll('input, textarea').forEach(input => {
+                    input.value = '';
+                });
+
+                // Clear file input
+                newItem.querySelector('input[type="file"]').value = '';
+
+                container.appendChild(newItem);
+            });
+
+            // Remove items
+            document.addEventListener('click', function(e) {
+                // For services
+                if (e.target.classList.contains('remove-leistung') ||
+                    e.target.closest('.remove-leistung')) {
+                    const container = document.getElementById('leistungen-container');
+                    if (container.querySelectorAll('.leistung-item').length > 1) {
+                        e.target.closest('.leistung-item').remove();
+                    }
+                }
+
+                // For team members
+                if (e.target.classList.contains('remove-team') ||
+                    e.target.closest('.remove-team')) {
+                    const container = document.getElementById('team-container');
+                    if (container.querySelectorAll('.team-item').length > 1) {
+                        e.target.closest('.team-item').remove();
+                    }
+                }
+
+                // For time slots
+                if (e.target.classList.contains('remove-time-slot') ||
+                    e.target.closest('.remove-time-slot')) {
+                    e.target.closest('.time-input-group').remove();
+                }
+            });
+
+            // Booking option selection
+            document.querySelectorAll('.booking-option-card input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove all selected classes first
+                    document.querySelectorAll('.booking-option-card').forEach(card => {
+                        card.classList.remove('selected');
+                    });
+
+                    // Add selected class to the chosen one
+                    if (this.checked) {
+                        this.closest('.booking-option-card').classList.add('selected');
+                    }
+
+                    // Show the corresponding config section
+                    updateConfigVisibility();
+                });
+            });
+
+            // Initialize with first option selected if none is selected
+            if (!document.querySelector('.booking-option-card input[type="radio"]:checked')) {
+                document.querySelector('.booking-option-card input[type="radio"]').checked = true;
+                document.querySelector('.booking-option-card').classList.add('selected');
+                updateConfigVisibility();
+            }
+
+            // Initialize with step 1
+            updateProgress(1);
         });
+
+        // Function to update config visibility based on selected booking option
+        function updateConfigVisibility() {
+            // Hide all config sections first
+            document.querySelectorAll('.config-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected config section
+            const selectedOption = document.querySelector('input[name="terminbuchung_modus"]:checked');
+            if (selectedOption) {
+                const configSection = document.getElementById(`${selectedOption.value}_config`);
+                if (configSection) {
+                    configSection.style.display = 'block';
+                }
+            }
+        }
     </script>
 @endsection
