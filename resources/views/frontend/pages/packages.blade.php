@@ -92,9 +92,9 @@
                                 </div>
 
                                 <p class="text-secondary small mb-4">Perfekt für wachsende Praxen</p>
-                                {{ $plan['features']}}
-                                {{-- <ul class="list-unstyled mb-4">
-                                    @foreach ($plan['features'] as $feature)
+                                {{-- {{ $plan['features']}} --}}
+                                <ul class="list-unstyled mb-4">
+                                    @foreach (json_decode($plan['features'], true) as $feature)
                                         <li class="d-flex align-items-center mb-3">
                                             <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0 me-2"
                                                 style="width: 24px; height: 24px; background-color: rgba(63, 191, 216, 0.1);">
@@ -103,7 +103,7 @@
                                             <span>{{ $feature }}</span>
                                         </li>
                                     @endforeach
-                                </ul> --}}
+                                </ul>
 
                                 <form method="get" action="{{ route('dentist.registration.page') }}">
                                     @csrf

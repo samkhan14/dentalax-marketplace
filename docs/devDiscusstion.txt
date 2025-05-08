@@ -7,3 +7,4 @@
 10. pehle products create karo jo db me or stripe pr createa hon ta ky unki ids store hojayen tbl me
 11. login page test karo teeno
 12. checkout process check karo with declined errors step by step
+13. agar admin login hy tw woh pkgs k page me pkg select nahi kar skta ya agr koi bhi user login hy tw woh pkg select nahi kar skta

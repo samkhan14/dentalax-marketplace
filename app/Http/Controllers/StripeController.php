@@ -15,7 +15,7 @@ class StripeController extends Controller
 
     public function __construct(StripeService $stripeService)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        // Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $this->stripeService = $stripeService;
     }
     public function stripeCheckoutSession()
@@ -42,6 +42,12 @@ class StripeController extends Controller
 
             return back()->withErrors(['stripe_error' => 'Checkout initialization failed: ' . $e->getMessage()]);
         }
+    }
+
+    public function checkoutSuccess(Request $request)
+    {
+        $this->stripeService->checkoutSuccess($request);
+        // return redirect()->route('dentist.register')->with('success', 'Your payment was successful. You can now log in.');
     }
 
     public function checkoutCancel(Request $request)

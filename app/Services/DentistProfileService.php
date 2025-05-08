@@ -59,7 +59,7 @@ class DentistProfileService
 
                 return [
                     'success' => true,
-                    'message' => 'Redirecting to payment...',
+                    'message' => 'Weiterleitung zum Zahlungsmodus.',
                     'redirect' => route('dentist.payment.geteway'),
                 ];
             }

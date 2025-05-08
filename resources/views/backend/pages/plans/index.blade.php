@@ -68,12 +68,10 @@
                             {{ $plan->price_yearly }}
                         </td>
                         <td class="align-middle">
-                            {{-- @foreach ($plan->features as $feature)
-                            <li class="d-flex align-items-center mb-3">
-                                <span class="lh-1">{{ $feature }}</span>
-                            </li> --}}
-                            {{ $plan['features'] }}
-                        {{-- @endforeach --}}
+                            @foreach (json_decode($plan['features'], true) as $feature)
+                                <li>{{ $feature }}</li>
+                            @endforeach
+                            {{-- {{ $plan['features'] }} --}}
                         </td>
                         <td class="align-middle">
                             <span class="badge bg-primary">{{ $plan->is_active == 1 ? 'Yes' : 'No' }}</span>
@@ -210,7 +208,7 @@
                     features: $('#features').val().split(',').map(item => item.trim())
                 };
 
-                console.log('formdata',formData);
+                // console.log('formdata', formData);
 
                 $.ajax({
                     url: url,
@@ -218,8 +216,8 @@
                     data: formData,
                     success: function(res) {
                         console.log('resposne:', res);
-                        // $('#planModal').modal('hide');
-                        // location.reload();
+                        $('#planModal').modal('hide');
+                        location.reload();
                     },
                     error: function(xhr) {
                         if (xhr.responseJSON && xhr.responseJSON.errors) {

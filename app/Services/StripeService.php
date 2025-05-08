@@ -23,7 +23,8 @@ class StripeService
 {
     public function __construct()
     {
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        // dd(config('cashier.secret'));
+
     }
 
     // create product and prices for stripe
@@ -90,6 +91,7 @@ class StripeService
                 'success_url' => route('stripe.success'),
                 'cancel_url' => route('stripe.cancel'),
             ]);
+            // dd($checkoutSession);
 
         return $checkoutSession->url;
     }
@@ -103,9 +105,10 @@ class StripeService
             throw new \Exception("Plan not found for slug: {$planSlug}");
         }
 
+        // dd($planSlug, $billingCycle);
         return match ($billingCycle) {
-            'monthly' => $plan->monthly_price_id,
-            'yearly' => $plan->yearly_price_id,
+            'monthly' => $plan->stripe_price_monthly,
+            'yearly' => $plan->stripe_price_yearly,
             default => throw new \Exception("Invalid billing cycle: {$billingCycle}"),
         };
     }
@@ -120,7 +123,7 @@ class StripeService
         }
 
         // Login user
-        Auth::login($user);
+        // Auth::login($user);
 
         $subscription = $user->subscription('default');
 
@@ -156,7 +159,8 @@ class StripeService
                 'user_id' => $user->id,
                 'payment_id' => $payment->id,
                 'invoice_no' => 'INV-' . strtoupper(uniqid()),
-                'invoice_pdf' => $user->invoicePdf($latestInvoice), // implement this method
+                // 'invoice_pdf' => $user->invoicePdf($latestInvoice), // implement this method
+                'invoice_pdf' => null,
                 'total' => $amount,
                 'issued_at' => now(),
             ]);
@@ -181,13 +185,14 @@ class StripeService
             ]);
 
             // ✅ Send invoice to user
-            Mail::to($user->email)->send(new \App\Mail\SendInvoiceToUser($invoice));
+            // Mail::to($user->email)->send(new \App\Mail\SendInvoiceToUser($invoice));
 
-            // ✅ Send notification to admin
-            Mail::to(config('mail.admin_address'))->send(new \App\Mail\NotifyAdminOfNewSubscription($user, $invoice));
+            // // ✅ Send notification to admin
+            // Mail::to(config('mail.admin_address'))->send(new \App\Mail\NotifyAdminOfNewSubscription($user, $invoice));
+            dd($subscription, $latestInvoice, $amount, $currency, $transactionId, $user, $payment, $invoice);
         });
 
-        return redirect()->route('dashboard')->with('success', 'Payment completed and subscription activated.');
+        // return redirect()->route('dashboard')->with('success', 'Payment completed and subscription activated.');
     }
 
     public function handleCancelledCheckout(array $formData, $user = null): void

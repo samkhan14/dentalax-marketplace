@@ -8,6 +8,7 @@ use App\Http\Controllers\DentistDashboardController;
 use App\Http\Controllers\DentistProfileController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PatientProfileController;
+use App\Http\Controllers\PaypalGateWayController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -109,6 +110,23 @@ Route::prefix('stripe')->name('stripe.')->group(function () {
         Route::get('/checkout',  'stripeCheckoutSession')->name('checkout');
         Route::get('/checkout/success', 'checkoutSuccess')->name('success');
         Route::get('/checkout/cancel', 'checkoutCancel')->name('cancel');
+    });
+
+    // Protected routes (require auth and dentist role)
+    // Route::middleware(['auth', CheckRole::class . ':dentist'])->group(function () {
+    //     Route::controller(DentistProfileController::class)->group(function () {
+    //         Route::get('/dashboard', 'Dashboard')->name('dashboard');
+    //     });
+    // });
+});
+
+// ---------------------- // ✅ DENTIST ROUTES (Updated with middleware) // ----------------------
+Route::prefix('paypal')->name('paypal.')->group(function () {
+    // Public routes (no auth)
+    Route::controller(PaypalGateWayController::class)->group(function () {
+        Route::get('/checkout',  'paypalCheckoutSession')->name('checkout');
+        // Route::get('/checkout/success', 'checkoutSuccess')->name('success');
+        // Route::get('/checkout/cancel', 'checkoutCancel')->name('cancel');
     });
 
     // Protected routes (require auth and dentist role)

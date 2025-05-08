@@ -13,7 +13,7 @@ class PlanController extends Controller
 {
     public function index()
     {
-        $plans = Plan::latest()->get();
+        $plans = Plan::all();
         //  dd($plans);
         return view('backend.pages.plans.index', compact('plans'));
     }
@@ -45,7 +45,7 @@ class PlanController extends Controller
 
             // dd($stripeData, $plan);
             DB::commit();
-            // return redirect()->route('admin.plans.index')->with('success', 'Plan has been created on Stripe and Portal.');
+             return redirect()->route('admin.plans.index')->with('success', 'Plan has been created on Stripe and Portal.');
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'Failed to create plan: ' . $e->getMessage()], 500);
