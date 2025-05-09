@@ -20,6 +20,7 @@ class DentistProfile extends Model
         'practice_name',
         'practice_description',
         'permanent_address',
+        'postal_code',
         'phone',
         'latitude',
         'longitude',
@@ -31,6 +32,13 @@ class DentistProfile extends Model
         'priority',
         'dentist_schedule_id ',
         'deleted_at'
+    ];
+
+    protected $casts = [
+        'landing_page_customized' => 'boolean',
+        'is_featured' => 'boolean',
+        'priority' => 'integer',
+        'deleted_at' => 'datetime'
     ];
 
     public function user()
@@ -46,9 +54,10 @@ class DentistProfile extends Model
     {
         return $this->belongsTo(Plan::class);
     }
+
     public function dentistSchedule()
     {
-        return $this->hasMany(DentistSchedule::class);
+        return $this->belongsTo(DentistSchedule::class);
     }
 
     public function activityLogs(): MorphMany
@@ -56,6 +65,34 @@ class DentistProfile extends Model
         return $this->morphMany(\App\Models\ActivityLog::class, 'loggable');
     }
 
+    public function landingPage()
+    {
+        return $this->hasOne(DentistLandingPage::class);
+    }
 
+    public function settings()
+    {
+        return $this->hasOne(DentistSettings::class);
+    }
+
+    public function teamMembers()
+    {
+        return $this->hasMany(DentistTeam::class);
+    }
+    // Scopes
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
+    public function scopeByPriority($query)
+    {
+        return $query->orderBy('priority', 'desc');
+    }
 
 }

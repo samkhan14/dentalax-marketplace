@@ -25,6 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
+        'practice_wizard_completed',
         'google_id',
         'deleted_at',
         'stripe_id',
@@ -76,5 +78,22 @@ class User extends Authenticatable
         return $this->hasOne(\App\Models\ApplicantProfile::class);
     }
 
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    // Scopes
+    public function scopeDentists($query)
+    {
+        return $query->whereHas('roles', function ($q) {
+            $q->where('name', 'dentist');
+        });
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 
 }
